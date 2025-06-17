@@ -1,0 +1,451 @@
+{
+  "programId": "airport-runway-schedule-batch",
+  "name": "Airport Runway Schedule with Multiple Flights",
+  "description": "Coordinated landing and takeoff schedule for morning operations at a medium-sized airport with two runways and multiple flights of the same type",
+  "environmentType": "airport",
+  "actors": 5,
+  "startTrigger": {
+    "type": "absolute",
+    "time": "2023-06-15T06:00:00Z"
+  },
+  "tracks": [
+    {
+      "trackId": "flight-aa",
+      "name": "American Airlines Flights",
+      "description": "Multiple American Airlines flights landing",
+      "batch_size": 3,
+      "templateId": "landing-sequence",
+      "templateParameters": {
+        "flightNumber": "AA",
+        "aircraftType": "Boeing 737",
+        "origin": "LAX",
+        "passengers": 162,
+        "runway": "runway-1"
+      },
+      "steps": [
+        {
+          "stepId": "aa-approach",
+          "name": "AA Final Approach",
+          "description": "Aircraft on final approach vector",
+          "task": "approach-corridor",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 300
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 180,
+            "maxSeconds": 420,
+            "defaultSeconds": 300,
+            "triggerName": "aa-approach-complete"
+          }
+        },
+        {
+          "stepId": "aa-landing",
+          "name": "AA Landing",
+          "description": "Aircraft landing on runway 1",
+          "task": "runway-1",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "aa-approach"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          }
+        },
+        {
+          "stepId": "aa-taxi",
+          "name": "AA Taxi to Gate",
+          "description": "Aircraft taxiing to assigned gate",
+          "task": "taxiway",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "aa-landing"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 900,
+            "defaultSeconds": 600,
+            "triggerName": "aa-taxi-complete"
+          }
+        },
+        {
+          "stepId": "aa-gate",
+          "name": "AA At Gate",
+          "description": "Aircraft at gate for passenger deplaning and servicing",
+          "task": "gate-a",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "aa-taxi"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "flight-ua",
+      "name": "United Airlines Flights",
+      "description": "Multiple United Airlines flights taking off",
+      "batch_size": 2,
+      "templateId": "takeoff-sequence",
+      "templateParameters": {
+        "flightNumber": "UA",
+        "aircraftType": "Airbus A320",
+        "destination": "ORD",
+        "passengers": 148,
+        "runway": "runway-2"
+      },
+      "steps": [
+        {
+          "stepId": "ua-boarding",
+          "name": "UA Boarding",
+          "description": "Passengers boarding the aircraft",
+          "task": "gate-b",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1800,
+            "maxSeconds": 3600,
+            "defaultSeconds": 2400,
+            "triggerName": "ua-boarding-complete"
+          }
+        },
+        {
+          "stepId": "ua-pushback",
+          "name": "UA Pushback",
+          "description": "Aircraft pushing back from gate",
+          "task": "gate-b",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "ua-boarding"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "ua-taxi",
+          "name": "UA Taxi to Runway",
+          "description": "Aircraft taxiing to assigned runway",
+          "task": "taxiway",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "ua-pushback"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 600,
+            "maxSeconds": 1200,
+            "defaultSeconds": 900,
+            "triggerName": "ua-taxi-complete"
+          }
+        },
+        {
+          "stepId": "ua-takeoff",
+          "name": "UA Takeoff",
+          "description": "Aircraft taking off from runway 2",
+          "task": "runway-2",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "ua-taxi",
+            "bufferSeconds": 120
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          }
+        },
+        {
+          "stepId": "ua-departure",
+          "name": "UA Departure",
+          "description": "Aircraft on departure vector",
+          "task": "departure-corridor",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "ua-takeoff"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "runway-1",
+      "maxConcurrent": 1,
+      "description": "Main runway (Runway 27L) - only one aircraft can use it at a time"
+    },
+    {
+      "task": "runway-2",
+      "maxConcurrent": 1,
+      "description": "Secondary runway (Runway 27R) - only one aircraft can use it at a time"
+    },
+    {
+      "task": "taxiway",
+      "maxConcurrent": 4,
+      "description": "Taxiway system - limited to 4 moving aircraft at once"
+    },
+    {
+      "task": "approach-corridor",
+      "maxConcurrent": 3,
+      "description": "Approach corridor - limited to 3 aircraft on approach"
+    },
+    {
+      "task": "departure-corridor",
+      "maxConcurrent": 2,
+      "description": "Departure corridor - limited to 2 aircraft on departure"
+    },
+    {
+      "task": "gate-a",
+      "maxConcurrent": 3,
+      "description": "Gates in Terminal A - can accommodate up to 3 aircraft"
+    },
+    {
+      "task": "gate-b",
+      "maxConcurrent": 2,
+      "description": "Gates in Terminal B - can accommodate up to 2 aircraft"
+    }
+  ],
+  "trackTemplates": [
+    {
+      "templateId": "landing-sequence",
+      "name": "Standard Landing Sequence",
+      "description": "Template for aircraft landing operations",
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "flightNumber": {
+            "type": "string",
+            "description": "Flight identifier"
+          },
+          "aircraftType": {
+            "type": "string",
+            "description": "Type of aircraft"
+          },
+          "origin": {
+            "type": "string",
+            "description": "Origin airport code"
+          },
+          "passengers": {
+            "type": "number",
+            "description": "Number of passengers on board"
+          },
+          "runway": {
+            "type": "string",
+            "description": "Assigned runway for landing",
+            "enum": [
+              "runway-1",
+              "runway-2"
+            ],
+            "default": "runway-1"
+          }
+        },
+        "required": [
+          "flightNumber",
+          "aircraftType",
+          "origin"
+        ]
+      },
+      "steps": [
+        {
+          "stepId": "{{flightNumber}}-approach",
+          "name": "{{flightNumber}} Final Approach",
+          "description": "Aircraft on final approach vector",
+          "task": "approach-corridor",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 300
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 180,
+            "maxSeconds": 480,
+            "defaultSeconds": 300,
+            "triggerName": "{{flightNumber}}-approach-complete"
+          }
+        },
+        {
+          "stepId": "{{flightNumber}}-landing",
+          "name": "{{flightNumber}} Landing",
+          "description": "Aircraft landing on assigned runway",
+          "task": "{{runway}}",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{flightNumber}}-approach"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          }
+        },
+        {
+          "stepId": "{{flightNumber}}-taxi",
+          "name": "{{flightNumber}} Taxi to Gate",
+          "description": "Aircraft taxiing to assigned gate",
+          "task": "taxiway",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{flightNumber}}-landing"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 1080,
+            "defaultSeconds": 600,
+            "triggerName": "{{flightNumber}}-taxi-complete"
+          }
+        },
+        {
+          "stepId": "{{flightNumber}}-gate",
+          "name": "{{flightNumber}} At Gate",
+          "description": "Aircraft at gate for passenger deplaning and servicing",
+          "task": "gate-a",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{flightNumber}}-taxi"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          }
+        }
+      ]
+    },
+    {
+      "templateId": "takeoff-sequence",
+      "name": "Standard Takeoff Sequence",
+      "description": "Template for aircraft takeoff operations",
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "flightNumber": {
+            "type": "string",
+            "description": "Flight identifier"
+          },
+          "aircraftType": {
+            "type": "string",
+            "description": "Type of aircraft"
+          },
+          "destination": {
+            "type": "string",
+            "description": "Destination airport code"
+          },
+          "passengers": {
+            "type": "number",
+            "description": "Number of passengers on board"
+          },
+          "runway": {
+            "type": "string",
+            "description": "Assigned runway for takeoff",
+            "enum": [
+              "runway-1",
+              "runway-2"
+            ],
+            "default": "runway-1"
+          }
+        },
+        "required": [
+          "flightNumber",
+          "aircraftType",
+          "destination"
+        ]
+      },
+      "steps": [
+        {
+          "stepId": "{{flightNumber}}-boarding",
+          "name": "{{flightNumber}} Boarding",
+          "description": "Passengers boarding the aircraft",
+          "task": "gate-b",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1800,
+            "maxSeconds": 3600,
+            "defaultSeconds": 2400,
+            "triggerName": "{{flightNumber}}-boarding-complete"
+          }
+        },
+        {
+          "stepId": "{{flightNumber}}-pushback",
+          "name": "{{flightNumber}} Pushback",
+          "description": "Aircraft pushing back from gate",
+          "task": "gate-b",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{flightNumber}}-boarding"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "{{flightNumber}}-taxi",
+          "name": "{{flightNumber}} Taxi to Runway",
+          "description": "Aircraft taxiing to assigned runway",
+          "task": "taxiway",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{flightNumber}}-pushback"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 600,
+            "maxSeconds": 1200,
+            "defaultSeconds": 900,
+            "triggerName": "{{flightNumber}}-taxi-complete"
+          }
+        },
+        {
+          "stepId": "{{flightNumber}}-takeoff",
+          "name": "{{flightNumber}} Takeoff",
+          "description": "Aircraft taking off from assigned runway",
+          "task": "{{runway}}",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "{{flightNumber}}-taxi",
+            "bufferSeconds": 120
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          }
+        },
+        {
+          "stepId": "{{flightNumber}}-departure",
+          "name": "{{flightNumber}} Departure",
+          "description": "Aircraft on departure vector",
+          "task": "departure-corridor",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{flightNumber}}-takeoff"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "createdBy": "Air Traffic Control",
+    "priority": "critical",
+    "weatherConditions": "Clear",
+    "notes": "Moderate traffic volume expected"
+  },
+  "version": "1.0.0"
+}

@@ -1,0 +1,192 @@
+programId: resource_contention_example
+name: Resource Contention Example
+description: |
+  This example demonstrates how the program planner can optimize a schedule
+  with resource contention by staggering track and step starts.
+  
+  It also shows how to use the priority flag to prioritize certain steps
+  when there is contention for a bottleneck resource. Lower priority numbers
+  are given higher precedence.
+
+tracks:
+  - trackId: track1
+    name: Track 1
+    steps:
+      - stepId: step1_1
+        name: Initialize Database
+        description: Set up the database for testing
+        duration: 
+          type: fixed
+          seconds: 10
+        priority: 10  # High priority (lower number)
+        startTrigger:
+          type: programStart
+        tasks:
+          - database
+      - stepId: step1_2
+        name: Load Test Data
+        description: Load test data into the database
+        duration: 
+          type: fixed
+          seconds: 15
+        priority: 30
+        startTrigger:
+          type: afterStep
+          stepId: step1_1
+        tasks:
+          - database
+          - disk_io
+      - stepId: step1_3
+        name: Run Database Tests
+        description: Execute database tests
+        duration: 
+          type: fixed
+          seconds: 20
+        priority: 20
+        startTrigger:
+          type: afterStep
+          stepId: step1_2
+        tasks:
+          - database
+          - cpu
+
+  - trackId: track2
+    name: Track 2
+    steps:
+      - stepId: step2_1
+        name: Initialize API Server
+        description: Start the API server
+        duration: 
+          type: fixed
+          seconds: 8
+        priority: 50
+        startTrigger:
+          type: programStart
+        tasks:
+          - network
+      - stepId: step2_2
+        name: Load API Test Data
+        description: Prepare test data for API tests
+        duration: 
+          type: fixed
+          seconds: 12
+        priority: 60
+        startTrigger:
+          type: afterStep
+          stepId: step2_1
+        tasks:
+          - database
+          - disk_io
+      - stepId: step2_3
+        name: Run API Tests
+        description: Execute API tests
+        duration: 
+          type: fixed
+          seconds: 25
+        priority: 40
+        startTrigger:
+          type: afterStep
+          stepId: step2_2
+        tasks:
+          - network
+          - cpu
+
+  - trackId: track3
+    name: Track 3
+    steps:
+      - stepId: step3_1
+        name: Initialize Frontend
+        description: Set up the frontend environment
+        duration: 
+          type: fixed
+          seconds: 5
+        priority: 70
+        startTrigger:
+          type: programStart
+        tasks:
+          - network
+      - stepId: step3_2
+        name: Load Frontend Assets
+        description: Load assets for frontend testing
+        duration: 
+          type: fixed
+          seconds: 10
+        priority: 80
+        startTrigger:
+          type: afterStep
+          stepId: step3_1
+        tasks:
+          - disk_io
+      - stepId: step3_3
+        name: Run Frontend Tests
+        description: Execute frontend tests
+        duration: 
+          type: fixed
+          seconds: 30
+        priority: 90
+        startTrigger:
+          type: afterStep
+          stepId: step3_2
+        tasks:
+          - cpu
+          - network
+
+  - trackId: track4
+    name: Track 4
+    steps:
+      - stepId: step4_1
+        name: Initialize Integration Environment
+        description: Set up the integration test environment
+        duration: 
+          type: fixed
+          seconds: 12
+        priority: 15  # High priority (lower number)
+        startTrigger:
+          type: programStart
+        tasks:
+          - database
+          - network
+      - stepId: step4_2
+        name: Prepare Integration Tests
+        description: Prepare data for integration tests
+        duration: 
+          type: fixed
+          seconds: 18
+        priority: 25
+        startTrigger:
+          type: afterStep
+          stepId: step4_1
+        tasks:
+          - disk_io
+          - database
+      - stepId: step4_3
+        name: Run Integration Tests
+        description: Execute integration tests
+        duration: 
+          type: fixed
+          seconds: 35
+        priority: 35
+        startTrigger:
+          type: afterStep
+          stepId: step4_2
+        tasks:
+          - cpu
+          - database
+          - network
+
+resourceConstraints:
+  - task: cpu
+    maxConcurrent: 2
+    description: Maximum number of CPU-intensive tasks
+  
+  - task: database
+    maxConcurrent: 1
+    description: Maximum number of database connections
+  
+  - task: network
+    maxConcurrent: 2
+    description: Maximum number of network-intensive tasks
+  
+  - task: disk_io
+    maxConcurrent: 2
+    description: Maximum number of disk I/O operations 

@@ -1,0 +1,101 @@
+programId: d3-visualization-example
+name: D3 Visualization Example
+description: A simple example to demonstrate the D3.js visualization capabilities
+
+tracks:
+  - trackId: track1
+    name: Track 1
+    steps:
+      - stepId: step1
+        name: Step 1
+        startTrigger:
+          type: programStart
+        duration:
+          type: fixed
+          seconds: 60
+        description: This is the first step in Track 1
+        task: task1
+      
+      - stepId: step2
+        name: Step 2
+        startTrigger:
+          type: afterStep
+          stepId: step1
+        duration:
+          type: variable
+          minSeconds: 30
+          maxSeconds: 90
+          defaultSeconds: 60
+          triggerName: end_step2
+        description: This is the second step in Track 1
+        task: task2
+      
+      - stepId: step3
+        name: Step 3
+        startTrigger:
+          type: afterStep
+          stepId: step2
+        duration:
+          type: indefinite
+          triggerName: end_step3
+        description: This is the third step in Track 1
+        task: task3
+  
+  - trackId: track2
+    name: Track 2
+    steps:
+      - stepId: step4
+        name: Step 4
+        startTrigger:
+          type: programStartOffset
+          offsetSeconds: 30
+        duration:
+          type: fixed
+          seconds: 45
+        description: This is the first step in Track 2
+        task: task1
+      
+      - stepId: step5
+        name: Step 5
+        startTrigger:
+          type: afterStep
+          stepId: step4
+        duration:
+          type: fixed
+          seconds: 60
+        description: This is the second step in Track 2
+        task: task2
+  
+  - trackId: track3
+    name: Track 3
+    batch_size: 2
+    stagger: 30s
+    steps:
+      - stepId: step6
+        name: Step 6
+        startTrigger:
+          type: programStart
+        duration:
+          type: fixed
+          seconds: 45
+        description: This step demonstrates batch processing with staggered starts
+        task: task3
+      
+      - stepId: step7
+        name: Step 7
+        startTrigger:
+          type: afterStep
+          stepId: step6
+        duration:
+          type: fixed
+          seconds: 30
+        description: This is the second step in the batch
+        task: task1
+
+resourceConstraints:
+  - task: task1
+    maxConcurrent: 2
+  - task: task2
+    maxConcurrent: 1
+  - task: task3
+    maxConcurrent: 2 

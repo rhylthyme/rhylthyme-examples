@@ -1,0 +1,169 @@
+programId: optimal_duration_example
+name: Optimal Duration Example
+description: |
+  This example demonstrates how to use variable durations with optimal values
+  for planning. The program planner will use the optimal duration values to
+  create a more efficient schedule.
+
+tracks:
+  - trackId: track1
+    name: Data Processing
+    steps:
+      - stepId: step1_1
+        name: Data Collection
+        description: Collect data from various sources
+        priority: 10
+        tasks:
+          - network
+        startTrigger:
+          type: programStart
+        duration:
+          type: variable
+          minSeconds: 60
+          maxSeconds: 180
+          defaultSeconds: 120
+          optimalSeconds: 90
+          triggerName: data-collection-complete
+      
+      - stepId: step1_2
+        name: Data Validation
+        description: Validate collected data
+        priority: 20
+        tasks:
+          - cpu
+        startTrigger:
+          type: afterStep
+          stepId: step1_1
+        duration:
+          type: variable
+          minSeconds: 30
+          maxSeconds: 120
+          defaultSeconds: 60
+          optimalSeconds: 45
+          triggerName: validation-complete
+      
+      - stepId: step1_3
+        name: Data Processing
+        description: Process validated data
+        priority: 30
+        tasks:
+          - cpu
+          - memory
+        startTrigger:
+          type: afterStep
+          stepId: step1_2
+        duration:
+          type: variable
+          minSeconds: 120
+          maxSeconds: 300
+          defaultSeconds: 240
+          optimalSeconds: 180
+          triggerName: processing-complete
+
+  - trackId: track2
+    name: Reporting
+    steps:
+      - stepId: step2_1
+        name: Report Template Preparation
+        description: Prepare report templates
+        priority: 40
+        tasks:
+          - cpu
+        startTrigger:
+          type: programStart
+        duration:
+          type: variable
+          minSeconds: 45
+          maxSeconds: 90
+          defaultSeconds: 60
+          optimalSeconds: 60
+          triggerName: templates-ready
+      
+      - stepId: step2_2
+        name: Data Visualization
+        description: Create visualizations for the report
+        priority: 50
+        tasks:
+          - cpu
+          - memory
+        startTrigger:
+          type: afterStep
+          stepId: step2_1
+        duration:
+          type: variable
+          minSeconds: 90
+          maxSeconds: 240
+          defaultSeconds: 180
+          optimalSeconds: 120
+          triggerName: visualizations-ready
+      
+      - stepId: step2_3
+        name: Report Generation
+        description: Generate final report
+        priority: 60
+        tasks:
+          - cpu
+          - disk_io
+        startTrigger:
+          type: afterStep
+          stepId: step2_2
+        duration:
+          type: variable
+          minSeconds: 60
+          maxSeconds: 180
+          defaultSeconds: 120
+          optimalSeconds: 90
+          triggerName: report-complete
+
+  - trackId: track3
+    name: Notification
+    steps:
+      - stepId: step3_1
+        name: Email Preparation
+        description: Prepare email notifications
+        priority: 70
+        tasks:
+          - cpu
+        startTrigger:
+          type: programStart
+        duration:
+          type: variable
+          minSeconds: 30
+          maxSeconds: 90
+          defaultSeconds: 60
+          optimalSeconds: 45
+          triggerName: emails-ready
+      
+      - stepId: step3_2
+        name: Send Notifications
+        description: Send email notifications
+        priority: 80
+        tasks:
+          - network
+        startTrigger:
+          type: afterStep
+          stepId: step3_1
+        duration:
+          type: variable
+          minSeconds: 15
+          maxSeconds: 120
+          defaultSeconds: 60
+          optimalSeconds: 30
+          triggerName: notifications-sent
+
+resourceConstraints:
+  - task: cpu
+    maxConcurrent: 2
+    description: Maximum number of CPU-intensive tasks that can run concurrently
+  
+  - task: memory
+    maxConcurrent: 2
+    description: Maximum number of memory-intensive tasks that can run concurrently
+  
+  - task: network
+    maxConcurrent: 1
+    description: Maximum number of network-intensive tasks that can run concurrently
+  
+  - task: disk_io
+    maxConcurrent: 1
+    description: Maximum number of disk I/O-intensive tasks that can run concurrently 

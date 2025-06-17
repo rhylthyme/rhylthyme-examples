@@ -1,0 +1,496 @@
+{
+  "programId": "artisan-bread-production",
+  "name": "Artisan Bread Production Workflow",
+  "description": "Complete workflow for producing artisan bread using detailed equipment specifications",
+  "version": "2.0.0",
+  "environmentType": "bakery",
+  "defaultEnvironment": "artisan-bakery-detailed",
+  "startTrigger": {
+    "type": "manual",
+    "triggerName": "start_production"
+  },
+  "tracks": [
+    {
+      "trackId": "sourdough-preparation",
+      "name": "Sourdough Starter Preparation",
+      "description": "Prepare sourdough starter for bread production",
+      "steps": [
+        {
+          "stepId": "feed-starter",
+          "name": "Feed Sourdough Starter",
+          "description": "Refresh sourdough starter with flour and water",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "prep-work",
+          "metadata": {
+            "equipment_used": {
+              "category": "prep-station",
+              "notes": "Manual mixing of starter ingredients"
+            },
+            "ingredients": ["sourdough_starter", "bread_flour", "water"],
+            "temperature": "room_temperature"
+          }
+        },
+        {
+          "stepId": "starter-fermentation",
+          "name": "Starter Fermentation",
+          "description": "Allow starter to ferment and activate",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "feed-starter"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 14400,
+            "maxSeconds": 21600,
+            "defaultSeconds": 18000,
+            "triggerName": "starter-ready"
+          },
+          "task": "proofing",
+          "metadata": {
+            "equipment_used": {
+              "resource_spec_id": "proofer_ph1845_001",
+              "manufacturer": "Carter-Hoffmann",
+              "model": "PH1845",
+              "settings": {
+                "temperature": "78°F",
+                "humidity": "75%"
+              }
+            },
+            "quality_checks": [
+              "doubling_in_size",
+              "pleasant_aroma",
+              "active_bubbling"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "dough-mixing",
+      "name": "Bread Dough Mixing",
+      "description": "Mix bread dough using commercial mixer",
+      "steps": [
+        {
+          "stepId": "autolyse",
+          "name": "Autolyse Flour and Water",
+          "description": "Mix flour and water, let rest without salt or starter",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "feed-starter"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "mixing",
+          "metadata": {
+            "equipment_used": {
+              "resource_spec_id": "mixer_a200_001",
+              "manufacturer": "Hobart",
+              "model": "A-200",
+              "settings": {
+                "speed": "1 (slowest)",
+                "attachment": "dough_hook",
+                "mixing_time": "2 minutes"
+              }
+            },
+            "ingredients": ["bread_flour", "water"],
+            "batch_size": "20 lbs flour capacity",
+            "hydration": "75%"
+          }
+        },
+        {
+          "stepId": "final-mix",
+          "name": "Final Dough Mixing",
+          "description": "Add starter and salt, complete mixing",
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "autolyse"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "starter-fermentation"
+              }
+            ]
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "mixing",
+          "metadata": {
+            "equipment_used": {
+              "resource_spec_id": "mixer_a200_001",
+              "manufacturer": "Hobart",
+              "model": "A-200",
+              "settings": {
+                "speed": "2 (medium-low)",
+                "attachment": "dough_hook",
+                "mixing_time": "12-15 minutes"
+              },
+              "safety_notes": [
+                "Use safety guard during mixing",
+                "Stop mixer before scraping bowl",
+                "Ensure loose clothing is secured"
+              ]
+            },
+            "ingredients_added": ["active_sourdough_starter", "sea_salt"],
+            "final_dough_temperature": "76-78°F",
+            "gluten_development": "medium_strength"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "bulk-fermentation",
+      "name": "Bulk Fermentation",
+      "description": "Primary fermentation with folding schedule",
+      "steps": [
+        {
+          "stepId": "bulk-ferment-start",
+          "name": "Begin Bulk Fermentation",
+          "description": "Transfer dough to fermentation container",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "final-mix"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "prep-work",
+          "metadata": {
+            "container": "large_fermentation_tub",
+            "temperature_target": "76-78°F"
+          }
+        },
+        {
+          "stepId": "fold-1",
+          "name": "First Fold",
+          "description": "Perform first set of folds",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "bulk-ferment-start",
+            "bufferSeconds": 1800
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "prep-work",
+          "metadata": {
+            "fold_type": "letter_folds",
+            "fold_count": 4,
+            "rest_between_folds": "30 seconds"
+          }
+        },
+        {
+          "stepId": "fold-2",
+          "name": "Second Fold",
+          "description": "Perform second set of folds",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "fold-1",
+            "bufferSeconds": 1800
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "fold-3",
+          "name": "Third Fold",
+          "description": "Perform final set of folds",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "fold-2",
+            "bufferSeconds": 1800
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "bulk-ferment-complete",
+          "name": "Complete Bulk Fermentation",
+          "description": "Final fermentation until dough is ready",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "fold-3",
+            "bufferSeconds": 3600
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1800,
+            "maxSeconds": 7200,
+            "defaultSeconds": 3600,
+            "triggerName": "bulk-ferment-ready"
+          },
+          "task": "prep-work",
+          "metadata": {
+            "readiness_indicators": [
+              "50-70% size_increase",
+              "jiggly_texture",
+              "smooth_surface"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "shaping-proofing",
+      "name": "Shaping and Final Proof",
+      "description": "Shape loaves and final proofing",
+      "steps": [
+        {
+          "stepId": "pre-shape",
+          "name": "Pre-shape Loaves",
+          "description": "Divide and pre-shape dough into rounds",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bulk-ferment-complete"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "prep-work",
+          "metadata": {
+            "loaf_count": 8,
+            "loaf_weight": "1.5 lbs each",
+            "rest_time": "20-30 minutes"
+          }
+        },
+        {
+          "stepId": "final-shape",
+          "name": "Final Shaping",
+          "description": "Shape loaves into final form",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "pre-shape",
+            "bufferSeconds": 1200
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "task": "prep-work",
+          "metadata": {
+            "shaping_style": "boule",
+            "banneton_baskets": true,
+            "seam_side_up": true
+          }
+        },
+        {
+          "stepId": "final-proof",
+          "name": "Final Proofing",
+          "description": "Final proof in proofing cabinet",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "final-shape"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 3600,
+            "maxSeconds": 10800,
+            "defaultSeconds": 7200,
+            "triggerName": "proof-ready"
+          },
+          "task": "proofing",
+          "metadata": {
+            "equipment_used": {
+              "resource_spec_id": "proofer_ph1845_001",
+              "manufacturer": "Carter-Hoffmann",
+              "model": "PH1845",
+              "settings": {
+                "temperature": "75°F",
+                "humidity": "80%"
+              }
+            },
+            "readiness_test": "poke_test",
+            "pan_capacity": "18 bannetons fit in cabinet"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "baking",
+      "name": "Baking Process",
+      "description": "Bake bread in convection oven",
+      "steps": [
+        {
+          "stepId": "oven-preheat",
+          "name": "Preheat Oven",
+          "description": "Preheat convection oven to baking temperature",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "final-shape",
+            "bufferSeconds": 5400
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "baking",
+          "metadata": {
+            "equipment_used": {
+              "resource_spec_id": "oven_dfg200_001",
+              "manufacturer": "Blodgett",
+              "model": "DFG-200-ES",
+              "settings": {
+                "temperature": "450°F",
+                "both_chambers": true,
+                "steam_injection": true,
+                "convection_fan": "medium"
+              }
+            },
+            "preheating_time": "30 minutes minimum",
+            "steam_pan_setup": true
+          }
+        },
+        {
+          "stepId": "load-oven",
+          "name": "Load Bread into Oven",
+          "description": "Score and load proofed loaves",
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "final-proof"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "oven-preheat"
+              }
+            ]
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "baking",
+          "metadata": {
+            "scoring_pattern": "cross_or_traditional",
+            "loading_capacity": "10 loaves per chamber",
+            "steam_timing": "first_20_minutes",
+            "safety_equipment": [
+              "heat_resistant_gloves",
+              "peel",
+              "steam_protection"
+            ]
+          }
+        },
+        {
+          "stepId": "bake-bread",
+          "name": "Bake Bread",
+          "description": "Bake bread to completion",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "load-oven"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 2400,
+            "maxSeconds": 3000,
+            "defaultSeconds": 2700,
+            "triggerName": "bread-done"
+          },
+          "task": "baking",
+          "metadata": {
+            "equipment_used": {
+              "resource_spec_id": "oven_dfg200_001",
+              "manufacturer": "Blodgett",
+              "model": "DFG-200-ES",
+              "baking_profile": {
+                "initial_temp": "450°F",
+                "steam_duration": "20 minutes",
+                "final_temp": "425°F",
+                "internal_temp_target": "205-210°F"
+              }
+            },
+            "quality_indicators": [
+              "golden_brown_crust",
+              "hollow_sound_when_tapped",
+              "internal_temperature_205F"
+            ],
+            "energy_efficiency": "ENERGY STAR certified operation"
+          }
+        },
+        {
+          "stepId": "unload-cool",
+          "name": "Unload and Cool",
+          "description": "Remove bread and begin cooling",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-bread"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "prep-work",
+          "metadata": {
+            "cooling_setup": "wire_racks",
+            "cooling_time": "minimum_1_hour",
+            "packaging_ready": "after_complete_cooling"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "mixing",
+      "maxConcurrent": 1,
+      "description": "Commercial mixer usage"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 3,
+      "description": "Preparation and shaping work"
+    },
+    {
+      "task": "proofing",
+      "maxConcurrent": 2,
+      "description": "Proofing cabinet usage"
+    },
+    {
+      "task": "baking",
+      "maxConcurrent": 2,
+      "description": "Oven usage for baking"
+    }
+  ],
+  "metadata": {
+    "recipe_yield": "8 artisan sourdough loaves",
+    "total_production_time": "12-16 hours",
+    "equipment_utilization": {
+      "mixer_a200_001": "2.5 hours active use",
+      "oven_dfg200_001": "4 hours including preheat",
+      "proofer_ph1845_001": "8-12 hours total"
+    },
+    "quality_standards": {
+      "crust": "golden_brown_crispy",
+      "crumb": "open_irregular_holes",
+      "flavor": "complex_sourdough_tang"
+    },
+    "cost_analysis": {
+      "ingredients_cost": "$12.50",
+      "labor_hours": 6,
+      "energy_usage": "calculated_from_equipment_specs"
+    }
+  }
+}

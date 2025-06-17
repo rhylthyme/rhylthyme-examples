@@ -1,0 +1,92 @@
+programId: "time-format-stagger-example"
+name: "Time Format Stagger Example"
+description: "A schedule demonstrating staggered batch execution with flexible time formats"
+actors: 3
+startTrigger:
+  type: "manual"
+tracks:
+  - trackId: "minutes-stagger"
+    name: "Orders with Minute Stagger"
+    batch_size: 3
+    stagger: "2m"  # 2 minutes between each batch
+    steps:
+      - stepId: "order-received"
+        name: "Order Received"
+        description: "New order comes in"
+        startTrigger:
+          type: "programStart"
+        duration:
+          type: "fixed"
+          seconds: 30
+      
+      - stepId: "prepare-order"
+        name: "Prepare Order"
+        description: "Chef prepares the order"
+        startTrigger:
+          type: "afterStep"
+          stepId: "order-received"
+        duration:
+          type: "variable"
+          minSeconds: 120
+          maxSeconds: 300
+          defaultSeconds: 180
+          triggerName: "order-ready"
+        task: "chef"
+  
+  - trackId: "complex-stagger"
+    name: "Orders with Complex Stagger"
+    batch_size: 3
+    stagger: "1h30m"  # 1 hour and 30 minutes between each batch
+    steps:
+      - stepId: "special-order"
+        name: "Special Order"
+        description: "Special order comes in"
+        startTrigger:
+          type: "programStart"
+        duration:
+          type: "fixed"
+          seconds: 30
+      
+      - stepId: "prepare-special"
+        name: "Prepare Special Order"
+        description: "Chef prepares the special order"
+        startTrigger:
+          type: "afterStep"
+          stepId: "special-order"
+        duration:
+          type: "variable"
+          minSeconds: 300
+          maxSeconds: 600
+          defaultSeconds: 450
+          triggerName: "special-ready"
+        task: "chef"
+  
+  - trackId: "seconds-stagger"
+    name: "Orders with Seconds Stagger"
+    batch_size: 5
+    stagger: "30s"  # 30 seconds between each batch
+    steps:
+      - stepId: "quick-order"
+        name: "Quick Order"
+        description: "Quick order comes in"
+        startTrigger:
+          type: "programStart"
+        duration:
+          type: "fixed"
+          seconds: 15
+      
+      - stepId: "prepare-quick"
+        name: "Prepare Quick Order"
+        description: "Chef prepares the quick order"
+        startTrigger:
+          type: "afterStep"
+          stepId: "quick-order"
+        duration:
+          type: "fixed"
+          seconds: 60
+        task: "chef"
+
+resourceConstraints:
+  - task: "chef"
+    maxConcurrent: 2
+    description: "Only 2 chefs available to prepare orders" 

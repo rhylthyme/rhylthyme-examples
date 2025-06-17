@@ -1,0 +1,70 @@
+{
+  "programId": "simple-trigger-test",
+  "name": "Simple Trigger Test",
+  "description": "Testing simplified trigger format with default afterStep type",
+  "duration": {
+    "type": "fixed",
+    "timeString": "5m"
+  },
+  "tracks": [
+    {
+      "trackId": "main-sequence",
+      "name": "Main Sequence",
+      "steps": [
+        {
+          "stepId": "step1",
+          "name": "First Step",
+          "description": "This step starts with the program",
+          "trigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "task": "preparation"
+        },
+        {
+          "stepId": "step2",
+          "name": "Second Step",
+          "description": "This step uses simplified trigger - just stepId, no type (defaults to afterStep)",
+          "trigger": {
+            "on": "step1"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "task": "execution"
+        },
+        {
+          "stepId": "step3",
+          "name": "Third Step",
+          "description": "This step also uses simplified trigger format",
+          "trigger": {
+            "on": "step2"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "task": "cleanup"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "preparation",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "execution",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 1
+    }
+  ]
+}

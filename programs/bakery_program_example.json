@@ -1,0 +1,463 @@
+{
+  "programId": "bakery-morning-batch-20230601",
+  "name": "Morning Bread Batch - June 1, 2023",
+  "description": "Morning batch of bread production including sourdough, baguettes, and ciabatta",
+  "environmentType": "bakery",
+  "startTrigger": {
+    "type": "absolute",
+    "time": "2023-06-01T04:00:00Z"
+  },
+  "tracks": [
+    {
+      "trackId": "sourdough-track",
+      "name": "Sourdough Bread Production",
+      "templateId": "bread-production",
+      "templateParameters": {
+        "breadType": "Sourdough",
+        "proofingTime": 3600,
+        "bakingTime": 2400,
+        "quantity": 24
+      },
+      "steps": [
+        {
+          "stepId": "sourdough-prep",
+          "name": "Prepare Sourdough Dough",
+          "description": "Mix ingredients and prepare the sourdough dough",
+          "task": "mixer",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        },
+        {
+          "stepId": "sourdough-rest",
+          "name": "Rest Sourdough Dough",
+          "description": "Let the dough rest for initial fermentation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sourdough-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          }
+        },
+        {
+          "stepId": "sourdough-shape",
+          "name": "Shape Sourdough Loaves",
+          "description": "Shape the dough into loaves",
+          "task": "workbench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sourdough-rest"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 900,
+            "maxSeconds": 1800,
+            "defaultSeconds": 1200,
+            "triggerName": "sourdough-shape-complete"
+          }
+        },
+        {
+          "stepId": "sourdough-proof",
+          "name": "Proof Sourdough Loaves",
+          "description": "Final proofing of shaped loaves",
+          "task": "proofing-rack",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sourdough-shape"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          }
+        },
+        {
+          "stepId": "sourdough-bake",
+          "name": "Bake Sourdough Loaves",
+          "description": "Bake the sourdough loaves",
+          "task": "oven",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sourdough-proof"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          }
+        },
+        {
+          "stepId": "sourdough-cool",
+          "name": "Cool Sourdough Loaves",
+          "description": "Cool the baked loaves",
+          "task": "cooling-rack",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sourdough-bake"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "baguette-track",
+      "name": "Baguette Production",
+      "templateId": "bread-production",
+      "templateParameters": {
+        "breadType": "Baguette",
+        "proofingTime": 2700,
+        "bakingTime": 1500,
+        "quantity": 36
+      },
+      "steps": [
+        {
+          "stepId": "baguette-prep",
+          "name": "Prepare Baguette Dough",
+          "description": "Mix ingredients and prepare the baguette dough",
+          "task": "mixer",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 1800
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1500
+          }
+        },
+        {
+          "stepId": "baguette-rest",
+          "name": "Rest Baguette Dough",
+          "description": "Let the dough rest for initial fermentation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baguette-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          }
+        },
+        {
+          "stepId": "baguette-shape",
+          "name": "Shape Baguettes",
+          "description": "Shape the dough into baguettes",
+          "task": "workbench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baguette-rest"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1200,
+            "maxSeconds": 2400,
+            "defaultSeconds": 1800,
+            "triggerName": "baguette-shape-complete"
+          }
+        },
+        {
+          "stepId": "baguette-proof",
+          "name": "Proof Baguettes",
+          "description": "Final proofing of shaped baguettes",
+          "task": "proofing-rack",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baguette-shape"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          }
+        },
+        {
+          "stepId": "baguette-bake",
+          "name": "Bake Baguettes",
+          "description": "Bake the baguettes",
+          "task": "oven",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baguette-proof"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1500
+          }
+        },
+        {
+          "stepId": "baguette-cool",
+          "name": "Cool Baguettes",
+          "description": "Cool the baked baguettes",
+          "task": "cooling-rack",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baguette-bake"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "ciabatta-track",
+      "name": "Ciabatta Production",
+      "templateId": "bread-production",
+      "templateParameters": {
+        "breadType": "Ciabatta",
+        "proofingTime": 3000,
+        "bakingTime": 1800,
+        "quantity": 18
+      },
+      "steps": [
+        {
+          "stepId": "ciabatta-prep",
+          "name": "Prepare Ciabatta Dough",
+          "description": "Mix ingredients and prepare the ciabatta dough",
+          "task": "mixer",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 3600
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        },
+        {
+          "stepId": "ciabatta-rest",
+          "name": "Rest Ciabatta Dough",
+          "description": "Let the dough rest for initial fermentation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "ciabatta-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3000
+          }
+        },
+        {
+          "stepId": "ciabatta-shape",
+          "name": "Shape Ciabatta Loaves",
+          "description": "Shape the dough into ciabatta loaves",
+          "task": "workbench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "ciabatta-rest"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 900,
+            "maxSeconds": 1800,
+            "defaultSeconds": 1200,
+            "triggerName": "ciabatta-shape-complete"
+          }
+        },
+        {
+          "stepId": "ciabatta-proof",
+          "name": "Proof Ciabatta Loaves",
+          "description": "Final proofing of shaped ciabatta loaves",
+          "task": "proofing-rack",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "ciabatta-shape"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3000
+          }
+        },
+        {
+          "stepId": "ciabatta-bake",
+          "name": "Bake Ciabatta Loaves",
+          "description": "Bake the ciabatta loaves",
+          "task": "oven",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "ciabatta-proof",
+            "bufferSeconds": 300
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        },
+        {
+          "stepId": "ciabatta-cool",
+          "name": "Cool Ciabatta Loaves",
+          "description": "Cool the baked ciabatta loaves",
+          "task": "cooling-rack",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "ciabatta-bake"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "mixer",
+      "maxConcurrent": 2,
+      "description": "Industrial dough mixers"
+    },
+    {
+      "task": "workbench",
+      "maxConcurrent": 3,
+      "description": "Workbenches for shaping dough"
+    },
+    {
+      "task": "proofing-rack",
+      "maxConcurrent": 6,
+      "description": "Proofing racks for rising dough"
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 2,
+      "description": "Deck ovens for baking"
+    },
+    {
+      "task": "cooling-rack",
+      "maxConcurrent": 8,
+      "description": "Cooling racks for finished bread"
+    }
+  ],
+  "trackTemplates": [
+    {
+      "templateId": "bread-production",
+      "name": "Standard Bread Production Template",
+      "description": "Template for standard bread production process",
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "breadType": {
+            "type": "string",
+            "description": "Type of bread being produced"
+          },
+          "proofingTime": {
+            "type": "number",
+            "description": "Proofing time in seconds"
+          },
+          "bakingTime": {
+            "type": "number",
+            "description": "Baking time in seconds"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "Number of loaves to produce"
+          }
+        },
+        "required": [
+          "breadType",
+          "proofingTime",
+          "bakingTime",
+          "quantity"
+        ]
+      },
+      "steps": [
+        {
+          "stepId": "{{breadType}}-prep",
+          "name": "Prepare {{breadType}} Dough",
+          "description": "Mix ingredients and prepare the {{breadType}} dough",
+          "task": "mixer",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        },
+        {
+          "stepId": "{{breadType}}-rest",
+          "name": "Rest {{breadType}} Dough",
+          "description": "Let the dough rest for initial fermentation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{breadType}}-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": "{{proofingTime * 0.8}}"
+          }
+        },
+        {
+          "stepId": "{{breadType}}-shape",
+          "name": "Shape {{breadType}}",
+          "description": "Shape the dough into {{breadType}} loaves",
+          "task": "workbench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{breadType}}-rest"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 900,
+            "maxSeconds": 1800,
+            "defaultSeconds": 1200,
+            "triggerName": "{{breadType}}-shape-complete"
+          }
+        },
+        {
+          "stepId": "{{breadType}}-proof",
+          "name": "Proof {{breadType}}",
+          "description": "Final proofing of shaped {{breadType}}",
+          "task": "proofing-rack",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{breadType}}-shape"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": "{{proofingTime}}"
+          }
+        },
+        {
+          "stepId": "{{breadType}}-bake",
+          "name": "Bake {{breadType}}",
+          "description": "Bake the {{breadType}}",
+          "task": "oven",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{breadType}}-proof"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": "{{bakingTime}}"
+          }
+        },
+        {
+          "stepId": "{{breadType}}-cool",
+          "name": "Cool {{breadType}}",
+          "description": "Cool the baked {{breadType}}",
+          "task": "cooling-rack",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{breadType}}-bake"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": "{{bakingTime * 1.5}}"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "createdBy": "Head Baker",
+    "priority": "high",
+    "notes": "Special order for downtown cafe included in this batch"
+  },
+  "version": "1.0.0"
+}

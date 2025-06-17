@@ -1,0 +1,196 @@
+{
+  "programId": "home-kitchen-overutilization",
+  "name": "Home Kitchen Resource Overutilization Test",
+  "description": "Test home kitchen resource conflicts with multiple simultaneous cooking tasks",
+  "version": "1.0.0",
+  "environmentType": "kitchen",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "pasta-track",
+      "name": "Pasta Cooking",
+      "steps": [
+        {
+          "stepId": "boil-water",
+          "name": "Boil Water for Pasta",
+          "description": "Heat large pot of water on stove",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "stove-burner"
+        },
+        {
+          "stepId": "cook-pasta",
+          "name": "Cook Pasta",
+          "description": "Add pasta to boiling water",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "boil-water"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "task": "stove-burner"
+        }
+      ]
+    },
+    {
+      "trackId": "sauce-track",
+      "name": "Sauce Preparation",
+      "steps": [
+        {
+          "stepId": "prep-sauce-ingredients",
+          "name": "Prep Sauce Ingredients",
+          "description": "Chop onions, garlic, and herbs",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "cook-sauce",
+          "name": "Cook Tomato Sauce",
+          "description": "Sauté ingredients and simmer sauce",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-sauce-ingredients"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "stove-burner"
+        }
+      ]
+    },
+    {
+      "trackId": "vegetables-track",
+      "name": "Roasted Vegetables",
+      "steps": [
+        {
+          "stepId": "prep-vegetables",
+          "name": "Prep Vegetables",
+          "description": "Wash and chop vegetables for roasting",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "roast-vegetables",
+          "name": "Roast Vegetables",
+          "description": "Roast vegetables in oven",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-vegetables"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "oven"
+        }
+      ]
+    },
+    {
+      "trackId": "bread-track",
+      "name": "Garlic Bread",
+      "steps": [
+        {
+          "stepId": "prep-garlic-bread",
+          "name": "Prepare Garlic Bread",
+          "description": "Mix garlic butter and spread on bread",
+          "startTrigger": {
+            "type": "programStart",
+            "offsetSeconds": 60
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "bake-garlic-bread",
+          "name": "Bake Garlic Bread",
+          "description": "Toast bread in oven - will compete with vegetables!",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-garlic-bread"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "oven"
+        }
+      ]
+    },
+    {
+      "trackId": "rice-track",
+      "name": "Rice Side Dish",
+      "steps": [
+        {
+          "stepId": "rinse-rice",
+          "name": "Rinse Rice",
+          "description": "Rinse rice until water runs clear",
+          "startTrigger": {
+            "type": "programStart",
+            "offsetSeconds": 120
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "cook-rice",
+          "name": "Cook Rice",
+          "description": "Cook rice on stovetop - will compete with pasta and sauce!",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "rinse-rice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "stove-burner"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 2,
+      "description": "Stove burners - typical home stove has 4 burners, but limiting to 2 for testing"
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1,
+      "description": "Oven space - only one oven available"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 2,
+      "description": "Counter/prep space - limited counter and cutting board availability"
+    }
+  ]
+}

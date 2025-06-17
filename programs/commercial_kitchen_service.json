@@ -1,0 +1,275 @@
+{
+  "programId": "commercial-kitchen-service",
+  "name": "Commercial Kitchen Service Workflow",
+  "description": "Commercial kitchen workflow for breakfast service during peak hours",
+  "version": "1.0.0",
+  "environmentType": "kitchen",
+  "defaultEnvironment": "restaurant-breakfast-service",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "prep-track",
+      "name": "Preparation Track",
+      "steps": [
+        {
+          "stepId": "prep-vegetables",
+          "name": "Prep Vegetables",
+          "description": "Prep cooks prepare vegetables for the evening service",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "prep-station",
+          "priority": 1
+        },
+        {
+          "stepId": "prep-proteins",
+          "name": "Prep Proteins",
+          "description": "Chefs prepare proteins for evening service",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          },
+          "task": "cold-prep",
+          "priority": 2
+        },
+        {
+          "stepId": "prepare-sauces",
+          "name": "Prepare Sauces",
+          "description": "Chefs prepare sauces and stocks",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-vegetables"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "task": "stove-burner",
+          "priority": 3
+        }
+      ]
+    },
+    {
+      "trackId": "cooking-track",
+      "name": "Cooking Track",
+      "steps": [
+        {
+          "stepId": "preheat-ovens",
+          "name": "Preheat Ovens",
+          "description": "Chef de partie preheats ovens for service",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "oven",
+          "priority": 1
+        },
+        {
+          "stepId": "grill-setup",
+          "name": "Setup Grill Station",
+          "description": "Chef de partie sets up and heats grill",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "grill-station",
+          "priority": 2
+        },
+        {
+          "stepId": "cook-mains",
+          "name": "Cook Main Courses",
+          "description": "Chef de partie cooks main courses to order",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prepare-sauces"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1800,
+            "maxSeconds": 3600,
+            "defaultSeconds": 2700,
+            "triggerName": "service-complete"
+          },
+          "task": "stove-burner",
+          "priority": 4
+        }
+      ]
+    },
+    {
+      "trackId": "pastry-track",
+      "name": "Pastry Track",
+      "steps": [
+        {
+          "stepId": "bake-desserts",
+          "name": "Bake Desserts",
+          "description": "Pastry chef bakes desserts for evening service",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "task": "pastry-oven",
+          "priority": 1
+        },
+        {
+          "stepId": "prepare-plating",
+          "name": "Prepare Plating",
+          "description": "Pastry chef prepares dessert components for plating",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-desserts"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "cold-prep",
+          "priority": 2
+        }
+      ]
+    },
+    {
+      "trackId": "service-track",
+      "name": "Service Track",
+      "steps": [
+        {
+          "stepId": "plate-appetizers",
+          "name": "Plate Appetizers",
+          "description": "Chefs plate appetizers for guests",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-proteins"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1200,
+            "maxSeconds": 2400,
+            "defaultSeconds": 1800,
+            "triggerName": "appetizers-complete"
+          },
+          "task": "plating",
+          "priority": 3
+        },
+        {
+          "stepId": "expedite-orders",
+          "name": "Expedite Orders",
+          "description": "Expediter coordinates order completion and delivery",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "plate-appetizers"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 2700,
+            "maxSeconds": 5400,
+            "defaultSeconds": 4050,
+            "triggerName": "service-end"
+          },
+          "task": "expediting",
+          "priority": 5
+        }
+      ]
+    },
+    {
+      "trackId": "cleanup-track",
+      "name": "Cleanup Track",
+      "steps": [
+        {
+          "stepId": "wash-prep-dishes",
+          "name": "Wash Prep Dishes",
+          "description": "Kitchen porter washes prep dishes during service",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-vegetables"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "dishwashing",
+          "priority": 1
+        },
+        {
+          "stepId": "final-cleanup",
+          "name": "Final Kitchen Cleanup",
+          "description": "Kitchen porters and commis chefs clean the kitchen",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "expedite-orders"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "task": "cleanup",
+          "priority": 6
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "prep-station",
+      "maxConcurrent": 3,
+      "description": "Prep station usage"
+    },
+    {
+      "task": "cold-prep",
+      "maxConcurrent": 2,
+      "description": "Cold preparation area"
+    },
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 6,
+      "description": "Stove burner usage"
+    },
+    { "task": "oven", "maxConcurrent": 2, "description": "Oven usage" },
+    {
+      "task": "grill-station",
+      "maxConcurrent": 1,
+      "description": "Grill station usage"
+    },
+    {
+      "task": "pastry-oven",
+      "maxConcurrent": 1,
+      "description": "Pastry oven usage"
+    },
+    {
+      "task": "plating",
+      "maxConcurrent": 4,
+      "description": "Plating operations"
+    },
+    {
+      "task": "expediting",
+      "maxConcurrent": 2,
+      "description": "Expediting operations"
+    },
+    {
+      "task": "dishwashing",
+      "maxConcurrent": 2,
+      "description": "Dishwashing operations"
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 3,
+      "description": "General cleanup operations"
+    }
+  ]
+}

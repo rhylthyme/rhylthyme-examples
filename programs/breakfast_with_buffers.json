@@ -1,0 +1,180 @@
+{
+  "programId": "breakfast-with-buffers",
+  "name": "Breakfast Preparation with Buffers",
+  "description": "Morning breakfast routine using environment-based resource constraints",
+  "version": "1.0.0",
+  "environmentType": "kitchen",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "scrambled-eggs",
+      "name": "Scrambled Eggs",
+      "steps": [
+        {
+          "stepId": "eggs-crack-whisk",
+          "name": "Crack and Whisk Eggs",
+          "description": "Crack eggs into a bowl and whisk with salt and pepper",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "preBuffer": {
+            "duration": "30s",
+            "description": "Gather ingredients and utensils",
+            "tasks": ["prep-work"]
+          },
+          "postBuffer": {
+            "duration": "15s",
+            "description": "Clean up egg shells and wipe counter",
+            "tasks": ["cleanup"]
+          }
+        },
+        {
+          "stepId": "eggs-heat-pan",
+          "name": "Heat Pan",
+          "description": "Place pan on stove and heat to medium",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "eggs-crack-whisk"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 60,
+            "maxSeconds": 120,
+            "defaultSeconds": 90,
+            "triggerName": "pan-ready"
+          },
+          "task": "stove-burner",
+          "preBuffer": {
+            "duration": "20s",
+            "description": "Get pan from cupboard and add oil",
+            "tasks": ["prep-work"]
+          }
+        },
+        {
+          "stepId": "eggs-cook",
+          "name": "Cook Eggs",
+          "description": "Pour eggs into pan and cook until done",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "eggs-heat-pan"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 180,
+            "defaultSeconds": 150,
+            "triggerName": "eggs-done"
+          },
+          "task": "stove-burner",
+          "postBuffer": {
+            "duration": "30s",
+            "description": "Turn off heat and plate the eggs",
+            "tasks": ["plating"]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "bacon",
+      "name": "Bacon",
+      "steps": [
+        {
+          "stepId": "bacon-prep",
+          "name": "Prepare Bacon",
+          "description": "Place bacon strips in cold pan",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "preBuffer": {
+            "duration": "45s",
+            "description": "Get bacon from fridge and arrange strips",
+            "tasks": ["prep-work"]
+          }
+        },
+        {
+          "stepId": "bacon-cook",
+          "name": "Cook Bacon",
+          "description": "Cook bacon, flipping occasionally until crispy",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bacon-prep"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 480,
+            "maxSeconds": 720,
+            "defaultSeconds": 600,
+            "triggerName": "bacon-done"
+          },
+          "task": "stove-burner",
+          "postBuffer": {
+            "duration": "60s",
+            "description": "Drain on paper towels and clean grease",
+            "tasks": ["cleanup", "plating"]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "toast",
+      "name": "Toast",
+      "steps": [
+        {
+          "stepId": "toast-cook",
+          "name": "Make Toast",
+          "description": "Place bread in toaster and toast until golden brown",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 480
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 210
+          },
+          "preBuffer": {
+            "duration": "15s",
+            "description": "Get bread and check toaster settings",
+            "tasks": ["prep-work"]
+          },
+          "postBuffer": {
+            "duration": "20s",
+            "description": "Butter toast and plate",
+            "tasks": ["plating"]
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 4,
+      "description": "Stove burner usage"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 2,
+      "description": "Preparation work"
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 1,
+      "description": "Cleanup operations"
+    },
+    {
+      "task": "plating",
+      "maxConcurrent": 2,
+      "description": "Plating and presentation"
+    }
+  ]
+}

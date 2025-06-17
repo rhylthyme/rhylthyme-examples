@@ -1,0 +1,144 @@
+{
+  "programId": "flex-test-kitchen",
+  "name": "Flex Steps and Auto-Planning Test",
+  "description": "Test program demonstrating flexible steps and auto-planning strategies",
+  "version": "1.0.0",
+  "environment": "home_kitchen",
+  "tracks": [
+    {
+      "trackId": "prep",
+      "name": "Preparation Track",
+      "priority": 1,
+      "steps": [
+        {
+          "stepId": "gather-ingredients",
+          "name": "Gather Ingredients",
+          "description": "Collect all ingredients from pantry and fridge",
+          "trigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "prep-work",
+          "flex": {
+            "enabled": true,
+            "mode": "fill",
+            "minDuration": 180,
+            "maxDuration": 600
+          }
+        },
+        {
+          "stepId": "prep-vegetables",
+          "name": "Prep Vegetables",
+          "description": "Wash, chop, and prepare vegetables",
+          "trigger": {
+            "type": "afterStep",
+            "stepId": "gather-ingredients"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 600,
+            "maxSeconds": 1200,
+            "defaultSeconds": 900
+          },
+          "task": "prep-work"
+        }
+      ]
+    },
+    {
+      "trackId": "cooking",
+      "name": "Cooking Track",
+      "priority": 2,
+      "steps": [
+        {
+          "stepId": "preheat-oven",
+          "name": "Preheat Oven",
+          "description": "Preheat oven to 375°F",
+          "trigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "oven",
+          "flex": {
+            "enabled": true,
+            "mode": "max",
+            "minDuration": 300,
+            "maxDuration": 900
+          }
+        },
+        {
+          "stepId": "cook-main-dish",
+          "name": "Cook Main Dish",
+          "description": "Cook the main course in the oven",
+          "trigger": {
+            "type": "afterStep",
+            "stepId": "preheat-oven"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "oven"
+        }
+      ]
+    },
+    {
+      "trackId": "sides",
+      "name": "Side Dishes",
+      "priority": 3,
+      "steps": [
+        {
+          "stepId": "prepare-salad",
+          "name": "Prepare Salad",
+          "description": "Make a fresh garden salad",
+          "trigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 900
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "prep-work",
+          "flex": {
+            "enabled": true,
+            "mode": "fill",
+            "minDuration": 300,
+            "maxDuration": 1200
+          }
+        },
+        {
+          "stepId": "warm-bread",
+          "name": "Warm Bread",
+          "description": "Warm bread in the oven",
+          "trigger": {
+            "type": "afterStep",
+            "stepId": "cook-main-dish"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "oven"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "name": "prep-work",
+      "description": "Preparation workspace and tools",
+      "capacity": 1
+    },
+    {
+      "name": "oven",
+      "description": "Kitchen oven",
+      "capacity": 1
+    }
+  ]
+}

@@ -1,0 +1,412 @@
+{
+  "programId": "protein-lysate-immunoblotting",
+  "name": "Protein Lysate and Immunoblotting",
+  "description": "Laboratory protocol for creating protein lysates and performing immunoblotting in RAW 264.7 cells, adapted from protocols.io protocol 5qpvo9bmdv4o",
+  "version": "1.0.0",
+  "environmentType": "laboratory",
+  "defaultEnvironment": "biotech-company-lab",
+  "sourceProtocol": {
+    "platform": "protocols.io",
+    "protocolId": "5qpvo9bmdv4o",
+    "doi": "dx.doi.org/10.17504/protocols.io.5qpvo9bmdv4o/v1",
+    "url": "https://www.protocols.io/view/protein-lysate-and-immunoblotting-5qpvo9bmdv4o/v1",
+    "authors": ["Amanda Bentley-DeSousa", "Shawn Ferguson"],
+    "institution": "Department of Cell Biology, Yale University School of Medicine"
+  },
+  "actors": 1,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "cell-preparation",
+      "name": "Cell Preparation (Day 0)",
+      "description": "Initial cell plating and setup",
+      "steps": [
+        {
+          "stepId": "plate-cells",
+          "name": "Plate RAW 264.7 Cells",
+          "description": "Plate 1 x 10^6 RAW 264.7 cells per well in a 6-well dish",
+          "task": "cell-culture",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "preBuffer": {
+            "duration": "15m",
+            "description": "Prepare media and gather materials",
+            "tasks": ["prep-work"]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "treatment-lysis",
+      "name": "Treatment and Lysis (Day 1)",
+      "description": "Cell treatment and protein extraction",
+      "steps": [
+        {
+          "stepId": "add-treatment",
+          "name": "Add Compound Treatment",
+          "description": "Add the indicated compound at the provided concentration in fresh DMEM media",
+          "task": "cell-culture",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 86400
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          }
+        },
+        {
+          "stepId": "wash-cells",
+          "name": "Wash Cells with PBS",
+          "description": "Wash each dish 2X with cold PBS on ice",
+          "task": "cell-culture",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-treatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "lyse-cells",
+          "name": "Cell Lysis",
+          "description": "Remove PBS, scrape each well with 50 µL of ice-cold lysis buffer, transfer to Eppendorf tubes",
+          "task": "bench-space",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-cells"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          }
+        },
+        {
+          "stepId": "incubate-lysates",
+          "name": "Incubate Lysates on Ice",
+          "description": "Incubate lysates on ice for 5 minutes",
+          "task": "bench-space",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "lyse-cells"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "centrifuge-lysates",
+          "name": "Centrifuge Lysates",
+          "description": "Centrifuge lysates at 14000 rpm, 4°C for 8 minutes",
+          "task": "centrifuge",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "incubate-lysates"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          }
+        },
+        {
+          "stepId": "measure-protein",
+          "name": "Measure Protein Concentration",
+          "description": "Measure protein concentration using Coomassie Plus Protein Assay Reagent",
+          "task": "spectrophotometer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "centrifuge-lysates"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        },
+        {
+          "stepId": "prepare-samples",
+          "name": "Prepare Samples with Laemmli Buffer",
+          "description": "Mix supernatant 1:1 with Laemmli Buffer and heat at 95°C for 3 minutes",
+          "task": "bench-space",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "measure-protein"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "postBuffer": {
+            "duration": "10m",
+            "description": "Cool samples and store",
+            "tasks": ["storage"]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "electrophoresis",
+      "name": "Gel Electrophoresis",
+      "description": "SDS-PAGE electrophoresis",
+      "steps": [
+        {
+          "stepId": "run-gel",
+          "name": "Run SDS-PAGE",
+          "description": "Perform electrophoresis using 20-30 μG protein in 4-15% miniPROTEAN TGX gels",
+          "task": "electrophoresis",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prepare-samples"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 2400,
+            "maxSeconds": 3600,
+            "defaultSeconds": 3000
+          },
+          "preBuffer": {
+            "duration": "15m",
+            "description": "Set up gel apparatus and prepare buffer",
+            "tasks": ["prep-work"]
+          }
+        },
+        {
+          "stepId": "transfer-membrane",
+          "name": "Transfer to Membrane",
+          "description": "Transfer gels onto 0.45 μm nitrocellulose membrane at 100V for 1 hour",
+          "task": "electrophoresis",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "run-gel"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "immunoblotting",
+      "name": "Immunoblotting (Days 1-2)",
+      "description": "Antibody incubation and detection",
+      "steps": [
+        {
+          "stepId": "block-membrane",
+          "name": "Block Membrane",
+          "description": "Block membranes in 5% non-fat dry milk in TBST for 30 minutes",
+          "task": "bench-space",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "transfer-membrane"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        },
+        {
+          "stepId": "primary-antibody",
+          "name": "Primary Antibody Incubation",
+          "description": "Add primary antibodies in 5% BSA TBST at 4°C overnight",
+          "task": "incubator",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "block-membrane"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 43200
+          }
+        },
+        {
+          "stepId": "wash-primary",
+          "name": "Wash After Primary",
+          "description": "Wash membranes 2X for 10 minutes with TBST",
+          "task": "bench-space",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "primary-antibody"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          }
+        },
+        {
+          "stepId": "secondary-antibody",
+          "name": "Secondary Antibody Incubation",
+          "description": "Add secondary antibodies in TBST for 1 hour at room temperature",
+          "task": "bench-space",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-primary"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          }
+        },
+        {
+          "stepId": "wash-secondary",
+          "name": "Wash After Secondary",
+          "description": "Wash membranes 3X for 10 minutes with TBST",
+          "task": "bench-space",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "secondary-antibody"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        },
+        {
+          "stepId": "develop-detect",
+          "name": "Develop and Image",
+          "description": "Develop membranes via chemiluminescence and image with Biorad Chemidoc",
+          "task": "imaging-system",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-secondary"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 900,
+            "maxSeconds": 1800,
+            "defaultSeconds": 1200
+          },
+          "postBuffer": {
+            "duration": "15m",
+            "description": "Data analysis and cleanup",
+            "tasks": ["data-analysis", "cleanup"]
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "cell-culture",
+      "maxConcurrent": 2,
+      "description": "Maximum number of cell culture hood stations"
+    },
+    {
+      "task": "centrifuge",
+      "maxConcurrent": 1,
+      "description": "Single centrifuge available"
+    },
+    {
+      "task": "electrophoresis",
+      "maxConcurrent": 2,
+      "description": "Two gel electrophoresis rigs available"
+    },
+    {
+      "task": "spectrophotometer",
+      "maxConcurrent": 1,
+      "description": "Single spectrophotometer available"
+    },
+    {
+      "task": "incubator",
+      "maxConcurrent": 1,
+      "description": "Single 4°C incubator available"
+    },
+    {
+      "task": "imaging-system",
+      "maxConcurrent": 1,
+      "description": "Single Biorad Chemidoc imaging system"
+    },
+    {
+      "task": "storage",
+      "maxConcurrent": 3,
+      "description": "Sample storage capacity (freezers, refrigerators)"
+    },
+    {
+      "task": "bench-space",
+      "maxConcurrent": 4,
+      "description": "Laboratory bench workspace"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 2,
+      "description": "Preparation workspace"
+    },
+    {
+      "task": "data-analysis",
+      "maxConcurrent": 2,
+      "description": "Data analysis workstations"
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 2,
+      "description": "Cleanup and waste disposal"
+    }
+  ],
+  "materials": [
+    {
+      "name": "RAW 264.7 cells",
+      "category": "cell-line",
+      "supplier": "ATCC",
+      "required": true
+    },
+    {
+      "name": "DMEM",
+      "category": "media",
+      "supplier": "Thermo Fisher Scientific",
+      "catalog": "11965-092",
+      "required": true
+    },
+    {
+      "name": "FBS",
+      "category": "supplement",
+      "supplier": "Thermo Fisher Scientific",
+      "catalog": "16140-071",
+      "required": true
+    },
+    {
+      "name": "Lysis Buffer",
+      "category": "buffer",
+      "composition": "50 mM Tris Base, 150 mM NaCl, 1% Triton X-100, 1 mM EDTA with protease inhibitors",
+      "required": true
+    },
+    {
+      "name": "Coomassie Plus Protein Assay Reagent",
+      "category": "reagent",
+      "supplier": "Thermo Fisher Scientific",
+      "catalog": "23236",
+      "required": true
+    },
+    {
+      "name": "4-15% miniPROTEAN TGX Gels",
+      "category": "consumable",
+      "supplier": "BioRad",
+      "catalog": "4568084/4568085/4568086",
+      "required": true
+    },
+    {
+      "name": "Nitrocellulose Membrane",
+      "category": "consumable",
+      "supplier": "Thermo Fisher Scientific",
+      "catalog": "1620115",
+      "poreSize": "0.45 μm",
+      "required": true
+    },
+    {
+      "name": "Chemiluminescence Substrate",
+      "category": "reagent",
+      "supplier": "Thermo Fisher Scientific",
+      "catalog": "34580/34095",
+      "description": "SuperSignal West Pico PLUS or Femto",
+      "required": true
+    }
+  ]
+}

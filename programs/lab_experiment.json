@@ -1,0 +1,151 @@
+{
+  "programId": "lab-experiment",
+  "name": "Basic Laboratory Experiment",
+  "description": "Simple laboratory experiment workflow for protein analysis",
+  "version": "1.0.0",
+  "environmentType": "laboratory",
+  "defaultEnvironment": "basic-research-lab",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "sample-prep",
+      "name": "Sample Preparation",
+      "steps": [
+        {
+          "stepId": "extract-dna",
+          "name": "Extract DNA",
+          "description": "Extract DNA from tissue samples",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "bench-space",
+          "preBuffer": {
+            "duration": "5m",
+            "description": "Gather samples and reagents",
+            "tasks": ["prep-work"]
+          },
+          "postBuffer": {
+            "duration": "10m",
+            "description": "Store extracted DNA",
+            "tasks": ["freezer-80"]
+          }
+        },
+        {
+          "stepId": "quantify-dna",
+          "name": "Quantify DNA",
+          "description": "Measure DNA concentration using spectrophotometer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "extract-dna"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "spectrophotometer"
+        }
+      ]
+    },
+    {
+      "trackId": "pcr-amplification",
+      "name": "PCR Amplification",
+      "steps": [
+        {
+          "stepId": "prepare-pcr-mix",
+          "name": "Prepare PCR Mix",
+          "description": "Prepare master mix and distribute to tubes",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "quantify-dna"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "bench-space",
+          "preBuffer": {
+            "duration": "5m",
+            "description": "Thaw reagents",
+            "tasks": ["prep-work"]
+          }
+        },
+        {
+          "stepId": "run-pcr",
+          "name": "Run PCR",
+          "description": "Thermal cycling for DNA amplification",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prepare-pcr-mix"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 7200
+          },
+          "task": "pcr-machine"
+        },
+        {
+          "stepId": "analyze-products",
+          "name": "Analyze PCR Products",
+          "description": "Run gel electrophoresis to verify amplification",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "run-pcr"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          },
+          "task": "bench-space",
+          "postBuffer": {
+            "duration": "15m",
+            "description": "Document results and cleanup",
+            "tasks": ["data-analysis", "cleanup"]
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "bench-space",
+      "maxConcurrent": 4,
+      "description": "General bench space usage"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 2,
+      "description": "Preparation work"
+    },
+    {
+      "task": "freezer-80",
+      "maxConcurrent": 2,
+      "description": "-80°C freezer access"
+    },
+    {
+      "task": "spectrophotometer",
+      "maxConcurrent": 1,
+      "description": "Spectrophotometer usage"
+    },
+    {
+      "task": "pcr-machine",
+      "maxConcurrent": 2,
+      "description": "PCR machine usage"
+    },
+    {
+      "task": "data-analysis",
+      "maxConcurrent": 3,
+      "description": "Data analysis work"
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 2,
+      "description": "Cleanup operations"
+    }
+  ]
+}

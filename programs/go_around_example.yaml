@@ -1,0 +1,119 @@
+programId: "airport-go-around"
+name: "Airport Go-Around Procedure Example"
+description: "A schedule demonstrating the go-around procedure when a landing is aborted"
+actors: 3
+startTrigger:
+  type: "manual"
+tracks:
+  - trackId: "flight1"
+    name: "Flight 101"
+    steps:
+      - stepId: "approach"
+        name: "Final Approach"
+        description: "Aircraft on final approach to runway"
+        startTrigger:
+          type: "programStart"
+        duration:
+          type: "fixed"
+          seconds: 120
+        task: "approach-controller"
+      
+      - stepId: "landing"
+        name: "Landing"
+        description: "Aircraft landing on runway (can be aborted)"
+        canAbort: true
+        startTrigger:
+          type: "afterStep"
+          stepId: "approach"
+        duration:
+          type: "variable"
+          minSeconds: 60
+          maxSeconds: 180
+          defaultSeconds: 120
+          triggerName: "landing-complete"
+        task: "runway"
+      
+      - stepId: "taxi-to-gate"
+        name: "Taxi to Gate"
+        description: "Aircraft taxiing to gate after successful landing"
+        startTrigger:
+          type: "afterStep"
+          stepId: "landing"
+        duration:
+          type: "fixed"
+          seconds: 300
+        task: "ground-controller"
+  
+  - trackId: "go-around"
+    name: "Go-Around Procedure"
+    steps:
+      - stepId: "climb-out"
+        name: "Climb Out"
+        description: "Emergency climb out procedure"
+        startTrigger:
+          type: "onAbort"
+          stepId: "landing"
+        duration:
+          type: "fixed"
+          seconds: 90
+        task: "approach-controller"
+      
+      - stepId: "reposition"
+        name: "Reposition for Approach"
+        description: "Aircraft repositioning for another approach"
+        startTrigger:
+          type: "afterStep"
+          stepId: "climb-out"
+        duration:
+          type: "fixed"
+          seconds: 180
+        task: "approach-controller"
+      
+      - stepId: "second-approach"
+        name: "Second Approach"
+        description: "Aircraft on second approach attempt"
+        startTrigger:
+          type: "afterStep"
+          stepId: "reposition"
+        duration:
+          type: "fixed"
+          seconds: 120
+        task: "approach-controller"
+      
+      - stepId: "second-landing"
+        name: "Second Landing Attempt"
+        description: "Aircraft landing on second attempt"
+        startTrigger:
+          type: "afterStep"
+          stepId: "second-approach"
+        duration:
+          type: "variable"
+          minSeconds: 60
+          maxSeconds: 180
+          defaultSeconds: 120
+          triggerName: "second-landing-complete"
+        task: "runway"
+      
+      - stepId: "taxi-after-go-around"
+        name: "Taxi to Gate"
+        description: "Aircraft taxiing to gate after go-around and successful landing"
+        startTrigger:
+          type: "afterStep"
+          stepId: "second-landing"
+        duration:
+          type: "fixed"
+          seconds: 300
+        task: "ground-controller"
+
+resourceConstraints:
+  - task: "runway"
+    maxConcurrent: 1
+    description: "Only one aircraft can use the runway at a time"
+  
+  - task: "approach-controller"
+    maxConcurrent: 2
+    description: "Approach controllers can handle up to 2 aircraft simultaneously"
+  
+  - task: "ground-controller"
+    maxConcurrent: 2
+    description: "Ground controllers can handle up to 2 aircraft simultaneously" 

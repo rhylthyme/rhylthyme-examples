@@ -1,0 +1,195 @@
+{
+  "environmentId": "laboratory-research",
+  "name": "Research Laboratory",
+  "description": "Resource constraints for a multi-discipline research laboratory",
+  "type": "laboratory",
+  "actors": 8,
+  "resourceConstraints": [
+    {
+      "task": "fume-hood",
+      "maxConcurrent": 4,
+      "actorsRequired": 1,
+      "description": "4 chemical fume hoods (1 person per hood for safety)"
+    },
+    {
+      "task": "biosafety-cabinet",
+      "maxConcurrent": 2,
+      "actorsRequired": 1,
+      "description": "Class II biosafety cabinets (1 person per cabinet)"
+    },
+    {
+      "task": "incubator",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.1,
+      "description": "CO2 incubators for cell culture (minimal monitoring)"
+    },
+    {
+      "task": "centrifuge",
+      "maxConcurrent": 4,
+      "actorsRequired": 0.3,
+      "description": "2 ultracentrifuges, 2 benchtop centrifuges (loading and monitoring)"
+    },
+    {
+      "task": "microscope",
+      "maxConcurrent": 3,
+      "actorsRequired": 1,
+      "description": "1 confocal, 2 fluorescence microscopes (requires full attention)"
+    },
+    {
+      "task": "spectrophotometer",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "description": "UV-Vis spectrophotometers (sample loading and reading)"
+    },
+    {
+      "task": "pcr-machine",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.2,
+      "description": "Thermal cyclers for PCR (mostly automated)"
+    },
+    {
+      "task": "hplc",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "description": "High-performance liquid chromatography (setup and monitoring)"
+    },
+    {
+      "task": "mass-spectrometer",
+      "maxConcurrent": 1,
+      "actorsRequired": 1,
+      "description": "LC-MS/MS system (requires trained operator)"
+    },
+    {
+      "task": "flow-cytometer",
+      "maxConcurrent": 1,
+      "actorsRequired": 1,
+      "description": "Cell sorting flow cytometer (requires full attention)"
+    },
+    {
+      "task": "bench-space",
+      "maxConcurrent": 8,
+      "actorsRequired": 1,
+      "description": "Lab bench workstations (1 person per bench)"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 6,
+      "actorsRequired": 1,
+      "description": "Sample preparation capacity"
+    },
+    {
+      "task": "autoclave",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.3,
+      "description": "Steam sterilizers (loading and unloading)"
+    },
+    {
+      "task": "freezer-80",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.1,
+      "description": "Ultra-low temperature freezers (quick access)"
+    },
+    {
+      "task": "liquid-nitrogen",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "description": "LN2 storage dewars (safety precautions needed)"
+    },
+    {
+      "task": "data-analysis",
+      "maxConcurrent": 4,
+      "actorsRequired": 1,
+      "description": "Computational workstations (full focus needed)"
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 3,
+      "actorsRequired": 1,
+      "description": "Glassware washing and decontamination"
+    },
+    {
+      "task": "cell-culture",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "description": "Cell culture operations in biosafety cabinet"
+    },
+    {
+      "task": "dissection",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "description": "Animal dissection workspace"
+    },
+    {
+      "task": "electrophoresis",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "description": "Gel electrophoresis equipment"
+    },
+    {
+      "task": "freezer",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.1,
+      "description": "Standard -20C freezer access"
+    },
+    {
+      "task": "imaging-system",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "description": "Gel documentation and imaging system"
+    },
+    {
+      "task": "injection",
+      "maxConcurrent": 1,
+      "actorsRequired": 1.0,
+      "description": "Animal injection procedures"
+    },
+    {
+      "task": "sacrifice-station",
+      "maxConcurrent": 1,
+      "actorsRequired": 1.0,
+      "description": "Animal sacrifice and tissue collection"
+    },
+    {
+      "task": "storage",
+      "maxConcurrent": 5,
+      "actorsRequired": 0.1,
+      "description": "General storage and retrieval operations"
+    },
+    {
+      "task": "benchtop-equipment",
+      "maxConcurrent": 6,
+      "actorsRequired": 0.5,
+      "description": "Various small benchtop instruments"
+    },
+    {
+      "task": "tissue-culture",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "description": "Tissue culture maintenance and manipulation"
+    },
+    {
+      "task": "plate-reader",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "description": "Microplate reader for assays"
+    }
+  ],
+  "metadata": {
+    "biosafety_level": "BSL-2",
+    "disciplines": ["molecular_biology", "biochemistry", "cell_biology"],
+    "certifications": ["ISO-17025", "GLP", "biosafety"],
+    "hours": "24/7",
+    "access_control": true,
+    "environmental_monitoring": {
+      "temperature": "20-22C",
+      "humidity": "30-50%",
+      "air_changes": "10-12/hour"
+    },
+    "staffing": {
+      "day_shift": 8,
+      "evening_shift": 3,
+      "night_shift": 1,
+      "weekend": 2
+    }
+  }
+}

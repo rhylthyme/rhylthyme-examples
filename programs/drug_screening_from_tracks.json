@@ -1,0 +1,246 @@
+{
+  "programId": "drug-screening-from-tracks",
+  "name": "Drug Screening Assay (Built from Track Library)",
+  "description": "Example drug screening program built using tracks from the laboratory track library",
+  "version": "1.0.0",
+  "environmentType": "laboratory",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "metadata": {
+    "source": "Composed from tracks/laboratory_tracks.json",
+    "tracks_used": ["cell-culture-prep", "drug-treatment", "viability-assay"],
+    "experiment_type": "drug_screening",
+    "customizations": ["96-well format", "HeLa cell line", "MTT assay"]
+  },
+  "tracks": [
+    {
+      "trackId": "cell-culture-prep",
+      "name": "HeLa Cell Culture Preparation",
+      "description": "Prepare HeLa cell cultures for drug screening experiment",
+      "metadata": {
+        "source_track": "laboratory_tracks.json:cell-culture-prep",
+        "parameters": {
+          "cell_line": "HeLa",
+          "passage_number": 8,
+          "plate_format": "96-well"
+        }
+      },
+      "steps": [
+        {
+          "stepId": "prep-media",
+          "name": "Prepare Culture Media",
+          "description": "Prepare and warm DMEM culture media with 10% FBS and supplements",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "passage-cells",
+          "name": "Passage HeLa Cells",
+          "description": "Trypsinize and passage HeLa cells from maintenance culture (P8)",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-media"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1200,
+            "maxSeconds": 1800,
+            "defaultSeconds": 1500
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "plate-cells",
+          "name": "Plate Cells in 96-well Format",
+          "description": "Count cells and plate in 96-well plates at 5000 cells/well density",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "passage-cells"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "tasks": ["tissue-culture", "cell-counter"]
+        },
+        {
+          "stepId": "incubate-overnight",
+          "name": "Overnight Incubation",
+          "description": "Incubate cells overnight at 37°C, 5% CO2 to allow attachment",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "plate-cells"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 57600
+          },
+          "task": "incubator"
+        }
+      ]
+    },
+    {
+      "trackId": "drug-treatment",
+      "name": "Test Compound Treatment",
+      "description": "Apply test compound treatments in dose-response format",
+      "metadata": {
+        "source_track": "laboratory_tracks.json:drug-treatment",
+        "parameters": {
+          "compound_name": "Novel Anticancer Compound X",
+          "concentration_range": "0.01-100 μM",
+          "treatment_duration": 48
+        }
+      },
+      "steps": [
+        {
+          "stepId": "prep-compounds",
+          "name": "Prepare Test Compounds",
+          "description": "Prepare 8-point dose-response serial dilutions (0.01-100 μM) in culture media",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "incubate-overnight"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "treat-cells",
+          "name": "Add Treatments to Cells",
+          "description": "Remove growth media and add compound treatments to designated wells",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-compounds"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "treatment-incubation",
+          "name": "48h Treatment Incubation",
+          "description": "Incubate cells with treatments for 48 hours at 37°C, 5% CO2",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "treat-cells"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 172800
+          },
+          "task": "incubator"
+        }
+      ]
+    },
+    {
+      "trackId": "viability-assay",
+      "name": "MTT Viability Assay",
+      "description": "Measure cell viability using MTT colorimetric assay",
+      "metadata": {
+        "source_track": "laboratory_tracks.json:viability-assay",
+        "parameters": {
+          "assay_type": "MTT",
+          "incubation_time": 4
+        }
+      },
+      "steps": [
+        {
+          "stepId": "add-viability-reagent",
+          "name": "Add MTT Reagent",
+          "description": "Add MTT reagent to all wells (10 μL of 5 mg/mL MTT)",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "treatment-incubation"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "reagent-incubation",
+          "name": "MTT Incubation",
+          "description": "Incubate with MTT reagent for 4 hours for formazan crystal formation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-viability-reagent"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 14400
+          },
+          "task": "incubator"
+        },
+        {
+          "stepId": "read-plate",
+          "name": "Read Plate Absorbance",
+          "description": "Read absorbance at 570 nm on plate reader to measure viability",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "reagent-incubation"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "plate-reader"
+        },
+        {
+          "stepId": "data-analysis",
+          "name": "Calculate IC50 Values",
+          "description": "Analyze dose-response data and calculate IC50 values with 95% confidence intervals",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "read-plate"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1800,
+            "maxSeconds": 3600,
+            "defaultSeconds": 2700
+          },
+          "task": "benchtop-equipment"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "tissue-culture",
+      "maxConcurrent": 2,
+      "description": "Tissue culture hood usage"
+    },
+    {
+      "task": "incubator",
+      "maxConcurrent": 3,
+      "description": "Incubator space and usage"
+    },
+    {
+      "task": "plate-reader",
+      "maxConcurrent": 1,
+      "description": "Plate reader usage"
+    },
+    {
+      "task": "benchtop-equipment",
+      "maxConcurrent": 2,
+      "description": "General benchtop equipment"
+    },
+    {
+      "task": "cell-counter",
+      "maxConcurrent": 1,
+      "description": "Cell counter usage"
+    }
+  ]
+}

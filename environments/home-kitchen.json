@@ -1,0 +1,133 @@
+{
+  "environmentId": "home-kitchen-standard",
+  "name": "Standard Home Kitchen",
+  "description": "Resource constraints for a typical home kitchen",
+  "type": "kitchen",
+  "actorTypes": {
+    "home-cook": {
+      "name": "Home Cook",
+      "count": 2,
+      "description": "Home cook who can use all kitchen equipment"
+    }
+  },
+  "resourceConstraints": [
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 4,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "4-burner stovetop (1 person can monitor all burners)"
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Single oven (requires partial attention)"
+    },
+    {
+      "task": "microwave",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.25,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Microwave oven (minimal attention needed)"
+    },
+    {
+      "task": "toaster",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Toaster or toaster oven (very minimal attention)"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Kitchen counter prep space (2 people can work side by side)"
+    },
+    {
+      "task": "plating",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Plating area (2 people can plate simultaneously)"
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Sink and dishwasher (2 people can clean together)"
+    },
+    {
+      "task": "mixer",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Stand or hand mixer (requires partial attention)"
+    },
+    {
+      "task": "refrigerator",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Standard refrigerator (minimal attention for storage)"
+    },
+    {
+      "task": "chef",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Main cooking workspace for chef"
+    },
+    {
+      "task": "dishwasher",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Dishwasher loading and operation"
+    },
+    {
+      "task": "stove",
+      "maxConcurrent": 4,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Main stovetop (equivalent to stove-burner)"
+    },
+    {
+      "task": "resource-a",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Generic resource A for testing and examples"
+    },
+    {
+      "task": "resource-b",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Generic resource B for testing and examples"
+    },
+    {
+      "task": "resource-c",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Generic resource C for testing and examples"
+    },
+    {
+      "task": "resource-d",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["home-cook"],
+      "description": "Generic resource D for testing and examples"
+    }
+  ],
+  "metadata": {
+    "capacity": "small",
+    "type": "residential",
+    "typical_meals": ["breakfast", "lunch", "dinner"],
+    "occupancy": "1-4 people"
+  }
+}

@@ -1,0 +1,324 @@
+{
+  "environmentId": "artisan-bakery-detailed",
+  "name": "Artisan Bakery with Detailed Equipment Specs",
+  "description": "Professional bakery environment with comprehensive equipment specifications",
+  "type": "bakery",
+  "resourceSpecifications": {
+    "mixer_23a97325": {
+      "resource_id": "mixer_23a97325",
+      "name": "20-Quart Commercial Stand Mixer",
+      "category": "mixer",
+      "manufacturer": "Hobart",
+      "model": "A-200",
+      "capacity": {
+        "volume": 20,
+        "unit": "quarts",
+        "max_batch_size": "12 lbs dough"
+      },
+      "serial_number": "H200-2023-001",
+      "year_manufactured": 2023,
+      "max_concurrent_users": 1,
+      "dimensions": {
+        "width": 23.5,
+        "height": 31.5,
+        "depth": 17.5,
+        "unit": "inches"
+      },
+      "weight": {
+        "value": 165,
+        "unit": "lbs"
+      },
+      "power_requirements": {
+        "voltage": 115,
+        "amperage": 15,
+        "phase": 1,
+        "horsepower": 0.3333333333333333
+      },
+      "qualified_actor_types": [
+        "head-baker",
+        "pastry-chef",
+        "baker",
+        "assistant-baker"
+      ],
+      "safety_requirements": [
+        "safety_guard_required",
+        "training_certification",
+        "no_loose_clothing",
+        "tie_back_long_hair"
+      ],
+      "maintenance_schedule": {
+        "daily": "clean_bowl_and_attachments",
+        "weekly": "lubricate_planetary_gear",
+        "monthly": "inspect_drive_belt",
+        "quarterly": "professional_service"
+      },
+      "description": "Heavy-duty commercial stand mixer for bread, cake, and pastry production",
+      "photos": [],
+      "manuals": [],
+      "certifications": [
+        "NSF",
+        "UL",
+        "ETL"
+      ],
+      "purchase_date": "2023-06-15",
+      "purchase_price": 2850.0,
+      "warranty_expiry": "2025-06-15",
+      "last_maintenance": null,
+      "condition": "excellent",
+      "custom_fields": {
+        "attachments": [
+          "dough_hook",
+          "wire_whip",
+          "flat_beater"
+        ],
+        "optional_attachments": [
+          "pastry_knife",
+          "wing_whip"
+        ],
+        "noise_level": "68 dB",
+        "duty_cycle": "continuous"
+      }
+    },
+    "oven_2af4b55c": {
+      "resource_id": "oven_2af4b55c",
+      "name": "Double Deck Convection Oven",
+      "category": "oven",
+      "manufacturer": "Blodgett",
+      "model": "DFG-200-ES",
+      "capacity": {
+        "chambers": 2,
+        "pan_capacity_per_chamber": 5,
+        "pan_size": "18x26 inch",
+        "temperature_range": "200-500\u00b0F"
+      },
+      "serial_number": "BDG-2023-445",
+      "year_manufactured": 2023,
+      "max_concurrent_users": 2,
+      "dimensions": {
+        "width": 38,
+        "height": 61,
+        "depth": 32,
+        "unit": "inches"
+      },
+      "weight": {
+        "value": 685,
+        "unit": "lbs"
+      },
+      "power_requirements": {
+        "fuel_type": "natural_gas",
+        "gas_input": "120,000 BTU/hr per chamber",
+        "electrical": "115V, 60Hz, 1-phase for controls"
+      },
+      "qualified_actor_types": [
+        "head-baker",
+        "pastry-chef",
+        "baker"
+      ],
+      "safety_requirements": [
+        "heat_resistant_gloves",
+        "safety_training",
+        "proper_ventilation",
+        "fire_suppression_access"
+      ],
+      "maintenance_schedule": {
+        "daily": "clean_interior_and_racks",
+        "weekly": "check_door_seals",
+        "monthly": "calibrate_temperature",
+        "annually": "professional_gas_inspection"
+      },
+      "description": "Energy-efficient double deck convection oven for high-volume baking",
+      "photos": [],
+      "manuals": [],
+      "certifications": [
+        "NSF",
+        "CSA",
+        "ENERGY_STAR"
+      ],
+      "purchase_date": "2023-05-20",
+      "purchase_price": 8900.0,
+      "warranty_expiry": "2026-05-20",
+      "last_maintenance": null,
+      "condition": "excellent",
+      "custom_fields": {
+        "steam_injection": true,
+        "digital_controls": true,
+        "programmable_recipes": 99,
+        "energy_efficiency": "ENERGY STAR certified"
+      }
+    },
+    "proofer_e1112540": {
+      "resource_id": "proofer_e1112540",
+      "name": "Mobile Proofing Cabinet",
+      "category": "proofer",
+      "manufacturer": "Carter-Hoffmann",
+      "model": "PH1845",
+      "capacity": {
+        "pan_capacity": 18,
+        "pan_size": "18x26 inch",
+        "humidity_range": "15-85%",
+        "temperature_range": "70-185\u00b0F"
+      },
+      "serial_number": "CH-2023-789",
+      "year_manufactured": 2023,
+      "max_concurrent_users": 1,
+      "dimensions": {
+        "width": 30.5,
+        "height": 73,
+        "depth": 28.5,
+        "unit": "inches"
+      },
+      "weight": {
+        "value": 295,
+        "unit": "lbs"
+      },
+      "power_requirements": {
+        "voltage": 208,
+        "amperage": 16.7,
+        "phase": 3,
+        "wattage": 6000
+      },
+      "qualified_actor_types": [
+        "head-baker",
+        "pastry-chef",
+        "baker",
+        "assistant-baker"
+      ],
+      "safety_requirements": [
+        "steam_safety_training",
+        "heat_resistant_gloves",
+        "proper_ventilation"
+      ],
+      "maintenance_schedule": {
+        "daily": "drain_water_reservoir",
+        "weekly": "clean_humidity_generator",
+        "monthly": "descale_water_system",
+        "quarterly": "inspect_door_gaskets"
+      },
+      "description": "Mobile proofing cabinet with precise humidity and temperature control",
+      "photos": [],
+      "manuals": [],
+      "certifications": [
+        "NSF",
+        "UL"
+      ],
+      "purchase_date": "2023-07-10",
+      "purchase_price": 4200.0,
+      "warranty_expiry": "2025-07-10",
+      "last_maintenance": null,
+      "condition": "excellent",
+      "custom_fields": {
+        "mobile": true,
+        "digital_controls": true,
+        "automatic_water_fill": true,
+        "insulation_type": "polyurethane_foam"
+      }
+    }
+  },
+  "actorTypes": {
+    "head-baker": {
+      "name": "Head Baker",
+      "count": 1,
+      "description": "Master baker, can operate all equipment",
+      "qualifications": [
+        "commercial_baking_certification",
+        "food_safety",
+        "equipment_training"
+      ]
+    },
+    "pastry-chef": {
+      "name": "Pastry Chef",
+      "count": 1,
+      "description": "Specialized in pastries, desserts, and decorative work",
+      "qualifications": [
+        "pastry_certification",
+        "decorating_skills",
+        "equipment_training"
+      ]
+    },
+    "baker": {
+      "name": "Baker",
+      "count": 2,
+      "description": "Experienced baker for bread and general production",
+      "qualifications": [
+        "baking_experience",
+        "food_safety",
+        "basic_equipment_training"
+      ]
+    },
+    "assistant-baker": {
+      "name": "Assistant Baker",
+      "count": 2,
+      "description": "Entry-level position, assists with production",
+      "qualifications": [
+        "food_safety",
+        "basic_training"
+      ]
+    }
+  },
+  "resourceConstraints": [
+    {
+      "task": "mixing",
+      "maxConcurrent": 1,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "head-baker",
+        "pastry-chef",
+        "baker",
+        "assistant-baker"
+      ],
+      "description": "20-quart commercial mixer operations",
+      "resourceSpecId": "mixer_a200_001",
+      "capacityMetrics": {
+        "max_batch_volume": 20,
+        "unit": "quarts",
+        "throughput_per_hour": 8
+      }
+    },
+    {
+      "task": "baking",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "head-baker",
+        "pastry-chef",
+        "baker"
+      ],
+      "description": "Double deck convection oven operations",
+      "resourceSpecId": "oven_dfg200_001",
+      "capacityMetrics": {
+        "chambers": 2,
+        "pans_per_chamber": 5,
+        "bake_cycles_per_hour": 4
+      }
+    },
+    {
+      "task": "proofing",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "head-baker",
+        "pastry-chef",
+        "baker",
+        "assistant-baker"
+      ],
+      "description": "Proofing cabinet operations",
+      "resourceSpecId": "proofer_ph1845_001",
+      "capacityMetrics": {
+        "pan_capacity": 18,
+        "proof_cycles_per_day": 6
+      }
+    }
+  ],
+  "metadata": {
+    "capacity": "medium",
+    "specialties": [
+      "artisan_bread",
+      "pastries",
+      "custom_cakes"
+    ],
+    "operating_hours": "4am-6pm",
+    "daily_production": "800 units",
+    "equipment_value": 16050.0,
+    "last_equipment_audit": "2023-08-01"
+  }
+}

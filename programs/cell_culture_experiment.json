@@ -1,0 +1,214 @@
+{
+  "programId": "cell-culture-experiment",
+  "name": "Cell Culture Viability Assay",
+  "description": "A typical cell biology experiment with tissue culture, treatment, and analysis",
+  "version": "1.0.0",
+  "environmentType": "laboratory",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "prep-culture",
+      "name": "Prepare Cell Culture",
+      "steps": [
+        {
+          "stepId": "prep-media",
+          "name": "Prepare Culture Media",
+          "description": "Prepare and warm cell culture media and supplements",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "passage-cells",
+          "name": "Passage Cells",
+          "description": "Trypsinize and passage cells from maintenance culture",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-media"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1200,
+            "maxSeconds": 1800,
+            "defaultSeconds": 1500
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "plate-cells",
+          "name": "Plate Cells for Experiment",
+          "description": "Count cells and plate in 96-well plates at appropriate density",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "passage-cells"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "tasks": ["tissue-culture", "cell-counter"]
+        },
+        {
+          "stepId": "incubate-overnight",
+          "name": "Overnight Incubation",
+          "description": "Incubate cells overnight to allow attachment and growth",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "plate-cells"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 57600
+          },
+          "task": "incubator"
+        }
+      ]
+    },
+    {
+      "trackId": "treatment",
+      "name": "Drug Treatment",
+      "steps": [
+        {
+          "stepId": "prep-compounds",
+          "name": "Prepare Test Compounds",
+          "description": "Prepare serial dilutions of test compounds in culture media",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "incubate-overnight"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "treat-cells",
+          "name": "Add Treatments to Cells",
+          "description": "Remove old media and add compound treatments to cells",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-compounds"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "treatment-incubation",
+          "name": "Treatment Incubation",
+          "description": "Incubate cells with treatments for 24 hours",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "treat-cells"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 86400
+          },
+          "task": "incubator"
+        }
+      ]
+    },
+    {
+      "trackId": "analysis",
+      "name": "Viability Analysis",
+      "steps": [
+        {
+          "stepId": "add-viability-reagent",
+          "name": "Add Viability Reagent",
+          "description": "Add MTT or similar viability reagent to cells",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "treatment-incubation"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "tissue-culture"
+        },
+        {
+          "stepId": "reagent-incubation",
+          "name": "Reagent Incubation",
+          "description": "Incubate with viability reagent for color development",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-viability-reagent"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 7200
+          },
+          "task": "incubator"
+        },
+        {
+          "stepId": "read-plate",
+          "name": "Read Plate Absorbance",
+          "description": "Read absorbance on plate reader to measure viability",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "reagent-incubation"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "plate-reader"
+        },
+        {
+          "stepId": "data-analysis",
+          "name": "Analyze Results",
+          "description": "Calculate IC50 values and generate dose-response curves",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "read-plate"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1800,
+            "maxSeconds": 3600,
+            "defaultSeconds": 2700
+          },
+          "task": "benchtop-equipment"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "tissue-culture",
+      "maxConcurrent": 2,
+      "description": "Tissue culture hood usage"
+    },
+    {
+      "task": "incubator",
+      "maxConcurrent": 3,
+      "description": "Incubator space and usage"
+    },
+    {
+      "task": "plate-reader",
+      "maxConcurrent": 1,
+      "description": "Plate reader usage"
+    },
+    {
+      "task": "benchtop-equipment",
+      "maxConcurrent": 2,
+      "description": "General benchtop equipment"
+    },
+    {
+      "task": "cell-counter",
+      "maxConcurrent": 1,
+      "description": "Cell counter usage"
+    }
+  ]
+}

@@ -1,0 +1,248 @@
+{
+  "programId": "breakfast-with-environment",
+  "name": "Breakfast Preparation with Environment",
+  "description": "Morning breakfast routine using explicit environment reference for resource visualization",
+  "version": "1.0.0",
+  "environmentType": "kitchen",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "scrambled-eggs",
+      "name": "Scrambled Eggs",
+      "steps": [
+        {
+          "stepId": "eggs-crack-whisk",
+          "name": "Crack and Whisk Eggs",
+          "description": "Crack eggs into a bowl and whisk with salt and pepper",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "eggs-heat-pan",
+          "name": "Heat Pan for Eggs",
+          "description": "Place pan on stove and heat to medium",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "eggs-crack-whisk"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "task": "stove-burner"
+        },
+        {
+          "stepId": "eggs-cook",
+          "name": "Cook Eggs",
+          "description": "Pour eggs into pan and cook until done",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "eggs-heat-pan"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 150
+          },
+          "task": "stove-burner"
+        }
+      ]
+    },
+    {
+      "trackId": "bacon",
+      "name": "Bacon",
+      "steps": [
+        {
+          "stepId": "bacon-prep",
+          "name": "Prepare Bacon",
+          "description": "Place bacon strips in cold pan",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "bacon-cook",
+          "name": "Cook Bacon",
+          "description": "Cook bacon, flipping occasionally until crispy",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bacon-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "stove-burner"
+        }
+      ]
+    },
+    {
+      "trackId": "pancakes",
+      "name": "Pancakes",
+      "steps": [
+        {
+          "stepId": "pancake-batter",
+          "name": "Make Pancake Batter",
+          "description": "Mix flour, eggs, milk for pancake batter",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "pancake-cook",
+          "name": "Cook Pancakes",
+          "description": "Cook pancakes on griddle",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pancake-batter"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "task": "stove-burner"
+        }
+      ]
+    },
+    {
+      "trackId": "hash-browns",
+      "name": "Hash Browns",
+      "steps": [
+        {
+          "stepId": "potato-prep",
+          "name": "Prepare Potatoes",
+          "description": "Grate and season potatoes for hash browns",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "hash-brown-cook",
+          "name": "Cook Hash Browns",
+          "description": "Fry hash browns until golden brown",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "potato-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          },
+          "task": "stove-burner"
+        }
+      ]
+    },
+    {
+      "trackId": "toast",
+      "name": "Toast",
+      "steps": [
+        {
+          "stepId": "toast-cook",
+          "name": "Make Toast",
+          "description": "Place bread in toaster and toast until golden brown",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 240
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 210
+          },
+          "task": "toaster"
+        }
+      ]
+    },
+    {
+      "trackId": "coffee",
+      "name": "Coffee",
+      "steps": [
+        {
+          "stepId": "coffee-prep",
+          "name": "Prepare Coffee",
+          "description": "Measure coffee grounds and water",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "task": "prep-work"
+        },
+        {
+          "stepId": "coffee-brew",
+          "name": "Brew Coffee",
+          "description": "Start coffee maker and wait for brewing",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "coffee-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "microwave"
+        }
+      ]
+    },
+    {
+      "trackId": "fruit-salad",
+      "name": "Fruit Salad",
+      "steps": [
+        {
+          "stepId": "fruit-prep",
+          "name": "Prepare Fruit Salad",
+          "description": "Wash and chop fruits for salad",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "prep-work"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 4,
+      "description": "Stove burner usage"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 2,
+      "description": "Preparation work"
+    },
+    { "task": "toaster", "maxConcurrent": 1, "description": "Toaster usage" },
+    {
+      "task": "microwave",
+      "maxConcurrent": 1,
+      "description": "Microwave usage"
+    }
+  ]
+}

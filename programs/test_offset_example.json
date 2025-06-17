@@ -1,0 +1,78 @@
+{
+  "programId": "test-offset-example",
+  "name": "Test Offset Example",
+  "description": "Simple test program to verify offset seconds display in DAG",
+  "version": "1.0.0",
+  "environmentType": "kitchen",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "immediate-task",
+      "name": "Immediate Task",
+      "steps": [
+        {
+          "stepId": "start-immediately",
+          "name": "Start Immediately",
+          "description": "Start right away",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "task": "prep-work"
+        }
+      ]
+    },
+    {
+      "trackId": "delayed-task",
+      "name": "Delayed Task",
+      "steps": [
+        {
+          "stepId": "start-after-5min",
+          "name": "Start After 5 Minutes",
+          "description": "Start 5 minutes after program start",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 300
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "task": "prep-work"
+        }
+      ]
+    },
+    {
+      "trackId": "very-delayed-task",
+      "name": "Very Delayed Task",
+      "steps": [
+        {
+          "stepId": "start-after-10min",
+          "name": "Start After 10 Minutes",
+          "description": "Start 10 minutes after program start",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 600
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "task": "prep-work"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "prep-work",
+      "maxConcurrent": 3,
+      "description": "Preparation work"
+    }
+  ]
+}

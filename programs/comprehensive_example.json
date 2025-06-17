@@ -1,0 +1,323 @@
+{
+  "programId": "comprehensive-example",
+  "name": "Comprehensive Kitchen Workflow",
+  "description": "Comprehensive example demonstrating multiple kitchen workflow features and coordination",
+  "environmentType": "kitchen",
+  "startTrigger": {
+    "type": "absolute",
+    "time": "2023-07-01T08:00:00Z"
+  },
+  "tracks": [
+    {
+      "trackId": "main-track",
+      "name": "Main Process Track",
+      "description": "Demonstrates various step triggers and durations",
+      "steps": [
+        {
+          "stepId": "step-1",
+          "name": "Initial Step",
+          "description": "This step starts when the program starts",
+          "task": "resource-a",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "metadata": {
+            "importance": "high",
+            "notes": "This step demonstrates programStart trigger and fixed duration"
+          }
+        },
+        {
+          "stepId": "step-2",
+          "name": "Offset Step",
+          "description": "This step starts after an offset from program start",
+          "task": "resource-b",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 300
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 900,
+            "defaultSeconds": 600,
+            "triggerName": "end-step-2-early"
+          },
+          "metadata": {
+            "importance": "medium",
+            "notes": "This step demonstrates programStartOffset trigger and variable duration"
+          }
+        },
+        {
+          "stepId": "step-3",
+          "name": "After Step",
+          "description": "This step starts after step-1 ends",
+          "task": "resource-c",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "step-1"
+          },
+          "duration": {
+            "type": "indefinite",
+            "triggerName": "end-step-3"
+          },
+          "metadata": {
+            "importance": "high",
+            "notes": "This step demonstrates afterStep trigger and indefinite duration"
+          }
+        },
+        {
+          "stepId": "step-4",
+          "name": "After Step with Buffer",
+          "description": "This step starts after step-2 ends plus a buffer time",
+          "task": "resource-a",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "step-2",
+            "bufferSeconds": 120
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 450
+          },
+          "metadata": {
+            "importance": "low",
+            "notes": "This step demonstrates afterStepWithBuffer trigger"
+          }
+        },
+        {
+          "stepId": "step-5",
+          "name": "Manual Start Step",
+          "description": "This step starts when manually triggered",
+          "task": "resource-d",
+          "startTrigger": {
+            "type": "manual",
+            "triggerName": "start-step-5"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "metadata": {
+            "importance": "medium",
+            "notes": "This step demonstrates manual trigger"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "template-track-1",
+      "name": "Template Instance 1",
+      "templateId": "example-template",
+      "templateParameters": {
+        "prefix": "instance1",
+        "duration": 300,
+        "resourceType": "resource-b"
+      },
+      "steps": [
+        {
+          "stepId": "instance1-step-1",
+          "name": "Instance 1 Step 1",
+          "description": "First step of template instance 1",
+          "task": "resource-b",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 120
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "instance1-step-2",
+          "name": "Instance 1 Step 2",
+          "description": "Second step of template instance 1",
+          "task": "resource-c",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "instance1-step-1"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 450
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "template-track-2",
+      "name": "Template Instance 2",
+      "templateId": "example-template",
+      "templateParameters": {
+        "prefix": "instance2",
+        "duration": 600,
+        "resourceType": "resource-d"
+      },
+      "steps": [
+        {
+          "stepId": "instance2-step-1",
+          "name": "Instance 2 Step 1",
+          "description": "First step of template instance 2",
+          "task": "resource-d",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 240
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          }
+        },
+        {
+          "stepId": "instance2-step-2",
+          "name": "Instance 2 Step 2",
+          "description": "Second step of template instance 2",
+          "task": "resource-a",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "instance2-step-1"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 750
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "reference-track",
+      "name": "Reference Track",
+      "description": "This track demonstrates steps that reference steps in other tracks",
+      "steps": [
+        {
+          "stepId": "ref-step-1",
+          "name": "Reference Step 1",
+          "description": "This step starts after step-3 in the main track",
+          "task": "resource-b",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "step-3"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "ref-step-2",
+          "name": "Reference Step 2",
+          "description": "This step starts after instance1-step-2 in template track 1",
+          "task": "resource-c",
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "instance1-step-2",
+            "bufferSeconds": 60
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 600,
+            "defaultSeconds": 450,
+            "triggerName": "end-ref-step-2-early"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "resource-a",
+      "maxConcurrent": 2,
+      "description": "Resource A - limited to 2 concurrent uses"
+    },
+    {
+      "task": "resource-b",
+      "maxConcurrent": 3,
+      "description": "Resource B - limited to 3 concurrent uses"
+    },
+    {
+      "task": "resource-c",
+      "maxConcurrent": 1,
+      "description": "Resource C - limited to 1 concurrent use (bottleneck)"
+    },
+    {
+      "task": "resource-d",
+      "maxConcurrent": 4,
+      "description": "Resource D - limited to 4 concurrent uses"
+    }
+  ],
+  "trackTemplates": [
+    {
+      "templateId": "example-template",
+      "name": "Example Template",
+      "description": "A template that can be instantiated with different parameters",
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "prefix": {
+            "type": "string",
+            "description": "Prefix for step IDs and names"
+          },
+          "duration": {
+            "type": "number",
+            "description": "Duration for the first step in seconds"
+          },
+          "resourceType": {
+            "type": "string",
+            "description": "Resource type to use for the first step"
+          }
+        },
+        "required": [
+          "prefix",
+          "duration",
+          "resourceType"
+        ]
+      },
+      "steps": [
+        {
+          "stepId": "{{prefix}}-step-1",
+          "name": "{{prefix}} Step 1",
+          "description": "First step of {{prefix}}",
+          "task": "{{resourceType}}",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 120
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": "{{duration}}"
+          }
+        },
+        {
+          "stepId": "{{prefix}}-step-2",
+          "name": "{{prefix}} Step 2",
+          "description": "Second step of {{prefix}}",
+          "task": "resource-c",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "{{prefix}}-step-1"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": "{{duration * 1.5}}"
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "createdBy": "Schema Designer",
+    "version": "1.0.0",
+    "tags": [
+      "example",
+      "comprehensive",
+      "demonstration"
+    ],
+    "notes": "This example demonstrates all the features of the real-time program schema including different trigger types, duration types, resource constraints, and templates."
+  },
+  "version": "1.0.0"
+}

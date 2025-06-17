@@ -1,0 +1,86 @@
+{
+  "environmentId": "airport-standard",
+  "name": "Standard Airport",
+  "description": "Resource constraints for standard airport operations including runways, gates, and corridors",
+  "type": "airport",
+  "actors": 20,
+  "resourceConstraints": [
+    {
+      "task": "runway-1",
+      "maxConcurrent": 1,
+      "actorsRequired": 3.0,
+      "description": "Primary runway for takeoffs and landings (requires ATC, ground crew, safety)"
+    },
+    {
+      "task": "runway-2",
+      "maxConcurrent": 1,
+      "actorsRequired": 3.0,
+      "description": "Secondary runway for takeoffs and landings"
+    },
+    {
+      "task": "taxiway",
+      "maxConcurrent": 3,
+      "actorsRequired": 1.0,
+      "description": "Taxiway system for aircraft movement"
+    },
+    {
+      "task": "approach-corridor",
+      "maxConcurrent": 2,
+      "actorsRequired": 2.0,
+      "description": "Air traffic approach corridor management"
+    },
+    {
+      "task": "departure-corridor",
+      "maxConcurrent": 2,
+      "actorsRequired": 2.0,
+      "description": "Air traffic departure corridor management"
+    },
+    {
+      "task": "gate-a",
+      "maxConcurrent": 1,
+      "actorsRequired": 2.0,
+      "description": "Terminal A gate operations"
+    },
+    {
+      "task": "gate-a12",
+      "maxConcurrent": 1,
+      "actorsRequired": 2.0,
+      "description": "Specific gate A12 operations"
+    },
+    {
+      "task": "gate-b",
+      "maxConcurrent": 1,
+      "actorsRequired": 2.0,
+      "description": "Terminal B gate operations"
+    },
+    {
+      "task": "gate-b8",
+      "maxConcurrent": 1,
+      "actorsRequired": 2.0,
+      "description": "Specific gate B8 operations"
+    },
+    {
+      "task": "gate-c5",
+      "maxConcurrent": 1,
+      "actorsRequired": 2.0,
+      "description": "Specific gate C5 operations"
+    }
+  ],
+  "metadata": {
+    "capacity": "medium",
+    "type": "commercial",
+    "certifications": ["FAA", "ICAO", "security"],
+    "hours": "24/7",
+    "aircraft_capacity": {
+      "gates": 10,
+      "runways": 2,
+      "parking_spots": 15
+    },
+    "staffing": {
+      "air_traffic_control": 6,
+      "ground_crew": 8,
+      "gate_agents": 4,
+      "security": 2
+    }
+  }
+}

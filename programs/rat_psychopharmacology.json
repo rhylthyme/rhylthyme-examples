@@ -1,0 +1,578 @@
+{
+  "programId": "rat-psychopharmacology",
+  "name": "Rat Psychopharmacology Study",
+  "description": "Comprehensive psychopharmacology research protocol for studying drug effects in laboratory rats",
+  "environmentType": "laboratory",
+  "actors": 3,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "saline-saline",
+      "name": "Saline Pretreatment + Saline Treatment",
+      "description": "Control group with saline for both pretreatment and treatment",
+      "steps": [
+        {
+          "stepId": "saline-saline-pretreatment",
+          "name": "Pretreatment: Saline Injection",
+          "description": "Inject saline and wait for 30 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1860
+          }
+        },
+        {
+          "stepId": "saline-saline-treatment",
+          "name": "Treatment: Saline Injection",
+          "description": "Inject saline and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-saline-pretreatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "saline-saline-2dg",
+          "name": "2-DG Injection",
+          "description": "Inject 2-DG and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-saline-treatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "saline-saline-sacrifice",
+          "name": "Sacrifice",
+          "description": "Sacrifice the rat",
+          "task": "sacrifice-station",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-saline-2dg"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          }
+        },
+        {
+          "stepId": "saline-saline-brain-removal",
+          "name": "Brain Removal",
+          "description": "Remove the brain",
+          "task": "dissection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-saline-sacrifice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        },
+        {
+          "stepId": "saline-saline-brain-freeze",
+          "name": "Brain Freezing",
+          "description": "Freeze the brain for preservation",
+          "task": "freezer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-saline-brain-removal"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "saline-ketamine",
+      "name": "Saline Pretreatment + Ketamine Treatment",
+      "description": "Saline pretreatment followed by ketamine treatment",
+      "steps": [
+        {
+          "stepId": "saline-ketamine-pretreatment",
+          "name": "Pretreatment: Saline Injection",
+          "description": "Inject saline and wait for 30 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1860
+          }
+        },
+        {
+          "stepId": "saline-ketamine-treatment",
+          "name": "Treatment: Ketamine Injection",
+          "description": "Inject ketamine and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-ketamine-pretreatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "saline-ketamine-2dg",
+          "name": "2-DG Injection",
+          "description": "Inject 2-DG and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-ketamine-treatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "saline-ketamine-sacrifice",
+          "name": "Sacrifice",
+          "description": "Sacrifice the rat",
+          "task": "sacrifice-station",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-ketamine-2dg"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          }
+        },
+        {
+          "stepId": "saline-ketamine-brain-removal",
+          "name": "Brain Removal",
+          "description": "Remove the brain",
+          "task": "dissection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-ketamine-sacrifice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        },
+        {
+          "stepId": "saline-ketamine-brain-freeze",
+          "name": "Brain Freezing",
+          "description": "Freeze the brain for preservation",
+          "task": "freezer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "saline-ketamine-brain-removal"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "clozapine5-saline",
+      "name": "Clozapine 5mg Pretreatment + Saline Treatment",
+      "description": "Clozapine 5mg pretreatment followed by saline treatment",
+      "steps": [
+        {
+          "stepId": "clozapine5-saline-pretreatment",
+          "name": "Pretreatment: Clozapine 5mg Injection",
+          "description": "Inject clozapine 5mg and wait for 30 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1860
+          }
+        },
+        {
+          "stepId": "clozapine5-saline-treatment",
+          "name": "Treatment: Saline Injection",
+          "description": "Inject saline and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-saline-pretreatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "clozapine5-saline-2dg",
+          "name": "2-DG Injection",
+          "description": "Inject 2-DG and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-saline-treatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "clozapine5-saline-sacrifice",
+          "name": "Sacrifice",
+          "description": "Sacrifice the rat",
+          "task": "sacrifice-station",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-saline-2dg"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          }
+        },
+        {
+          "stepId": "clozapine5-saline-brain-removal",
+          "name": "Brain Removal",
+          "description": "Remove the brain",
+          "task": "dissection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-saline-sacrifice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        },
+        {
+          "stepId": "clozapine5-saline-brain-freeze",
+          "name": "Brain Freezing",
+          "description": "Freeze the brain for preservation",
+          "task": "freezer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-saline-brain-removal"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "clozapine5-ketamine",
+      "name": "Clozapine 5mg Pretreatment + Ketamine Treatment",
+      "description": "Clozapine 5mg pretreatment followed by ketamine treatment",
+      "steps": [
+        {
+          "stepId": "clozapine5-ketamine-pretreatment",
+          "name": "Pretreatment: Clozapine 5mg Injection",
+          "description": "Inject clozapine 5mg and wait for 30 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1860
+          }
+        },
+        {
+          "stepId": "clozapine5-ketamine-treatment",
+          "name": "Treatment: Ketamine Injection",
+          "description": "Inject ketamine and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-ketamine-pretreatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "clozapine5-ketamine-2dg",
+          "name": "2-DG Injection",
+          "description": "Inject 2-DG and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-ketamine-treatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "clozapine5-ketamine-sacrifice",
+          "name": "Sacrifice",
+          "description": "Sacrifice the rat",
+          "task": "sacrifice-station",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-ketamine-2dg"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          }
+        },
+        {
+          "stepId": "clozapine5-ketamine-brain-removal",
+          "name": "Brain Removal",
+          "description": "Remove the brain",
+          "task": "dissection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-ketamine-sacrifice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        },
+        {
+          "stepId": "clozapine5-ketamine-brain-freeze",
+          "name": "Brain Freezing",
+          "description": "Freeze the brain for preservation",
+          "task": "freezer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine5-ketamine-brain-removal"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "clozapine10-saline",
+      "name": "Clozapine 10mg Pretreatment + Saline Treatment",
+      "description": "Clozapine 10mg pretreatment followed by saline treatment",
+      "steps": [
+        {
+          "stepId": "clozapine10-saline-pretreatment",
+          "name": "Pretreatment: Clozapine 10mg Injection",
+          "description": "Inject clozapine 10mg and wait for 30 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1860
+          }
+        },
+        {
+          "stepId": "clozapine10-saline-treatment",
+          "name": "Treatment: Saline Injection",
+          "description": "Inject saline and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-saline-pretreatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "clozapine10-saline-2dg",
+          "name": "2-DG Injection",
+          "description": "Inject 2-DG and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-saline-treatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "clozapine10-saline-sacrifice",
+          "name": "Sacrifice",
+          "description": "Sacrifice the rat",
+          "task": "sacrifice-station",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-saline-2dg"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          }
+        },
+        {
+          "stepId": "clozapine10-saline-brain-removal",
+          "name": "Brain Removal",
+          "description": "Remove the brain",
+          "task": "dissection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-saline-sacrifice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        },
+        {
+          "stepId": "clozapine10-saline-brain-freeze",
+          "name": "Brain Freezing",
+          "description": "Freeze the brain for preservation",
+          "task": "freezer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-saline-brain-removal"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "clozapine10-ketamine",
+      "name": "Clozapine 10mg Pretreatment + Ketamine Treatment",
+      "description": "Clozapine 10mg pretreatment followed by ketamine treatment",
+      "steps": [
+        {
+          "stepId": "clozapine10-ketamine-pretreatment",
+          "name": "Pretreatment: Clozapine 10mg Injection",
+          "description": "Inject clozapine 10mg and wait for 30 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1860
+          }
+        },
+        {
+          "stepId": "clozapine10-ketamine-treatment",
+          "name": "Treatment: Ketamine Injection",
+          "description": "Inject ketamine and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-ketamine-pretreatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "clozapine10-ketamine-2dg",
+          "name": "2-DG Injection",
+          "description": "Inject 2-DG and wait for 5 minutes",
+          "task": "injection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-ketamine-treatment"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          }
+        },
+        {
+          "stepId": "clozapine10-ketamine-sacrifice",
+          "name": "Sacrifice",
+          "description": "Sacrifice the rat",
+          "task": "sacrifice-station",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-ketamine-2dg"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          }
+        },
+        {
+          "stepId": "clozapine10-ketamine-brain-removal",
+          "name": "Brain Removal",
+          "description": "Remove the brain",
+          "task": "dissection",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-ketamine-sacrifice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        },
+        {
+          "stepId": "clozapine10-ketamine-brain-freeze",
+          "name": "Brain Freezing",
+          "description": "Freeze the brain for preservation",
+          "task": "freezer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clozapine10-ketamine-brain-removal"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "injection",
+      "maxConcurrent": 2,
+      "description": "Maximum number of simultaneous injections that can be performed"
+    },
+    {
+      "task": "sacrifice-station",
+      "maxConcurrent": 1,
+      "description": "Only one sacrifice can be performed at a time"
+    },
+    {
+      "task": "dissection",
+      "maxConcurrent": 2,
+      "description": "Maximum number of simultaneous brain removals that can be performed"
+    },
+    {
+      "task": "freezer",
+      "maxConcurrent": 3,
+      "description": "Maximum number of brains that can be frozen simultaneously"
+    }
+  ],
+  "metadata": {
+    "notes": "This experiment examines the effects of clozapine pretreatment on ketamine-induced changes in brain metabolism using 2-DG as a marker. The actors feature (3 lab personnel) limits how many tasks without explicit constraints can be performed simultaneously."
+  },
+  "version": "1.0.0"
+}

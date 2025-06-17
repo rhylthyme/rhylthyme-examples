@@ -1,0 +1,436 @@
+{
+  "environmentId": "small-academic-lab",
+  "name": "Small Academic Laboratory",
+  "description": "Resource constraints for a small academic research laboratory with limited equipment and staff",
+  "type": "laboratory",
+  "actorTypes": {
+    "principal-investigator": {
+      "name": "Principal Investigator",
+      "count": 1,
+      "description": "PI who supervises research and can use all equipment"
+    },
+    "lab-manager": {
+      "name": "Laboratory Manager",
+      "count": 1,
+      "description": "Lab manager who oversees daily operations and equipment maintenance"
+    },
+    "senior-scientist": {
+      "name": "Senior Scientist",
+      "count": 1,
+      "description": "Senior scientist with extensive experience and advanced equipment training"
+    },
+    "postdoc": {
+      "name": "Postdoctoral Researcher",
+      "count": 1,
+      "description": "Experienced researcher who can operate most equipment independently"
+    },
+    "grad-student": {
+      "name": "Graduate Student",
+      "count": 2,
+      "description": "PhD students conducting research with some equipment limitations"
+    },
+    "lab-technician": {
+      "name": "Lab Technician",
+      "count": 1,
+      "description": "Lab technician for routine operations and equipment maintenance"
+    },
+    "undergrad": {
+      "name": "Undergraduate Student",
+      "count": 1,
+      "description": "Undergraduate researcher with supervised equipment access"
+    }
+  },
+  "resourceConstraints": [
+    {
+      "task": "tissue-culture",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student"
+      ],
+      "description": "Tissue culture room with 2 biosafety cabinets and 1 CO2 incubator"
+    },
+    {
+      "task": "flow-cytometer",
+      "maxConcurrent": 1,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc"
+      ],
+      "description": "Flow cytometer (10,000 events/sec, 2 lasers, trained users only)"
+    },
+    {
+      "task": "hplc",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.8,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student"
+      ],
+      "description": "HPLC system (60 samples/run, setup and monitoring required)"
+    },
+    {
+      "task": "qpcr",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician"
+      ],
+      "description": "qPCR system (96 wells, mostly automated)"
+    },
+    {
+      "task": "pcr-thermal-cycler",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "PCR thermal cycler (96 wells, simple operation)"
+    },
+    {
+      "task": "gel-imaging",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician"
+      ],
+      "description": "Blot and gel imager (21 x 14 cm gel capacity)"
+    },
+    {
+      "task": "plate-reader",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician"
+      ],
+      "description": "Multimode plate reader (96/384 wells)"
+    },
+    {
+      "task": "plate-washer",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Plate washer (96 wells, minimal attention)"
+    },
+    {
+      "task": "spectrophotometer",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.4,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician"
+      ],
+      "description": "UV-Vis spectrophotometer (190–1100 nm range)"
+    },
+    {
+      "task": "brightfield-microscope",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Brightfield microscopes (40x–1000x magnification)"
+    },
+    {
+      "task": "fluorescent-microscope",
+      "maxConcurrent": 1,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student"
+      ],
+      "description": "Fluorescent microscope (up to 1000x, trained users only)"
+    },
+    {
+      "task": "cell-counter",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Manual/automated cell counter (1 chamber)"
+    },
+    {
+      "task": "multiplex-system",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.8,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc"
+      ],
+      "description": "Multiplex system (up to 50 analytes/sample, complex operation)"
+    },
+    {
+      "task": "ph-meter",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "pH meters (0–14 pH range, simple operation)"
+    },
+    {
+      "task": "balance",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Analytical balances (0.1 mg–2000 g range)"
+    },
+    {
+      "task": "benchtop-equipment",
+      "maxConcurrent": 10,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Small benchtop equipment (vortex, mini-centrifuge, etc.)"
+    },
+    {
+      "task": "autoclave",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Sterilizer/autoclave (50 L capacity)"
+    },
+    {
+      "task": "incubator",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Incubators (50 L capacity each, minimal monitoring)"
+    },
+    {
+      "task": "shaker",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Orbital shaker (up to 2 L capacity)"
+    },
+    {
+      "task": "refrigerator",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Standard refrigerator (+4°C, 400 L capacity)"
+    },
+    {
+      "task": "freezer-minus20",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Standard freezer (-20°C, 300 L capacity)"
+    },
+    {
+      "task": "freezer-minus80",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student"
+      ],
+      "description": "Ultracold freezer (-80°C, 400 L capacity, careful handling required)"
+    },
+    {
+      "task": "liquid-nitrogen",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc"
+      ],
+      "description": "LN2 storage (50 L capacity, safety training required)"
+    },
+    {
+      "task": "centrifuge",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.4,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician"
+      ],
+      "description": "High-speed centrifuge (24 x 1.5 mL capacity)"
+    },
+    {
+      "task": "ultracentrifuge",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.8,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc"
+      ],
+      "description": "Ultracentrifuge (8 x 50 mL, trained users only)"
+    },
+    {
+      "task": "chemical-storage",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student",
+        "lab-technician",
+        "undergrad"
+      ],
+      "description": "Chemical storage cabinets (flammable/acid/base separation)"
+    },
+    {
+      "task": "fume-hood",
+      "maxConcurrent": 1,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "principal-investigator",
+        "lab-manager",
+        "senior-scientist",
+        "postdoc",
+        "grad-student"
+      ],
+      "description": "Chemical fume hood (4 ft, safety training required)"
+    }
+  ],
+  "metadata": {
+    "lab_type": "Small Academic Lab",
+    "capacity": "small",
+    "biosafety_level": "BSL-1/BSL-2",
+    "disciplines": ["molecular_biology", "biochemistry"],
+    "certifications": ["institutional_biosafety"],
+    "hours": "8am-10pm weekdays, limited weekend access",
+    "total_staff": 8,
+    "budget_tier": "limited",
+    "equipment_age": "mixed (3-10 years)",
+    "training_required": true,
+    "supervision_level": "high"
+  }
+}

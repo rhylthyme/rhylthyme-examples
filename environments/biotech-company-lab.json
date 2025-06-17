@@ -1,0 +1,397 @@
+{
+  "environmentId": "biotech-company-lab",
+  "name": "Biotech Company Laboratory",
+  "description": "Resource constraints for a mid-sized biotech company laboratory with professional equipment and experienced staff",
+  "type": "laboratory",
+  "actorTypes": {
+    "lab-director": {
+      "name": "Laboratory Director",
+      "count": 1,
+      "description": "Lab director with oversight of all operations and advanced equipment access"
+    },
+    "lab-manager": {
+      "name": "Laboratory Manager",
+      "count": 1,
+      "description": "Lab manager who coordinates daily operations and staff scheduling"
+    },
+    "senior-scientist": {
+      "name": "Senior Scientist",
+      "count": 2,
+      "description": "Experienced scientist who can operate all equipment independently"
+    },
+    "research-scientist": {
+      "name": "Research Scientist",
+      "count": 3,
+      "description": "Staff scientist with training on most equipment"
+    },
+    "research-associate": {
+      "name": "Research Associate",
+      "count": 4,
+      "description": "Lab technician with specialized equipment training"
+    },
+    "lab-technician": {
+      "name": "Lab Technician",
+      "count": 4,
+      "description": "Support technicians for routine operations and maintenance"
+    }
+  },
+  "resourceConstraints": [
+    {
+      "task": "tissue-culture",
+      "maxConcurrent": 4,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 tissue culture rooms with 4 biosafety cabinets, 4 CO2 incubators, 2 inverted microscopes"
+    },
+    {
+      "task": "flow-cytometer",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist",
+        "research-scientist"
+      ],
+      "description": "2 flow cytometers (20,000 events/sec, 3 lasers each, trained users only)"
+    },
+    {
+      "task": "hplc",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.7,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 HPLC systems (120 samples/run each, setup and monitoring required)"
+    },
+    {
+      "task": "qpcr",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 qPCR systems (384 wells each, mostly automated)"
+    },
+    {
+      "task": "pcr-thermal-cycler",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "2 PCR thermal cyclers (96 wells each, simple operation)"
+    },
+    {
+      "task": "gel-imaging",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 blot and gel imagers (21 x 14 cm gel capacity each)"
+    },
+    {
+      "task": "plate-reader",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 multimode plate readers (384 wells each)"
+    },
+    {
+      "task": "plate-washer",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "2 plate washers (384 wells each, minimal attention)"
+    },
+    {
+      "task": "spectrophotometer",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.4,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 UV-Vis spectrophotometers (190–1100 nm range each)"
+    },
+    {
+      "task": "brightfield-microscope",
+      "maxConcurrent": 4,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "4 brightfield microscopes (40x–1000x magnification)"
+    },
+    {
+      "task": "fluorescent-microscope",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 fluorescent microscopes (up to 1000x, trained users only)"
+    },
+    {
+      "task": "cell-counter",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "2 automated cell counters (2 chambers each)"
+    },
+    {
+      "task": "multiplex-system",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.8,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist"
+      ],
+      "description": "Multiplex system (up to 100 analytes/sample, complex operation)"
+    },
+    {
+      "task": "ph-meter",
+      "maxConcurrent": 4,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "4 pH meters (0–14 pH range, simple operation)"
+    },
+    {
+      "task": "balance",
+      "maxConcurrent": 4,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "4 analytical balances (0.01 mg–5 kg range)"
+    },
+    {
+      "task": "benchtop-equipment",
+      "maxConcurrent": 20,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "lab-manager",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "Small benchtop equipment (vortex, mini-centrifuge, tube roller, etc.)"
+    },
+    {
+      "task": "autoclave",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "2 sterilizer/autoclaves (100 L capacity each)"
+    },
+    {
+      "task": "incubator",
+      "maxConcurrent": 6,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "6 incubators (150 L capacity each, minimal monitoring)"
+    },
+    {
+      "task": "shaker",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "3 orbital shakers (up to 10 L capacity each)"
+    },
+    {
+      "task": "refrigerator",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "3 refrigerators (+4°C, 600 L capacity each)"
+    },
+    {
+      "task": "freezer-minus20",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.1,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "2 freezers (-20°C, 600 L capacity each)"
+    },
+    {
+      "task": "freezer-minus80",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 ultracold freezers (-80°C, 600 L capacity each, careful handling required)"
+    },
+    {
+      "task": "liquid-nitrogen",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist"
+      ],
+      "description": "2 LN2 storage dewars (100 L capacity each, safety training required)"
+    },
+    {
+      "task": "centrifuge",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.4,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 high-speed centrifuges (48 x 1.5 mL capacity each)"
+    },
+    {
+      "task": "ultracentrifuge",
+      "maxConcurrent": 1,
+      "actorsRequired": 0.8,
+      "qualifiedActorTypes": ["lab-director", "senior-scientist"],
+      "description": "Ultracentrifuge (8 x 50 mL, trained users only)"
+    },
+    {
+      "task": "chemical-storage",
+      "maxConcurrent": 4,
+      "actorsRequired": 0.2,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate",
+        "lab-technician"
+      ],
+      "description": "4 chemical storage cabinets (flammable/acid/base separation)"
+    },
+    {
+      "task": "fume-hood",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "lab-director",
+        "senior-scientist",
+        "research-scientist",
+        "research-associate"
+      ],
+      "description": "2 chemical fume hoods (6 ft each, safety training required)"
+    }
+  ],
+  "metadata": {
+    "lab_type": "Biotech Company",
+    "capacity": "medium",
+    "biosafety_level": "BSL-2",
+    "disciplines": [
+      "molecular_biology",
+      "biochemistry",
+      "cell_biology",
+      "protein_engineering"
+    ],
+    "certifications": ["GLP", "ISO-17025", "biosafety", "CLIA"],
+    "hours": "24/7",
+    "total_staff": 15,
+    "budget_tier": "well-funded",
+    "equipment_age": "modern (1-5 years)",
+    "training_required": true,
+    "supervision_level": "moderate",
+    "quality_system": "ISO_compliant",
+    "research_focus": ["drug_discovery", "diagnostics", "biomarkers"]
+  }
+}

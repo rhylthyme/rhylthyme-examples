@@ -1,0 +1,851 @@
+{
+  "programId": "academy-awards-2024",
+  "name": "Academy Awards Ceremony 2024 - Complete",
+  "description": "Complete Academy Awards ceremony with all 23 major awards, musical performances, In Memoriam and firefighter tributes",
+  "version": "2.0.0",
+  "environmentType": "event",
+  "environment": "theater",
+  "duration": {
+    "type": "fixed",
+    "timeString": "3h30m"
+  },
+  "tracks": [
+    {
+      "trackId": "main-ceremony",
+      "name": "Main Ceremony",
+      "priority": 1,
+      "steps": [
+        {
+          "stepId": "opening-monologue",
+          "name": "Opening Monologue",
+          "description": "Host's opening comedy monologue to set the tone",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "task": "broadcast",
+          "flex": {
+            "enabled": true,
+            "mode": "max",
+            "minDuration": 360,
+            "maxDuration": 600
+          }
+        },
+        {
+          "stepId": "awards-intro-monologue",
+          "name": "Awards Introduction Monologue",
+          "description": "Host introduces the awards show and makes opening jokes",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "opening-monologue"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "broadcast",
+          "flex": {
+            "enabled": true,
+            "mode": "fill",
+            "minDuration": 120,
+            "maxDuration": 300
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "major-awards",
+      "name": "Major Award Categories",
+      "priority": 2,
+      "steps": [
+        {
+          "stepId": "best-supporting-actor",
+          "name": "Best Supporting Actor",
+          "description": "Award presentation and acceptance speech",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "commercial-break-1"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 180,
+            "maxSeconds": 420,
+            "defaultSeconds": 300,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 8
+        },
+        {
+          "stepId": "best-supporting-actress",
+          "name": "Best Supporting Actress",
+          "description": "Award presentation and acceptance speech",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-supporting-actor"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 180,
+            "maxSeconds": 420,
+            "defaultSeconds": 300,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 8
+        },
+        {
+          "stepId": "best-animated-feature",
+          "name": "Best Animated Feature Film",
+          "description": "Award for best animated feature length film",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-supporting-actress"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 300,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 15
+        },
+        {
+          "stepId": "best-original-screenplay",
+          "name": "Best Original Screenplay",
+          "description": "Award for best original screenplay",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-animated-feature"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 300,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 12
+        },
+        {
+          "stepId": "best-adapted-screenplay",
+          "name": "Best Adapted Screenplay",
+          "description": "Award for best adapted screenplay",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-original-screenplay"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 300,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 12
+        },
+        {
+          "stepId": "best-international-feature",
+          "name": "Best International Feature Film",
+          "description": "Award for best international feature film",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-adapted-screenplay"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 300,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 15
+        },
+        {
+          "stepId": "best-documentary-feature",
+          "name": "Best Documentary Feature",
+          "description": "Award for best documentary feature film",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-international-feature"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 300,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 15
+        },
+        {
+          "stepId": "best-documentary-short",
+          "name": "Best Documentary Short Subject",
+          "description": "Award for best documentary short film",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-documentary-feature"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 90,
+            "maxSeconds": 240,
+            "defaultSeconds": 150,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 20
+        },
+        {
+          "stepId": "best-animated-short",
+          "name": "Best Animated Short Film",
+          "description": "Award for best animated short film",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-documentary-short"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 90,
+            "maxSeconds": 240,
+            "defaultSeconds": 150,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 20
+        },
+        {
+          "stepId": "best-live-action-short",
+          "name": "Best Live Action Short Film",
+          "description": "Award for best live action short film",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-animated-short"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 90,
+            "maxSeconds": 240,
+            "defaultSeconds": 150,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 20
+        },
+        {
+          "stepId": "best-original-song",
+          "name": "Best Original Song",
+          "description": "Award for best original song",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "musical-performance-1"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 300,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 10
+        },
+        {
+          "stepId": "best-original-score",
+          "name": "Best Original Score",
+          "description": "Award for best original musical score",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-original-song"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 300,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 12
+        },
+        {
+          "stepId": "best-actor",
+          "name": "Best Actor",
+          "description": "Award presentation and acceptance speech",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-original-score"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 240,
+            "maxSeconds": 540,
+            "defaultSeconds": 360,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 5
+        },
+        {
+          "stepId": "best-actress",
+          "name": "Best Actress",
+          "description": "Award presentation and acceptance speech",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-actor"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 240,
+            "maxSeconds": 540,
+            "defaultSeconds": 360,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 5
+        },
+        {
+          "stepId": "best-director",
+          "name": "Best Director",
+          "description": "Award for best director",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-actress"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 180,
+            "maxSeconds": 420,
+            "defaultSeconds": 300,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 3
+        },
+        {
+          "stepId": "best-picture",
+          "name": "Best Picture",
+          "description": "Final award with producer speeches",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-director"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 360,
+            "maxSeconds": 900,
+            "defaultSeconds": 600,
+            "triggerName": "final-speech-limit"
+          },
+          "task": "broadcast",
+          "priority": 1
+        },
+        {
+          "stepId": "closing-remarks-final",
+          "name": "Closing Remarks",
+          "description": "Final farewell and thank you from hosts",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-picture"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "broadcast",
+          "priority": 1,
+          "flex": {
+            "enabled": true,
+            "minDuration": 120,
+            "maxDuration": 480,
+            "mode": "fill"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "technical-awards",
+      "name": "Technical Awards",
+      "priority": 3,
+      "steps": [
+        {
+          "stepId": "best-cinematography",
+          "name": "Best Cinematography",
+          "description": "Award for best cinematography",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-live-action-short"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 240,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 18
+        },
+        {
+          "stepId": "best-film-editing",
+          "name": "Best Film Editing",
+          "description": "Award for best film editing",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-cinematography"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 240,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 18
+        },
+        {
+          "stepId": "best-production-design",
+          "name": "Best Production Design",
+          "description": "Award for best production design",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-film-editing"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 240,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 18
+        },
+        {
+          "stepId": "best-costume-design",
+          "name": "Best Costume Design",
+          "description": "Award for best costume design",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-production-design"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 240,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 18
+        },
+        {
+          "stepId": "best-makeup-hairstyling",
+          "name": "Best Makeup and Hairstyling",
+          "description": "Award for best makeup and hairstyling",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-costume-design"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 240,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 18
+        },
+        {
+          "stepId": "best-visual-effects",
+          "name": "Best Visual Effects",
+          "description": "Award for best visual effects",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-makeup-hairstyling"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 240,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 15
+        },
+        {
+          "stepId": "best-sound",
+          "name": "Best Sound",
+          "description": "Award for best sound (mixing and editing combined)",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-visual-effects"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 240,
+            "defaultSeconds": 180,
+            "triggerName": "speech-time-limit"
+          },
+          "task": "broadcast",
+          "priority": 18
+        }
+      ]
+    },
+    {
+      "trackId": "entertainment",
+      "name": "Musical Performances and Tributes",
+      "priority": 4,
+      "steps": [
+        {
+          "stepId": "musical-performance-1",
+          "name": "Best Original Song Nominee Performance #1",
+          "description": "Live performance of first nominated song",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-live-action-short"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "task": "broadcast",
+          "priority": 15
+        },
+        {
+          "stepId": "musical-performance-2",
+          "name": "Best Original Song Nominee Performance #2",
+          "description": "Live performance of second nominated song",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-sound"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "task": "broadcast",
+          "priority": 15
+        },
+        {
+          "stepId": "in-memoriam-tribute",
+          "name": "In Memoriam Tribute",
+          "description": "Musical tribute to deceased industry members with names and photos",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "musical-performance-2"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 420
+          },
+          "task": "broadcast",
+          "priority": 8
+        },
+        {
+          "stepId": "firefighter-tribute",
+          "name": "Firefighter Heroes Tribute",
+          "description": "Special tribute to firefighters who risk their lives for our communities",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "in-memoriam-tribute"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "broadcast",
+          "priority": 12
+        }
+      ]
+    },
+    {
+      "trackId": "host-segments",
+      "name": "Host Segments",
+      "priority": 5,
+      "steps": [
+        {
+          "stepId": "host-segment-1",
+          "name": "Host Segment - Comedy Bit",
+          "description": "Host fills time with prepared comedy segment",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-animated-feature"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "broadcast",
+          "flex": {
+            "enabled": true,
+            "mode": "max",
+            "minDuration": 90,
+            "maxDuration": 300
+          }
+        },
+        {
+          "stepId": "nominees-banter-monologue",
+          "name": "Nominees Banter Monologue",
+          "description": "Host interacts with nominees in the audience with flexible timing",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "host-segment-1"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "broadcast",
+          "flex": {
+            "enabled": true,
+            "mode": "fill",
+            "minDuration": 120,
+            "maxDuration": 300
+          }
+        },
+        {
+          "stepId": "mid-show-monologue",
+          "name": "Mid-Show Flex Monologue",
+          "description": "Host delivers flexible monologue to adjust timing mid-show",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-cinematography"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 150
+          },
+          "task": "broadcast",
+          "flex": {
+            "enabled": true,
+            "mode": "max",
+            "minDuration": 90,
+            "maxDuration": 300
+          }
+        },
+        {
+          "stepId": "host-segment-2",
+          "name": "Host Segment - Audience Interaction",
+          "description": "Host interacts with audience, can stretch as needed",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-supporting-actress"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "broadcast",
+          "flex": {
+            "enabled": true,
+            "mode": "max",
+            "minDuration": 120,
+            "maxDuration": 360
+          }
+        },
+        {
+          "stepId": "pre-finale-monologue",
+          "name": "Pre-Finale Flex Monologue",
+          "description": "Host builds excitement before Best Picture with adjustable timing",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "host-segment-2"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "broadcast",
+          "flex": {
+            "enabled": true,
+            "mode": "max",
+            "minDuration": 120,
+            "maxDuration": 300
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "commercial-breaks",
+      "name": "Commercial Breaks",
+      "priority": 6,
+      "steps": [
+        {
+          "stepId": "commercial-break-1",
+          "name": "Commercial Break 1",
+          "description": "First commercial break after opening host segment",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "host-segment-1"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-2",
+          "name": "Commercial Break 2",
+          "description": "Break after host segment 2",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "host-segment-2"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 210
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-3",
+          "name": "Commercial Break 3",
+          "description": "Break after screenplay awards",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-adapted-screenplay"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-4",
+          "name": "Commercial Break 4",
+          "description": "Break after documentary feature",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-documentary-feature"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 195
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-5",
+          "name": "Commercial Break 5",
+          "description": "Break after short film awards",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "musical-performance-1"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 225
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-6",
+          "name": "Commercial Break 6",
+          "description": "Break after technical awards begin",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-film-editing"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-7",
+          "name": "Commercial Break 7",
+          "description": "Break after costume and makeup awards",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-makeup-hairstyling"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-8",
+          "name": "Commercial Break 8",
+          "description": "Break after musical performance #2",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "musical-performance-2"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 210
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-9",
+          "name": "Commercial Break 9",
+          "description": "Break after original score award",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-original-score"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 195
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-10",
+          "name": "Commercial Break 10",
+          "description": "Break before major acting awards finale",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-actor"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 225
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-11",
+          "name": "Commercial Break 11",
+          "description": "Final commercial break before Best Picture",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pre-finale-monologue"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "task": "broadcast"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "name": "broadcast",
+      "description": "Live television broadcast - only one segment can be on air at a time",
+      "capacity": 1
+    }
+  ]
+}

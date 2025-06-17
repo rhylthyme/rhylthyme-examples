@@ -1,0 +1,176 @@
+{
+  "programId": "buffer-example",
+  "name": "Buffer Example Program",
+  "description": "Demonstrates pre-buffer and post-buffer functionality for setup and cleanup phases",
+  "environmentType": "kitchen",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "resourceConstraints": [
+    {
+      "task": "chef",
+      "maxConcurrent": 1,
+      "description": "Chef who does the cooking and preparation"
+    },
+    {
+      "task": "stove",
+      "maxConcurrent": 2,
+      "description": "Stove burners for cooking"
+    },
+    {
+      "task": "prep-station",
+      "maxConcurrent": 1,
+      "description": "Preparation station for food prep"
+    },
+    {
+      "task": "dishwasher",
+      "maxConcurrent": 1,
+      "description": "Dishwasher for cleaning"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "pasta-dish",
+      "name": "Pasta Dish Preparation",
+      "steps": [
+        {
+          "stepId": "prep-pasta",
+          "name": "Prepare Pasta",
+          "description": "Boil water and cook pasta",
+          "preBuffer": {
+            "duration": 120,
+            "description": "Set up cooking station and boil water",
+            "tasks": [
+              "chef",
+              "prep-station"
+            ]
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "tasks": [
+            "chef",
+            "stove"
+          ],
+          "postBuffer": {
+            "duration": 60,
+            "description": "Drain pasta and clean pot",
+            "taskResources": [
+              {
+                "name": "chef",
+                "fraction": 0.5
+              },
+              {
+                "name": "dishwasher",
+                "fraction": 1.0
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "sauce",
+      "name": "Sauce Preparation",
+      "steps": [
+        {
+          "stepId": "prep-sauce",
+          "name": "Prepare Sauce",
+          "description": "Make tomato sauce from scratch",
+          "preBuffer": {
+            "duration": 90,
+            "description": "Gather ingredients and prep vegetables",
+            "taskResources": [
+              {
+                "name": "chef",
+                "fraction": 1.0
+              },
+              {
+                "name": "prep-station",
+                "fraction": 1.0
+              }
+            ]
+          },
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 60
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 600,
+            "defaultSeconds": 420,
+            "triggerName": "sauce-ready"
+          },
+          "tasks": [
+            "chef",
+            "stove"
+          ],
+          "postBuffer": {
+            "duration": 45,
+            "description": "Taste and adjust seasoning, clean up",
+            "tasks": [
+              "chef"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "serving",
+      "name": "Final Assembly and Serving",
+      "steps": [
+        {
+          "stepId": "plate-dish",
+          "name": "Plate and Serve",
+          "description": "Combine pasta and sauce, plate and serve",
+          "preBuffer": {
+            "duration": 30,
+            "description": "Set up serving plates and utensils",
+            "tasks": [
+              "chef"
+            ]
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-pasta"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "tasks": [
+            "chef"
+          ],
+          "postBuffer": {
+            "duration": 180,
+            "description": "Clean kitchen and wash all dishes",
+            "taskResources": [
+              {
+                "name": "chef",
+                "fraction": 0.3
+              },
+              {
+                "name": "dishwasher",
+                "fraction": 1.0
+              },
+              {
+                "name": "prep-station",
+                "fraction": 0.5
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "createdBy": "Buffer Example Creator",
+    "notes": "This example shows how buffers can be used for setup and cleanup phases around main tasks"
+  },
+  "version": "1.0.0"
+}

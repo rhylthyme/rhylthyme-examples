@@ -1,0 +1,67 @@
+{
+  "programId": "simple_on_test",
+  "name": "Simple On Syntax Test",
+  "description": "Test program demonstrating the simplified 'on' trigger syntax",
+  "tracks": [
+    {
+      "trackId": "main",
+      "name": "Main Track",
+      "steps": [
+        {
+          "stepId": "step1",
+          "name": "First Step",
+          "description": "The first step that starts the program",
+          "task": "setup",
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "trigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "step2",
+          "name": "Second Step",
+          "description": "Waits for step1 using simplified 'on' syntax",
+          "task": "process",
+          "duration": {
+            "type": "fixed",
+            "seconds": 45
+          },
+          "trigger": {
+            "on": "step1"
+          }
+        },
+        {
+          "stepId": "step3",
+          "name": "Third Step",
+          "description": "Waits for step2 with offset using 'on' syntax",
+          "task": "finalize",
+          "duration": {
+            "type": "fixed",
+            "seconds": 20
+          },
+          "trigger": {
+            "on": "step2",
+            "offsetSeconds": 10
+          }
+        },
+        {
+          "stepId": "step4",
+          "name": "Fourth Step",
+          "description": "Waits for step3 start event using 'on' syntax",
+          "task": "cleanup",
+          "duration": {
+            "type": "fixed",
+            "seconds": 15
+          },
+          "trigger": {
+            "on": "step3",
+            "event": "start"
+          }
+        }
+      ]
+    }
+  ]
+}

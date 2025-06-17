@@ -1,0 +1,175 @@
+{
+  "environmentId": "commercial-kitchen-standard",
+  "name": "Standard Commercial Kitchen",
+  "description": "Resource constraints for a professional commercial kitchen with qualified staff",
+  "type": "kitchen",
+  "actorTypes": {
+    "head-chef": {
+      "name": "Head Chef",
+      "count": 1,
+      "description": "Day-to-day kitchen operations, can use all equipment"
+    },
+    "sous-chef": {
+      "name": "Sous Chef",
+      "count": 1,
+      "description": "Assists head chef, manages staff and stations"
+    },
+    "chef-de-partie": {
+      "name": "Chef de Partie",
+      "count": 3,
+      "description": "Runs a specific kitchen section"
+    },
+    "commis-chef": {
+      "name": "Commis Chef",
+      "count": 2,
+      "description": "Entry-level, assists with prep and learning"
+    },
+    "pastry-chef": {
+      "name": "Pastry Chef",
+      "count": 1,
+      "description": "Desserts and baked goods specialist"
+    },
+    "kitchen-porter": {
+      "name": "Kitchen Porter",
+      "count": 2,
+      "description": "Cleaning and dishwashing"
+    },
+    "prep-cook": {
+      "name": "Prep Cook",
+      "count": 2,
+      "description": "Ingredient preparation"
+    },
+    "expediter": {
+      "name": "Expediter",
+      "count": 1,
+      "description": "Coordinates food delivery to front-of-house"
+    }
+  },
+  "resourceConstraints": [
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 8,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["head-chef", "sous-chef", "chef-de-partie"],
+      "description": "8-burner commercial range (qualified cooks only)"
+    },
+    {
+      "task": "grill-station",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["head-chef", "sous-chef", "chef-de-partie"],
+      "description": "Grill station (experienced cooks only)"
+    },
+    {
+      "task": "fryer",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["head-chef", "sous-chef", "chef-de-partie"],
+      "description": "Deep fryers (trained staff only for safety)"
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "head-chef",
+        "sous-chef",
+        "chef-de-partie",
+        "pastry-chef"
+      ],
+      "description": "Commercial ovens (cooking and pastry staff)"
+    },
+    {
+      "task": "pastry-oven",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.5,
+      "qualifiedActorTypes": ["head-chef", "pastry-chef"],
+      "description": "Specialized pastry ovens (pastry chef or head chef)"
+    },
+    {
+      "task": "mixer",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.3,
+      "qualifiedActorTypes": [
+        "head-chef",
+        "sous-chef",
+        "chef-de-partie",
+        "pastry-chef",
+        "commis-chef"
+      ],
+      "description": "Stand mixers (most kitchen staff)"
+    },
+    {
+      "task": "prep-station",
+      "maxConcurrent": 6,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "head-chef",
+        "sous-chef",
+        "chef-de-partie",
+        "commis-chef",
+        "prep-cook"
+      ],
+      "description": "Prep stations with cutting boards"
+    },
+    {
+      "task": "cold-prep",
+      "maxConcurrent": 3,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": [
+        "head-chef",
+        "sous-chef",
+        "chef-de-partie",
+        "prep-cook"
+      ],
+      "description": "Cold prep stations (salads, cold appetizers)"
+    },
+    {
+      "task": "plating",
+      "maxConcurrent": 4,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["head-chef", "sous-chef", "chef-de-partie"],
+      "description": "Plating stations (experienced staff for presentation)"
+    },
+    {
+      "task": "expediting",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["head-chef", "sous-chef", "expediter"],
+      "description": "Expediting station (coordination role)"
+    },
+    {
+      "task": "dishwashing",
+      "maxConcurrent": 3,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["kitchen-porter", "commis-chef"],
+      "description": "Dish pit and cleaning stations"
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 4,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["kitchen-porter", "commis-chef", "prep-cook"],
+      "description": "General kitchen cleaning"
+    },
+    {
+      "task": "grill",
+      "maxConcurrent": 2,
+      "actorsRequired": 1.0,
+      "qualifiedActorTypes": ["head-chef", "sous-chef", "chef-de-partie"],
+      "description": "Grill operations (alias for grill-station)"
+    }
+  ],
+  "metadata": {
+    "capacity": "large",
+    "cuisine": "general",
+    "certifications": ["health-department", "fire-safety", "haccp"],
+    "hours": "5am-12am",
+    "covers_per_service": 200,
+    "staffing": {
+      "total_actors": 13,
+      "peak_service": 13,
+      "minimum": 8
+    }
+  }
+}

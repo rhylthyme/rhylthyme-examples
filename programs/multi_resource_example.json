@@ -1,0 +1,165 @@
+{
+  "programId": "multi-resource-example",
+  "name": "Multi-Resource Example",
+  "description": "Example program demonstrating multiple resource constraints per step",
+  "environmentType": "kitchen",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "resourceConstraints": [
+    {
+      "task": "chef",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 2
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "toaster",
+      "maxConcurrent": 1
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "preparation",
+      "name": "Preparation",
+      "steps": [
+        {
+          "stepId": "prep-ingredients",
+          "name": "Prepare Ingredients",
+          "description": "Gather and prepare all ingredients",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "tasks": [
+            "chef"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "bacon",
+      "name": "Bacon",
+      "steps": [
+        {
+          "stepId": "cook-bacon",
+          "name": "Cook Bacon",
+          "description": "Cook bacon until crispy",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-ingredients"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "tasks": [
+            "chef",
+            "stove-burner"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "eggs",
+      "name": "Eggs",
+      "steps": [
+        {
+          "stepId": "cook-eggs",
+          "name": "Cook Scrambled Eggs",
+          "description": "Cook scrambled eggs until fluffy",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-ingredients"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "tasks": [
+            "chef",
+            "stove-burner"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "biscuits",
+      "name": "Biscuits",
+      "steps": [
+        {
+          "stepId": "bake-biscuits",
+          "name": "Bake Biscuits",
+          "description": "Bake biscuits until golden brown",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-ingredients"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "tasks": [
+            "chef",
+            "oven"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "toast",
+      "name": "Toast",
+      "steps": [
+        {
+          "stepId": "make-toast",
+          "name": "Make Toast",
+          "description": "Toast bread until golden",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-ingredients"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "tasks": [
+            "chef",
+            "toaster"
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "serving",
+      "name": "Serving",
+      "steps": [
+        {
+          "stepId": "serve-breakfast",
+          "name": "Serve Breakfast",
+          "description": "Plate and serve the breakfast",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cook-bacon"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "tasks": [
+            "chef"
+          ]
+        }
+      ]
+    }
+  ],
+  "version": "1.0.0"
+}

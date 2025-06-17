@@ -1,0 +1,133 @@
+{
+  "environmentId": "bakery-artisan",
+  "name": "Artisan Bakery",
+  "description": "Resource constraints for an artisan bakery with professional baking equipment",
+  "type": "bakery",
+  "actors": 4,
+  "resourceConstraints": [
+    {
+      "task": "oven",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.3,
+      "description": "3 deck ovens for breads and pastries (monitoring and rotation)"
+    },
+    {
+      "task": "convection-oven",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.3,
+      "description": "Convection ovens for pastries"
+    },
+    {
+      "task": "proofer",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.1,
+      "description": "Proofing cabinets for dough (minimal monitoring)"
+    },
+    {
+      "task": "mixer",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.5,
+      "description": "1 spiral mixer (50kg), 2 planetary mixers (moderate attention)"
+    },
+    {
+      "task": "dough-sheeter",
+      "maxConcurrent": 1,
+      "actorsRequired": 1,
+      "description": "Automated dough sheeter (requires full attention for safety)"
+    },
+    {
+      "task": "work-bench",
+      "maxConcurrent": 4,
+      "actorsRequired": 1,
+      "description": "4 stainless steel work benches (1 person per bench)"
+    },
+    {
+      "task": "prep-work",
+      "maxConcurrent": 4,
+      "actorsRequired": 1,
+      "description": "General prep capacity"
+    },
+    {
+      "task": "decorating-station",
+      "maxConcurrent": 2,
+      "actorsRequired": 1,
+      "description": "Cake decorating stations (requires precision)"
+    },
+    {
+      "task": "cooling-rack",
+      "maxConcurrent": 6,
+      "actorsRequired": 0.1,
+      "description": "Mobile cooling racks (minimal attention)"
+    },
+    {
+      "task": "packaging",
+      "maxConcurrent": 2,
+      "actorsRequired": 1,
+      "description": "Packaging stations"
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 2,
+      "actorsRequired": 1,
+      "description": "Cleaning stations"
+    },
+    {
+      "task": "refrigeration",
+      "maxConcurrent": 4,
+      "actorsRequired": 0.1,
+      "description": "Walk-in cooler sections (minimal attention)"
+    },
+    {
+      "task": "freezer",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.1,
+      "description": "Freezer storage sections"
+    },
+    {
+      "task": "proofing-rack",
+      "maxConcurrent": 4,
+      "actorsRequired": 0.2,
+      "description": "Mobile proofing racks for dough"
+    },
+    {
+      "task": "workbench",
+      "maxConcurrent": 4,
+      "actorsRequired": 1.0,
+      "description": "Work bench stations (alias for work-bench)"
+    },
+    {
+      "task": "mixing",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.5,
+      "description": "Mixing operations (alias for mixer)"
+    },
+    {
+      "task": "baking",
+      "maxConcurrent": 3,
+      "actorsRequired": 0.3,
+      "description": "Baking operations in ovens"
+    },
+    {
+      "task": "proofing",
+      "maxConcurrent": 2,
+      "actorsRequired": 0.1,
+      "description": "Dough proofing operations"
+    }
+  ],
+  "metadata": {
+    "capacity": "medium",
+    "specialties": ["bread", "pastries", "cakes"],
+    "certifications": ["health-department", "organic"],
+    "hours": "3am-7pm",
+    "temperature_zones": {
+      "production": "20-25C",
+      "proofing": "25-35C",
+      "cold_storage": "2-4C"
+    },
+    "staffing": {
+      "early_shift": 3,
+      "day_shift": 4,
+      "minimum": 2
+    }
+  }
+}
