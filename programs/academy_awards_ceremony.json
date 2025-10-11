@@ -845,7 +845,8 @@
     {
       "name": "broadcast",
       "description": "Live television broadcast - only one segment can be on air at a time",
-      "capacity": 1
+      "task": "unknown-task",
+      "maxConcurrent": 1
     }
   ]
 }

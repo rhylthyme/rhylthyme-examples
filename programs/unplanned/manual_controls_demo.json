@@ -1,0 +1,70 @@
+{
+  "programId": "manual_controls_demo",
+  "name": "Manual Controls Demo",
+  "description": "Demo program showing manual start and stop controls",
+  "tracks": [
+    {
+      "trackId": "main",
+      "name": "Main Track",
+      "steps": [
+        {
+          "stepId": "step1",
+          "name": "Auto Start Step",
+          "description": "This step starts automatically",
+          "task": "preparation",
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "trigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "step2",
+          "name": "Manual Start Step",
+          "description": "This step requires manual start",
+          "task": "manual-task",
+          "duration": {
+            "type": "fixed",
+            "seconds": 45
+          },
+          "trigger": {
+            "type": "manual",
+            "triggerName": "start-manual-step"
+          }
+        },
+        {
+          "stepId": "step3",
+          "name": "Variable Duration Step",
+          "description": "This step can be manually stopped after minimum time",
+          "task": "monitoring",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 60,
+            "maxSeconds": 180,
+            "defaultSeconds": 120,
+            "triggerName": "stop-monitoring"
+          },
+          "trigger": {
+            "on": "step1"
+          }
+        },
+        {
+          "stepId": "step4",
+          "name": "Indefinite Duration Step",
+          "description": "This step runs indefinitely until manually stopped",
+          "task": "watching",
+          "duration": {
+            "type": "indefinite",
+            "triggerName": "stop-watching"
+          },
+          "trigger": {
+            "on": "step2"
+          }
+        }
+      ]
+    }
+  ],
+  "environmentType": "test"
+}

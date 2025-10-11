@@ -69,7 +69,8 @@
                 "fraction": 1.0
               }
             ]
-          }
+          },
+          "task": "chef"
         }
       ]
     },
@@ -116,7 +117,8 @@
             "tasks": [
               "chef"
             ]
-          }
+          },
+          "task": "chef"
         }
       ]
     },
@@ -163,7 +165,8 @@
                 "fraction": 0.5
               }
             ]
-          }
+          },
+          "task": "chef"
         }
       ]
     }

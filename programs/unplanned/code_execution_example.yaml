@@ -1,0 +1,109 @@
+description: Example program demonstrating Python and shell code execution in steps
+name: Code Execution Example
+programId: code_execution_example
+resourceConstraints: []
+tracks:
+- name: Python Code Examples
+  steps:
+  - codeBlock:
+      code: 'result = 2 + 2
+
+        print(f''The result is {result}'')
+
+        '
+      description: Simple addition calculation
+      type: python
+    description: Execute a simple Python calculation
+    duration:
+      seconds: 10
+      type: fixed
+    name: Simple Python Calculation
+    startTrigger:
+      type: programStart
+    stepId: python_simple
+    task: unknown-task
+  - codeBlock:
+      code: 'numbers = [1, 2, 3, 4, 5]
+
+        squared = [n**2 for n in numbers]
+
+        print(f''Original: {numbers}'')
+
+        print(f''Squared: {squared}'')
+
+        '
+      description: List comprehension example
+      type: python
+    description: Perform operations on a list
+    duration:
+      seconds: 15
+      type: fixed
+    name: Python List Operations
+    startTrigger:
+      stepId: python_simple
+      type: afterStep
+    stepId: python_list
+    task: unknown-task
+  - codeBlock:
+      code: '# This will cause a division by zero error
+
+        result = 10 / 0
+
+        '
+      description: Intentional error example
+      type: python
+    description: Demonstrate error handling
+    duration:
+      seconds: 5
+      type: fixed
+    name: Python Error Example
+    startTrigger:
+      triggerName: Run Error Example
+      type: manual
+    stepId: python_error
+    task: unknown-task
+  trackId: track1
+- name: Shell Command Examples
+  steps:
+  - codeBlock:
+      code: echo 'Hello from the shell!'
+      description: Simple echo command
+      type: shell
+    description: Execute a simple echo command
+    duration:
+      seconds: 10
+      type: fixed
+    name: Simple Echo Command
+    startTrigger:
+      type: programStart
+    stepId: shell_echo
+    task: unknown-task
+  - codeBlock:
+      code: ls -la
+      description: List directory contents with details
+      type: shell
+    description: List the contents of the current directory
+    duration:
+      seconds: 15
+      type: fixed
+    name: List Directory Contents
+    startTrigger:
+      stepId: shell_echo
+      type: afterStep
+    stepId: shell_ls
+    task: unknown-task
+  - codeBlock:
+      code: cat nonexistent_file.txt
+      description: Intentional error - file doesn't exist
+      type: shell
+    description: Demonstrate error handling in shell commands
+    duration:
+      seconds: 5
+      type: fixed
+    name: Shell Error Example
+    startTrigger:
+      triggerName: Run Shell Error
+      type: manual
+    stepId: shell_error
+    task: unknown-task
+  trackId: track2

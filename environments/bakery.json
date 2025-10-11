@@ -1,8 +1,9 @@
 {
-  "environmentId": "bakery-artisan",
-  "name": "Artisan Bakery",
-  "description": "Resource constraints for an artisan bakery with professional baking equipment",
+  "environmentId": "bakery",
+  "name": "Bakery (Base)",
+  "description": "Base bakery environment with professional baking equipment. This is the default bakery environment used when programs specify 'bakery' type without a specific environment ID.",
   "type": "bakery",
+  "isDefault": true,
   "actors": 4,
   "resourceConstraints": [
     {
@@ -119,6 +120,9 @@
     "specialties": ["bread", "pastries", "cakes"],
     "certifications": ["health-department", "organic"],
     "hours": "3am-7pm",
+    "role": "base_environment",
+    "usage": "This is the canonical bakery environment and serves as the default for any program that specifies 'bakery' as the environment type.",
+    "aliases": ["artisan-bakery", "commercial-bakery", "default-bakery"],
     "temperature_zones": {
       "production": "20-25C",
       "proofing": "25-35C",

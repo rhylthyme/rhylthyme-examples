@@ -1,8 +1,9 @@
 {
-  "environmentId": "restaurant-standard",
-  "name": "Standard Restaurant Kitchen",
-  "description": "Resource constraints for a typical restaurant kitchen with standard equipment",
-  "type": "kitchen",
+  "environmentId": "restaurant",
+  "name": "Restaurant Kitchen (Base)",
+  "description": "Base restaurant kitchen environment with professional equipment. This is the default restaurant environment used when programs specify 'restaurant' type without a specific environment ID.",
+  "type": "restaurant",
+  "isDefault": true,
   "actors": 6,
   "resourceConstraints": [
     {
@@ -71,6 +72,9 @@
     "cuisine": "general",
     "certifications": ["health-department", "fire-safety"],
     "hours": "6am-11pm",
+    "role": "base_environment",
+    "usage": "This is the canonical restaurant kitchen environment and serves as the default for any program that specifies 'restaurant' as the environment type.",
+    "aliases": ["restaurant-kitchen", "commercial-kitchen", "default-restaurant"],
     "staffing": {
       "typical": 6,
       "peak": 10,

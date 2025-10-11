@@ -42,7 +42,8 @@
           },
           "tasks": [
             "chef"
-          ]
+          ],
+          "task": "chef"
         }
       ]
     },
@@ -65,7 +66,8 @@
           "tasks": [
             "chef",
             "stove-burner"
-          ]
+          ],
+          "task": "chef"
         }
       ]
     },
@@ -88,7 +90,8 @@
           "tasks": [
             "chef",
             "stove-burner"
-          ]
+          ],
+          "task": "chef"
         }
       ]
     },
@@ -111,7 +114,8 @@
           "tasks": [
             "chef",
             "oven"
-          ]
+          ],
+          "task": "chef"
         }
       ]
     },
@@ -134,7 +138,8 @@
           "tasks": [
             "chef",
             "toaster"
-          ]
+          ],
+          "task": "chef"
         }
       ]
     },
@@ -156,7 +161,8 @@
           },
           "tasks": [
             "chef"
-          ]
+          ],
+          "task": "chef"
         }
       ]
     }

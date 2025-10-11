@@ -1,8 +1,9 @@
 {
-  "environmentId": "airport-standard",
-  "name": "Standard Airport",
-  "description": "Resource constraints for standard airport operations including runways, gates, and corridors",
+  "environmentId": "airport",
+  "name": "Airport (Base)",
+  "description": "Base airport environment with standard operations including runways, gates, and corridors. This is the default airport environment used when programs specify 'airport' type without a specific environment ID.",
   "type": "airport",
+  "isDefault": true,
   "actors": 20,
   "resourceConstraints": [
     {
@@ -68,9 +69,12 @@
   ],
   "metadata": {
     "capacity": "medium",
-    "type": "commercial",
+    "facility_type": "commercial",
     "certifications": ["FAA", "ICAO", "security"],
     "hours": "24/7",
+    "role": "base_environment",
+    "usage": "This is the canonical airport environment and serves as the default for any program that specifies 'airport' as the environment type.",
+    "aliases": ["commercial-airport", "standard-airport", "default-airport"],
     "aircraft_capacity": {
       "gates": 10,
       "runways": 2,

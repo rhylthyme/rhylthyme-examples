@@ -1,86 +1,85 @@
-programId: "flexible-time-format-example"
-name: "Flexible Time Format Example"
-description: "A schedule demonstrating flexible time format for all time-related fields"
 actors: 3
-startTrigger:
-  type: "manual"
-tracks:
-  - trackId: "fixed-duration-track"
-    name: "Fixed Duration Examples"
-    steps:
-      - stepId: "fixed-seconds"
-        name: "Fixed Duration (Seconds)"
-        description: "Using seconds notation"
-        startTrigger:
-          type: "programStart"
-        duration:
-          type: "fixed"
-          seconds: "30s"  # 30 seconds
-      
-      - stepId: "fixed-minutes"
-        name: "Fixed Duration (Minutes)"
-        description: "Using minutes notation"
-        startTrigger:
-          type: "afterStep"
-          stepId: "fixed-seconds"
-        duration:
-          type: "fixed"
-          seconds: "2m"  # 2 minutes = 120 seconds
-      
-      - stepId: "fixed-hours"
-        name: "Fixed Duration (Hours)"
-        description: "Using hours notation"
-        startTrigger:
-          type: "afterStep"
-          stepId: "fixed-minutes"
-        duration:
-          type: "fixed"
-          seconds: "1h"  # 1 hour = 3600 seconds
-      
-      - stepId: "fixed-complex"
-        name: "Fixed Duration (Complex)"
-        description: "Using complex time notation"
-        startTrigger:
-          type: "afterStep"
-          stepId: "fixed-hours"
-        duration:
-          type: "fixed"
-          seconds: "1h30m15s"  # 1 hour, 30 minutes, 15 seconds = 5415 seconds
-  
-  - trackId: "variable-duration-track"
-    name: "Variable Duration Examples"
-    steps:
-      - stepId: "variable-simple"
-        name: "Variable Duration (Simple)"
-        description: "Using simple time notation"
-        startTrigger:
-          type: "programStartOffset"
-          offsetSeconds: "5m"  # Start 5 minutes after program start
-        duration:
-          type: "variable"
-          minSeconds: "1m"     # Minimum 1 minute
-          maxSeconds: "5m"     # Maximum 5 minutes
-          defaultSeconds: "3m"  # Default 3 minutes
-          optimalSeconds: "2m30s"  # Optimal 2 minutes, 30 seconds
-          triggerName: "complete-variable-simple"
-      
-      - stepId: "variable-complex"
-        name: "Variable Duration (Complex)"
-        description: "Using complex time notation"
-        startTrigger:
-          type: "afterStepWithBuffer"
-          stepId: "variable-simple"
-          bufferSeconds: "30s"  # 30 second buffer after previous step
-        duration:
-          type: "variable"
-          minSeconds: "45m"       # Minimum 45 minutes
-          maxSeconds: "1h30m"     # Maximum 1 hour, 30 minutes
-          defaultSeconds: "1h"    # Default 1 hour
-          optimalSeconds: "50m"   # Optimal 50 minutes
-          triggerName: "complete-variable-complex"
-        task: "complex-task"
-
+description: A schedule demonstrating flexible time format for all time-related fields
+name: Flexible Time Format Example
+programId: flexible-time-format-example
 resourceConstraints:
-  - task: "complex-task"
-    maxConcurrent: 2
-    description: "Only 2 complex tasks can run simultaneously" 
+- description: Only 2 complex tasks can run simultaneously
+  maxConcurrent: 2
+  task: complex-task
+startTrigger:
+  type: manual
+tracks:
+- name: Fixed Duration Examples
+  steps:
+  - description: Using seconds notation
+    duration:
+      seconds: 30s
+      type: fixed
+    name: Fixed Duration (Seconds)
+    startTrigger:
+      type: programStart
+    stepId: fixed-seconds
+    task: unknown-task
+  - description: Using minutes notation
+    duration:
+      seconds: 2m
+      type: fixed
+    name: Fixed Duration (Minutes)
+    startTrigger:
+      stepId: fixed-seconds
+      type: afterStep
+    stepId: fixed-minutes
+    task: unknown-task
+  - description: Using hours notation
+    duration:
+      seconds: 1h
+      type: fixed
+    name: Fixed Duration (Hours)
+    startTrigger:
+      stepId: fixed-minutes
+      type: afterStep
+    stepId: fixed-hours
+    task: unknown-task
+  - description: Using complex time notation
+    duration:
+      seconds: 1h30m15s
+      type: fixed
+    name: Fixed Duration (Complex)
+    startTrigger:
+      stepId: fixed-hours
+      type: afterStep
+    stepId: fixed-complex
+    task: unknown-task
+  trackId: fixed-duration-track
+- name: Variable Duration Examples
+  steps:
+  - description: Using simple time notation
+    duration:
+      defaultSeconds: 3m
+      maxSeconds: 5m
+      minSeconds: 1m
+      optimalSeconds: 2m30s
+      triggerName: complete-variable-simple
+      type: variable
+    name: Variable Duration (Simple)
+    startTrigger:
+      offsetSeconds: 5m
+      type: programStartOffset
+    stepId: variable-simple
+    task: unknown-task
+  - description: Using complex time notation
+    duration:
+      defaultSeconds: 1h
+      maxSeconds: 1h30m
+      minSeconds: 45m
+      optimalSeconds: 50m
+      triggerName: complete-variable-complex
+      type: variable
+    name: Variable Duration (Complex)
+    startTrigger:
+      bufferSeconds: 30s
+      stepId: variable-simple
+      type: afterStepWithBuffer
+    stepId: variable-complex
+    task: complex-task
+  trackId: variable-duration-track

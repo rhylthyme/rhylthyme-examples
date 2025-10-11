@@ -1,11 +1,10 @@
 {
-  "programId": "breakfast-schedule",
-  "name": "Breakfast Schedule",
-  "description": "Coordinated breakfast preparation schedule for scrambled eggs, bacon, and toast",
+  "programId": "breakfast-manual-triggers",
+  "name": "Breakfast Preparation with Manual Triggers",
+  "description": "A schedule for preparing scrambled eggs, bacon, and toast with manual triggers",
   "environmentType": "kitchen",
   "startTrigger": {
-    "type": "offset",
-    "offsetSeconds": 1
+    "type": "manual"
   },
   "tracks": [
     {
@@ -23,15 +22,15 @@
             "type": "fixed",
             "seconds": 60
           },
-          "task": "prep-work"
+          "task": "unknown-task"
         },
         {
           "stepId": "eggs-heat-pan",
           "name": "Heat Pan",
           "description": "Place pan on stove and heat to medium",
           "startTrigger": {
-            "type": "afterStep",
-            "stepId": "eggs-crack-whisk"
+            "type": "manual",
+            "triggerName": "start-heat-pan"
           },
           "duration": {
             "type": "variable",
@@ -76,15 +75,15 @@
             "type": "fixed",
             "seconds": 60
           },
-          "task": "prep-work"
+          "task": "unknown-task"
         },
         {
           "stepId": "bacon-cook",
           "name": "Cook Bacon",
           "description": "Cook bacon, flipping occasionally until crispy",
           "startTrigger": {
-            "type": "afterStep",
-            "stepId": "bacon-prep"
+            "type": "manual",
+            "triggerName": "start-cook-bacon"
           },
           "duration": {
             "type": "variable",
@@ -106,14 +105,14 @@
           "name": "Make Toast",
           "description": "Place bread in toaster and toast until golden brown",
           "startTrigger": {
-            "type": "programStartOffset",
-            "offsetSeconds": 480
+            "type": "manual",
+            "triggerName": "start-toast"
           },
           "duration": {
             "type": "fixed",
             "seconds": 210
           },
-          "task": "toaster"
+          "task": "unknown-task"
         }
       ]
     }
@@ -123,18 +122,7 @@
       "task": "stove-burner",
       "maxConcurrent": 2,
       "description": "Maximum number of stove burners that can be used simultaneously"
-    },
-    {
-      "task": "prep-work",
-      "maxConcurrent": 2,
-      "description": "General preparation work"
-    },
-    {
-      "task": "toaster",
-      "maxConcurrent": 1,
-      "description": "Toaster usage"
     }
   ],
-  "actors": 2,
   "version": "1.0.0"
 }

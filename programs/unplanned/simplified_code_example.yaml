@@ -1,0 +1,92 @@
+description: Example program demonstrating simplified Python and bash code execution
+  in steps
+name: Simplified Code Example
+programId: simplified_code_example
+resourceConstraints: []
+tracks:
+- name: Python Code Examples
+  steps:
+  - description: Execute a simple Python calculation
+    duration:
+      seconds: 10
+      type: fixed
+    name: Simple Python Calculation
+    script: 'result = 2 + 2
+
+      print(f''The result is {result}'')
+
+      '
+    startTrigger:
+      type: programStart
+    stepId: python_simple
+    task: unknown-task
+  - description: Perform operations on a list
+    duration:
+      seconds: 15
+      type: fixed
+    name: Python List Operations
+    script: 'numbers = [1, 2, 3, 4, 5]
+
+      squared = [n**2 for n in numbers]
+
+      print(f''Original: {numbers}'')
+
+      print(f''Squared: {squared}'')
+
+      '
+    startTrigger:
+      stepId: python_simple
+      type: afterStep
+    stepId: python_list
+    task: unknown-task
+  - description: Demonstrate error handling
+    duration:
+      seconds: 5
+      type: fixed
+    name: Python Error Example
+    script: '# This will cause a division by zero error
+
+      result = 10 / 0
+
+      '
+    startTrigger:
+      triggerName: Run Error Example
+      type: manual
+    stepId: python_error
+    task: unknown-task
+  trackId: track1
+- name: Bash Script Examples
+  steps:
+  - description: Execute a simple echo command
+    duration:
+      seconds: 10
+      type: fixed
+    name: Simple Echo Command
+    shell: echo 'Hello from bash!'
+    startTrigger:
+      type: programStart
+    stepId: bash_echo
+    task: unknown-task
+  - description: List the contents of the current directory
+    duration:
+      seconds: 15
+      type: fixed
+    name: List Directory Contents
+    shell: ls -la
+    startTrigger:
+      stepId: bash_echo
+      type: afterStep
+    stepId: bash_ls
+    task: unknown-task
+  - description: Demonstrate error handling in bash commands
+    duration:
+      seconds: 5
+      type: fixed
+    name: Bash Error Example
+    shell: cat nonexistent_file.txt
+    startTrigger:
+      triggerName: Run Bash Error
+      type: manual
+    stepId: bash_error
+    task: unknown-task
+  trackId: track2

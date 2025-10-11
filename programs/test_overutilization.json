@@ -61,7 +61,7 @@
         {
           "stepId": "cook-sauce",
           "name": "Cook Tomato Sauce",
-          "description": "Sauté ingredients and simmer sauce",
+          "description": "Saut\u00e9 ingredients and simmer sauce",
           "startTrigger": {
             "type": "afterStep",
             "stepId": "prep-sauce-ingredients"
@@ -116,8 +116,7 @@
           "name": "Prepare Garlic Bread",
           "description": "Mix garlic butter and spread on bread",
           "startTrigger": {
-            "type": "programStart",
-            "offsetSeconds": 60
+            "type": "programStart"
           },
           "duration": {
             "type": "fixed",
@@ -150,8 +149,7 @@
           "name": "Rinse Rice",
           "description": "Rinse rice until water runs clear",
           "startTrigger": {
-            "type": "programStart",
-            "offsetSeconds": 120
+            "type": "programStart"
           },
           "duration": {
             "type": "fixed",

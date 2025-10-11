@@ -1,92 +1,90 @@
-programId: "time-format-stagger-example"
-name: "Time Format Stagger Example"
-description: "A schedule demonstrating staggered batch execution with flexible time formats"
 actors: 3
-startTrigger:
-  type: "manual"
-tracks:
-  - trackId: "minutes-stagger"
-    name: "Orders with Minute Stagger"
-    batch_size: 3
-    stagger: "2m"  # 2 minutes between each batch
-    steps:
-      - stepId: "order-received"
-        name: "Order Received"
-        description: "New order comes in"
-        startTrigger:
-          type: "programStart"
-        duration:
-          type: "fixed"
-          seconds: 30
-      
-      - stepId: "prepare-order"
-        name: "Prepare Order"
-        description: "Chef prepares the order"
-        startTrigger:
-          type: "afterStep"
-          stepId: "order-received"
-        duration:
-          type: "variable"
-          minSeconds: 120
-          maxSeconds: 300
-          defaultSeconds: 180
-          triggerName: "order-ready"
-        task: "chef"
-  
-  - trackId: "complex-stagger"
-    name: "Orders with Complex Stagger"
-    batch_size: 3
-    stagger: "1h30m"  # 1 hour and 30 minutes between each batch
-    steps:
-      - stepId: "special-order"
-        name: "Special Order"
-        description: "Special order comes in"
-        startTrigger:
-          type: "programStart"
-        duration:
-          type: "fixed"
-          seconds: 30
-      
-      - stepId: "prepare-special"
-        name: "Prepare Special Order"
-        description: "Chef prepares the special order"
-        startTrigger:
-          type: "afterStep"
-          stepId: "special-order"
-        duration:
-          type: "variable"
-          minSeconds: 300
-          maxSeconds: 600
-          defaultSeconds: 450
-          triggerName: "special-ready"
-        task: "chef"
-  
-  - trackId: "seconds-stagger"
-    name: "Orders with Seconds Stagger"
-    batch_size: 5
-    stagger: "30s"  # 30 seconds between each batch
-    steps:
-      - stepId: "quick-order"
-        name: "Quick Order"
-        description: "Quick order comes in"
-        startTrigger:
-          type: "programStart"
-        duration:
-          type: "fixed"
-          seconds: 15
-      
-      - stepId: "prepare-quick"
-        name: "Prepare Quick Order"
-        description: "Chef prepares the quick order"
-        startTrigger:
-          type: "afterStep"
-          stepId: "quick-order"
-        duration:
-          type: "fixed"
-          seconds: 60
-        task: "chef"
-
+description: A schedule demonstrating staggered batch execution with flexible time
+  formats
+name: Time Format Stagger Example
+programId: time-format-stagger-example
 resourceConstraints:
-  - task: "chef"
-    maxConcurrent: 2
-    description: "Only 2 chefs available to prepare orders" 
+- description: Only 2 chefs available to prepare orders
+  maxConcurrent: 2
+  task: chef
+startTrigger:
+  type: manual
+tracks:
+- batch_size: 3
+  name: Orders with Minute Stagger
+  stagger: 2m
+  steps:
+  - description: New order comes in
+    duration:
+      seconds: 30
+      type: fixed
+    name: Order Received
+    startTrigger:
+      type: programStart
+    stepId: order-received
+    task: unknown-task
+  - description: Chef prepares the order
+    duration:
+      defaultSeconds: 180
+      maxSeconds: 300
+      minSeconds: 120
+      triggerName: order-ready
+      type: variable
+    name: Prepare Order
+    startTrigger:
+      stepId: order-received
+      type: afterStep
+    stepId: prepare-order
+    task: chef
+  trackId: minutes-stagger
+- batch_size: 3
+  name: Orders with Complex Stagger
+  stagger: 1h30m
+  steps:
+  - description: Special order comes in
+    duration:
+      seconds: 30
+      type: fixed
+    name: Special Order
+    startTrigger:
+      type: programStart
+    stepId: special-order
+    task: unknown-task
+  - description: Chef prepares the special order
+    duration:
+      defaultSeconds: 450
+      maxSeconds: 600
+      minSeconds: 300
+      triggerName: special-ready
+      type: variable
+    name: Prepare Special Order
+    startTrigger:
+      stepId: special-order
+      type: afterStep
+    stepId: prepare-special
+    task: chef
+  trackId: complex-stagger
+- batch_size: 5
+  name: Orders with Seconds Stagger
+  stagger: 30s
+  steps:
+  - description: Quick order comes in
+    duration:
+      seconds: 15
+      type: fixed
+    name: Quick Order
+    startTrigger:
+      type: programStart
+    stepId: quick-order
+    task: unknown-task
+  - description: Chef prepares the quick order
+    duration:
+      seconds: 60
+      type: fixed
+    name: Prepare Quick Order
+    startTrigger:
+      stepId: quick-order
+      type: afterStep
+    stepId: prepare-quick
+    task: chef
+  trackId: seconds-stagger

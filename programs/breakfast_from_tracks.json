@@ -9,8 +9,15 @@
   },
   "metadata": {
     "source": "Composed from tracks/cooking_tracks.json",
-    "tracks_used": ["scrambled-eggs", "bacon", "toast"],
-    "customizations": ["Adjusted toast timing", "Modified egg portions"]
+    "tracks_used": [
+      "scrambled-eggs",
+      "bacon",
+      "toast"
+    ],
+    "customizations": [
+      "Adjusted toast timing",
+      "Modified egg portions"
+    ]
   },
   "tracks": [
     {
@@ -39,13 +46,18 @@
           "preBuffer": {
             "duration": "30s",
             "description": "Gather ingredients and utensils",
-            "tasks": ["prep-work"]
+            "tasks": [
+              "prep-work"
+            ]
           },
           "postBuffer": {
             "duration": "15s",
             "description": "Clean up egg shells and wipe counter",
-            "tasks": ["cleanup"]
-          }
+            "tasks": [
+              "cleanup"
+            ]
+          },
+          "task": "prep-work"
         },
         {
           "stepId": "eggs-heat-pan",
@@ -66,7 +78,9 @@
           "preBuffer": {
             "duration": "20s",
             "description": "Get large pan from cupboard and add oil",
-            "tasks": ["prep-work"]
+            "tasks": [
+              "prep-work"
+            ]
           }
         },
         {
@@ -88,7 +102,9 @@
           "postBuffer": {
             "duration": "30s",
             "description": "Turn off heat and plate the eggs",
-            "tasks": ["plating"]
+            "tasks": [
+              "plating"
+            ]
           }
         }
       ]
@@ -119,8 +135,11 @@
           "preBuffer": {
             "duration": "45s",
             "description": "Get bacon from fridge and arrange strips",
-            "tasks": ["prep-work"]
-          }
+            "tasks": [
+              "prep-work"
+            ]
+          },
+          "task": "prep-work"
         },
         {
           "stepId": "bacon-cook",
@@ -141,7 +160,10 @@
           "postBuffer": {
             "duration": "60s",
             "description": "Drain on paper towels and clean grease",
-            "tasks": ["cleanup", "plating"]
+            "tasks": [
+              "cleanup",
+              "plating"
+            ]
           }
         }
       ]
@@ -175,13 +197,18 @@
           "preBuffer": {
             "duration": "15s",
             "description": "Get bread and check toaster settings",
-            "tasks": ["prep-work"]
+            "tasks": [
+              "prep-work"
+            ]
           },
           "postBuffer": {
             "duration": "20s",
             "description": "Butter toast and plate with other items",
-            "tasks": ["plating"]
-          }
+            "tasks": [
+              "plating"
+            ]
+          },
+          "task": "prep-work"
         }
       ]
     }

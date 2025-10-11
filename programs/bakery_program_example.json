@@ -43,7 +43,8 @@
           "duration": {
             "type": "fixed",
             "seconds": 3600
-          }
+          },
+          "task": "unknown-task"
         },
         {
           "stepId": "sourdough-shape",
@@ -142,7 +143,8 @@
           "duration": {
             "type": "fixed",
             "seconds": 2700
-          }
+          },
+          "task": "unknown-task"
         },
         {
           "stepId": "baguette-shape",
@@ -241,7 +243,8 @@
           "duration": {
             "type": "fixed",
             "seconds": 3000
-          }
+          },
+          "task": "unknown-task"
         },
         {
           "stepId": "ciabatta-shape",

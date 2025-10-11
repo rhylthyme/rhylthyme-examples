@@ -1,94 +1,88 @@
-programId: "staggered-batch-example"
-name: "Staggered Batch Example"
-description: "A schedule demonstrating staggered batch execution"
 actors: 3
-startTrigger:
-  type: "manual"
-tracks:
-  - trackId: "staggered-orders"
-    name: "Staggered Food Orders"
-    batch_size: 5
-    stagger_seconds: 60
-    steps:
-      - stepId: "order-received"
-        name: "Order Received"
-        description: "New order comes in"
-        startTrigger:
-          type: "programStart"
-        duration:
-          type: "fixed"
-          seconds: 30
-      
-      - stepId: "prepare-order"
-        name: "Prepare Order"
-        description: "Chef prepares the order"
-        startTrigger:
-          type: "afterStep"
-          stepId: "order-received"
-        duration:
-          type: "variable"
-          minSeconds: 120
-          maxSeconds: 300
-          defaultSeconds: 180
-          triggerName: "order-ready"
-        task: "chef"
-      
-      - stepId: "serve-order"
-        name: "Serve Order"
-        description: "Server delivers the order to the table"
-        startTrigger:
-          type: "afterStep"
-          stepId: "prepare-order"
-        duration:
-          type: "fixed"
-          seconds: 60
-        task: "server"
-  
-  - trackId: "non-staggered-orders"
-    name: "Non-Staggered Food Orders"
-    batch_size: 5
-    # No stagger_seconds, all orders start at once
-    steps:
-      - stepId: "bulk-order-received"
-        name: "Bulk Order Received"
-        description: "Multiple orders come in at once"
-        startTrigger:
-          type: "programStartOffset"
-          offsetSeconds: 300
-        duration:
-          type: "fixed"
-          seconds: 30
-      
-      - stepId: "prepare-bulk-order"
-        name: "Prepare Bulk Order"
-        description: "Chef prepares multiple orders at once"
-        startTrigger:
-          type: "afterStep"
-          stepId: "bulk-order-received"
-        duration:
-          type: "variable"
-          minSeconds: 120
-          maxSeconds: 300
-          defaultSeconds: 180
-          triggerName: "bulk-order-ready"
-        task: "chef"
-      
-      - stepId: "serve-bulk-order"
-        name: "Serve Bulk Order"
-        description: "Server delivers multiple orders"
-        startTrigger:
-          type: "afterStep"
-          stepId: "prepare-bulk-order"
-        duration:
-          type: "fixed"
-          seconds: 60
-        task: "server"
-
+description: A schedule demonstrating staggered batch execution
+name: Staggered Batch Example
+programId: staggered-batch-example
 resourceConstraints:
-  - task: "chef"
-    maxConcurrent: 2
-    description: "Only 2 chefs available to prepare orders"
-  
-  - task: "server"
-    maxConcurrent: 3
-    description: "3 servers available to deliver orders" 
+- description: Only 2 chefs available to prepare orders
+  maxConcurrent: 2
+  task: chef
+- description: 3 servers available to deliver orders
+  maxConcurrent: 3
+  task: server
+startTrigger:
+  type: manual
+tracks:
+- batch_size: 5
+  name: Staggered Food Orders
+  stagger_seconds: 60
+  steps:
+  - description: New order comes in
+    duration:
+      seconds: 30
+      type: fixed
+    name: Order Received
+    startTrigger:
+      type: programStart
+    stepId: order-received
+    task: unknown-task
+  - description: Chef prepares the order
+    duration:
+      defaultSeconds: 180
+      maxSeconds: 300
+      minSeconds: 120
+      triggerName: order-ready
+      type: variable
+    name: Prepare Order
+    startTrigger:
+      stepId: order-received
+      type: afterStep
+    stepId: prepare-order
+    task: chef
+  - description: Server delivers the order to the table
+    duration:
+      seconds: 60
+      type: fixed
+    name: Serve Order
+    startTrigger:
+      stepId: prepare-order
+      type: afterStep
+    stepId: serve-order
+    task: server
+  trackId: staggered-orders
+- batch_size: 5
+  name: Non-Staggered Food Orders
+  steps:
+  - description: Multiple orders come in at once
+    duration:
+      seconds: 30
+      type: fixed
+    name: Bulk Order Received
+    startTrigger:
+      offsetSeconds: 300
+      type: programStartOffset
+    stepId: bulk-order-received
+    task: unknown-task
+  - description: Chef prepares multiple orders at once
+    duration:
+      defaultSeconds: 180
+      maxSeconds: 300
+      minSeconds: 120
+      triggerName: bulk-order-ready
+      type: variable
+    name: Prepare Bulk Order
+    startTrigger:
+      stepId: bulk-order-received
+      type: afterStep
+    stepId: prepare-bulk-order
+    task: chef
+  - description: Server delivers multiple orders
+    duration:
+      seconds: 60
+      type: fixed
+    name: Serve Bulk Order
+    startTrigger:
+      stepId: prepare-bulk-order
+      type: afterStep
+    stepId: serve-bulk-order
+    task: server
+  trackId: non-staggered-orders

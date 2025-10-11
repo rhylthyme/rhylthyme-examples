@@ -1,8 +1,9 @@
 {
-  "environmentId": "laboratory-research",
-  "name": "Research Laboratory",
-  "description": "Resource constraints for a multi-discipline research laboratory",
+  "environmentId": "laboratory",
+  "name": "Laboratory (Base)",
+  "description": "Base laboratory environment with multi-discipline research equipment. This is the default laboratory environment used when programs specify 'laboratory' type without a specific environment ID.",
   "type": "laboratory",
+  "isDefault": true,
   "actors": 8,
   "resourceConstraints": [
     {
@@ -180,6 +181,9 @@
     "certifications": ["ISO-17025", "GLP", "biosafety"],
     "hours": "24/7",
     "access_control": true,
+    "role": "base_environment",
+    "usage": "This is the canonical laboratory environment and serves as the default for any program that specifies 'laboratory' as the environment type.",
+    "aliases": ["research-lab", "scientific-lab", "default-laboratory"],
     "environmental_monitoring": {
       "temperature": "20-22C",
       "humidity": "30-50%",

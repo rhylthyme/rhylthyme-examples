@@ -1,0 +1,232 @@
+{
+  "programId": "kitchen-actors-example",
+  "name": "Kitchen with Multiple Cooks",
+  "description": "A restaurant kitchen with multiple cooks preparing various dishes",
+  "environmentType": "kitchen",
+  "actors": 3,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "pasta",
+      "name": "Pasta Dish",
+      "description": "Preparing pasta dishes",
+      "batch_size": 4,
+      "steps": [
+        {
+          "stepId": "pasta-prep",
+          "name": "Prep Pasta Ingredients",
+          "description": "Chop vegetables and prepare sauce ingredients",
+          "task": "prep-station",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 240,
+            "defaultSeconds": 180,
+            "triggerName": "pasta-prep-done"
+          }
+        },
+        {
+          "stepId": "pasta-boil",
+          "name": "Boil Pasta",
+          "description": "Boil pasta until al dente",
+          "task": "stove",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pasta-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          }
+        },
+        {
+          "stepId": "pasta-sauce",
+          "name": "Make Sauce",
+          "description": "Prepare the sauce while pasta is cooking",
+          "task": "stove",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pasta-prep"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 600,
+            "defaultSeconds": 450,
+            "triggerName": "sauce-done"
+          }
+        },
+        {
+          "stepId": "pasta-plate",
+          "name": "Plate Pasta",
+          "description": "Combine pasta with sauce and plate",
+          "task": "plating",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pasta-sauce"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "steak",
+      "name": "Steak Dish",
+      "description": "Preparing steak dishes",
+      "batch_size": 3,
+      "steps": [
+        {
+          "stepId": "steak-prep",
+          "name": "Prep Steak",
+          "description": "Season steak and prepare for cooking",
+          "task": "prep-station",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        },
+        {
+          "stepId": "steak-sear",
+          "name": "Sear Steak",
+          "description": "Sear steak on high heat",
+          "task": "grill",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "steak-prep"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 240,
+            "maxSeconds": 480,
+            "defaultSeconds": 360,
+            "triggerName": "steak-seared"
+          }
+        },
+        {
+          "stepId": "steak-rest",
+          "name": "Rest Steak",
+          "description": "Let steak rest before serving",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "steak-sear"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "task": "unknown-task"
+        },
+        {
+          "stepId": "steak-plate",
+          "name": "Plate Steak",
+          "description": "Plate steak with sides",
+          "task": "plating",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "steak-rest"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "dessert",
+      "name": "Dessert",
+      "description": "Preparing desserts",
+      "batch_size": 5,
+      "steps": [
+        {
+          "stepId": "dessert-prep",
+          "name": "Prep Dessert",
+          "description": "Prepare dessert ingredients",
+          "task": "prep-station",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 600
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "dessert-bake",
+          "name": "Bake Dessert",
+          "description": "Bake dessert in oven",
+          "task": "oven",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "dessert-prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          }
+        },
+        {
+          "stepId": "dessert-cool",
+          "name": "Cool Dessert",
+          "description": "Allow dessert to cool",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "dessert-bake"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "task": "unknown-task"
+        },
+        {
+          "stepId": "dessert-plate",
+          "name": "Plate Dessert",
+          "description": "Plate and garnish dessert",
+          "task": "plating",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "dessert-cool"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove",
+      "maxConcurrent": 6,
+      "description": "Six burners on the stove"
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 2,
+      "description": "Two ovens available"
+    },
+    {
+      "task": "grill",
+      "maxConcurrent": 1,
+      "description": "One grill station"
+    }
+  ],
+  "metadata": {
+    "notes": "This example demonstrates the 'actors' feature. There are 3 cooks (actors) who can work on different tasks. Tasks like 'prep-station' and 'plating' don't have explicit resource constraints, so they're limited by the number of actors (3). Other tasks like 'stove', 'oven', and 'grill' have explicit constraints based on the physical equipment available."
+  },
+  "version": "1.0.0"
+}

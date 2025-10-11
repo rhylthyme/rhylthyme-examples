@@ -1,169 +1,169 @@
-programId: optimal_duration_example
-name: Optimal Duration Example
-description: |
-  This example demonstrates how to use variable durations with optimal values
+description: 'This example demonstrates how to use variable durations with optimal
+  values
+
   for planning. The program planner will use the optimal duration values to
+
   create a more efficient schedule.
 
-tracks:
-  - trackId: track1
-    name: Data Processing
-    steps:
-      - stepId: step1_1
-        name: Data Collection
-        description: Collect data from various sources
-        priority: 10
-        tasks:
-          - network
-        startTrigger:
-          type: programStart
-        duration:
-          type: variable
-          minSeconds: 60
-          maxSeconds: 180
-          defaultSeconds: 120
-          optimalSeconds: 90
-          triggerName: data-collection-complete
-      
-      - stepId: step1_2
-        name: Data Validation
-        description: Validate collected data
-        priority: 20
-        tasks:
-          - cpu
-        startTrigger:
-          type: afterStep
-          stepId: step1_1
-        duration:
-          type: variable
-          minSeconds: 30
-          maxSeconds: 120
-          defaultSeconds: 60
-          optimalSeconds: 45
-          triggerName: validation-complete
-      
-      - stepId: step1_3
-        name: Data Processing
-        description: Process validated data
-        priority: 30
-        tasks:
-          - cpu
-          - memory
-        startTrigger:
-          type: afterStep
-          stepId: step1_2
-        duration:
-          type: variable
-          minSeconds: 120
-          maxSeconds: 300
-          defaultSeconds: 240
-          optimalSeconds: 180
-          triggerName: processing-complete
-
-  - trackId: track2
-    name: Reporting
-    steps:
-      - stepId: step2_1
-        name: Report Template Preparation
-        description: Prepare report templates
-        priority: 40
-        tasks:
-          - cpu
-        startTrigger:
-          type: programStart
-        duration:
-          type: variable
-          minSeconds: 45
-          maxSeconds: 90
-          defaultSeconds: 60
-          optimalSeconds: 60
-          triggerName: templates-ready
-      
-      - stepId: step2_2
-        name: Data Visualization
-        description: Create visualizations for the report
-        priority: 50
-        tasks:
-          - cpu
-          - memory
-        startTrigger:
-          type: afterStep
-          stepId: step2_1
-        duration:
-          type: variable
-          minSeconds: 90
-          maxSeconds: 240
-          defaultSeconds: 180
-          optimalSeconds: 120
-          triggerName: visualizations-ready
-      
-      - stepId: step2_3
-        name: Report Generation
-        description: Generate final report
-        priority: 60
-        tasks:
-          - cpu
-          - disk_io
-        startTrigger:
-          type: afterStep
-          stepId: step2_2
-        duration:
-          type: variable
-          minSeconds: 60
-          maxSeconds: 180
-          defaultSeconds: 120
-          optimalSeconds: 90
-          triggerName: report-complete
-
-  - trackId: track3
-    name: Notification
-    steps:
-      - stepId: step3_1
-        name: Email Preparation
-        description: Prepare email notifications
-        priority: 70
-        tasks:
-          - cpu
-        startTrigger:
-          type: programStart
-        duration:
-          type: variable
-          minSeconds: 30
-          maxSeconds: 90
-          defaultSeconds: 60
-          optimalSeconds: 45
-          triggerName: emails-ready
-      
-      - stepId: step3_2
-        name: Send Notifications
-        description: Send email notifications
-        priority: 80
-        tasks:
-          - network
-        startTrigger:
-          type: afterStep
-          stepId: step3_1
-        duration:
-          type: variable
-          minSeconds: 15
-          maxSeconds: 120
-          defaultSeconds: 60
-          optimalSeconds: 30
-          triggerName: notifications-sent
-
+  '
+name: Optimal Duration Example
+programId: optimal_duration_example
 resourceConstraints:
-  - task: cpu
-    maxConcurrent: 2
-    description: Maximum number of CPU-intensive tasks that can run concurrently
-  
-  - task: memory
-    maxConcurrent: 2
-    description: Maximum number of memory-intensive tasks that can run concurrently
-  
-  - task: network
-    maxConcurrent: 1
-    description: Maximum number of network-intensive tasks that can run concurrently
-  
-  - task: disk_io
-    maxConcurrent: 1
-    description: Maximum number of disk I/O-intensive tasks that can run concurrently 
+- description: Maximum number of CPU-intensive tasks that can run concurrently
+  maxConcurrent: 2
+  task: cpu
+- description: Maximum number of memory-intensive tasks that can run concurrently
+  maxConcurrent: 2
+  task: memory
+- description: Maximum number of network-intensive tasks that can run concurrently
+  maxConcurrent: 1
+  task: network
+- description: Maximum number of disk I/O-intensive tasks that can run concurrently
+  maxConcurrent: 1
+  task: disk_io
+tracks:
+- name: Data Processing
+  steps:
+  - description: Collect data from various sources
+    duration:
+      defaultSeconds: 120
+      maxSeconds: 180
+      minSeconds: 60
+      optimalSeconds: 90
+      triggerName: data-collection-complete
+      type: variable
+    name: Data Collection
+    priority: 10
+    startTrigger:
+      type: programStart
+    stepId: step1_1
+    task: network
+    tasks:
+    - network
+  - description: Validate collected data
+    duration:
+      defaultSeconds: 60
+      maxSeconds: 120
+      minSeconds: 30
+      optimalSeconds: 45
+      triggerName: validation-complete
+      type: variable
+    name: Data Validation
+    priority: 20
+    startTrigger:
+      stepId: step1_1
+      type: afterStep
+    stepId: step1_2
+    task: cpu
+    tasks:
+    - cpu
+  - description: Process validated data
+    duration:
+      defaultSeconds: 240
+      maxSeconds: 300
+      minSeconds: 120
+      optimalSeconds: 180
+      triggerName: processing-complete
+      type: variable
+    name: Data Processing
+    priority: 30
+    startTrigger:
+      stepId: step1_2
+      type: afterStep
+    stepId: step1_3
+    task: cpu
+    tasks:
+    - cpu
+    - memory
+  trackId: track1
+- name: Reporting
+  steps:
+  - description: Prepare report templates
+    duration:
+      defaultSeconds: 60
+      maxSeconds: 90
+      minSeconds: 45
+      optimalSeconds: 60
+      triggerName: templates-ready
+      type: variable
+    name: Report Template Preparation
+    priority: 40
+    startTrigger:
+      type: programStart
+    stepId: step2_1
+    task: cpu
+    tasks:
+    - cpu
+  - description: Create visualizations for the report
+    duration:
+      defaultSeconds: 180
+      maxSeconds: 240
+      minSeconds: 90
+      optimalSeconds: 120
+      triggerName: visualizations-ready
+      type: variable
+    name: Data Visualization
+    priority: 50
+    startTrigger:
+      stepId: step2_1
+      type: afterStep
+    stepId: step2_2
+    task: cpu
+    tasks:
+    - cpu
+    - memory
+  - description: Generate final report
+    duration:
+      defaultSeconds: 120
+      maxSeconds: 180
+      minSeconds: 60
+      optimalSeconds: 90
+      triggerName: report-complete
+      type: variable
+    name: Report Generation
+    priority: 60
+    startTrigger:
+      stepId: step2_2
+      type: afterStep
+    stepId: step2_3
+    task: cpu
+    tasks:
+    - cpu
+    - disk_io
+  trackId: track2
+- name: Notification
+  steps:
+  - description: Prepare email notifications
+    duration:
+      defaultSeconds: 60
+      maxSeconds: 90
+      minSeconds: 30
+      optimalSeconds: 45
+      triggerName: emails-ready
+      type: variable
+    name: Email Preparation
+    priority: 70
+    startTrigger:
+      type: programStart
+    stepId: step3_1
+    task: cpu
+    tasks:
+    - cpu
+  - description: Send email notifications
+    duration:
+      defaultSeconds: 60
+      maxSeconds: 120
+      minSeconds: 15
+      optimalSeconds: 30
+      triggerName: notifications-sent
+      type: variable
+    name: Send Notifications
+    priority: 80
+    startTrigger:
+      stepId: step3_1
+      type: afterStep
+    stepId: step3_2
+    task: network
+    tasks:
+    - network
+  trackId: track3

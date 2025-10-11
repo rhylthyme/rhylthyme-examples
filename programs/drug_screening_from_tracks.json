@@ -9,9 +9,17 @@
   },
   "metadata": {
     "source": "Composed from tracks/laboratory_tracks.json",
-    "tracks_used": ["cell-culture-prep", "drug-treatment", "viability-assay"],
+    "tracks_used": [
+      "cell-culture-prep",
+      "drug-treatment",
+      "viability-assay"
+    ],
     "experiment_type": "drug_screening",
-    "customizations": ["96-well format", "HeLa cell line", "MTT assay"]
+    "customizations": [
+      "96-well format",
+      "HeLa cell line",
+      "MTT assay"
+    ]
   },
   "tracks": [
     {
@@ -68,12 +76,16 @@
             "type": "fixed",
             "seconds": 1200
           },
-          "tasks": ["tissue-culture", "cell-counter"]
+          "tasks": [
+            "tissue-culture",
+            "cell-counter"
+          ],
+          "task": "tissue-culture"
         },
         {
           "stepId": "incubate-overnight",
           "name": "Overnight Incubation",
-          "description": "Incubate cells overnight at 37°C, 5% CO2 to allow attachment",
+          "description": "Incubate cells overnight at 37\u00b0C, 5% CO2 to allow attachment",
           "startTrigger": {
             "type": "afterStep",
             "stepId": "plate-cells"
@@ -94,7 +106,7 @@
         "source_track": "laboratory_tracks.json:drug-treatment",
         "parameters": {
           "compound_name": "Novel Anticancer Compound X",
-          "concentration_range": "0.01-100 μM",
+          "concentration_range": "0.01-100 \u03bcM",
           "treatment_duration": 48
         }
       },
@@ -102,7 +114,7 @@
         {
           "stepId": "prep-compounds",
           "name": "Prepare Test Compounds",
-          "description": "Prepare 8-point dose-response serial dilutions (0.01-100 μM) in culture media",
+          "description": "Prepare 8-point dose-response serial dilutions (0.01-100 \u03bcM) in culture media",
           "startTrigger": {
             "type": "afterStep",
             "stepId": "incubate-overnight"
@@ -130,7 +142,7 @@
         {
           "stepId": "treatment-incubation",
           "name": "48h Treatment Incubation",
-          "description": "Incubate cells with treatments for 48 hours at 37°C, 5% CO2",
+          "description": "Incubate cells with treatments for 48 hours at 37\u00b0C, 5% CO2",
           "startTrigger": {
             "type": "afterStep",
             "stepId": "treat-cells"
@@ -158,7 +170,7 @@
         {
           "stepId": "add-viability-reagent",
           "name": "Add MTT Reagent",
-          "description": "Add MTT reagent to all wells (10 μL of 5 mg/mL MTT)",
+          "description": "Add MTT reagent to all wells (10 \u03bcL of 5 mg/mL MTT)",
           "startTrigger": {
             "type": "afterStep",
             "stepId": "treatment-incubation"

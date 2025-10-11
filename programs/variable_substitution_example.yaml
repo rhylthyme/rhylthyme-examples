@@ -1,86 +1,104 @@
-programId: variable_substitution_example
-name: Variable Substitution Example
 description: Example program demonstrating variable substitution in code blocks
+name: Variable Substitution Example
+programId: variable_substitution_example
+resourceConstraints: []
 tracks:
-  - trackId: python_track
-    name: Python Variable Examples
-    steps:
-      - stepId: python_vars
-        name: Python Variable Access
-        description: Demonstrate accessing step variables in Python code
-        priority: 50
-        customField: This is a custom field value
-        startTrigger:
-          type: programStart
-        duration:
-          type: fixed
-          seconds: 10
-        script: |
-          # Access standard step properties
-          print(f"Step ID: {rhyl.stepId}")
-          print(f"Step Name: {rhyl.name}")
-          print(f"Track ID: {rhyl.trackId}")
-          print(f"Description: {rhyl.description}")
-          print(f"Status: {rhyl.status}")
-          
-          # Access custom fields
-          print(f"Priority: {rhyl.priority}")
-          print(f"Custom Field: {rhyl.customField}")
-          
-          # Use variables in calculations
-          step_name_length = len(rhyl.name)
-          print(f"The step name has {step_name_length} characters")
-      
-      - stepId: python_conditional
-        name: Python Conditional Logic
-        description: Use step variables in conditional logic
-        condition: True
-        startTrigger:
-          type: afterStep
-          stepId: python_vars
-        duration:
-          type: fixed
-          seconds: 5
-        script: |
-          # Use step variables in conditional logic
-          if rhyl.condition:
-              print(f"Condition is True for step {rhyl.name}")
-          else:
-              print(f"Condition is False for step {rhyl.name}")
-  
-  - trackId: shell_track
-    name: Shell Variable Examples
-    steps:
-      - stepId: shell_vars
-        name: Shell Variable Access
-        description: Demonstrate accessing step variables in shell commands
-        environment: production
-        startTrigger:
-          type: programStart
-        duration:
-          type: fixed
-          seconds: 10
-        shell: |
-          echo "Step ID: {rhyl.stepId}"
-          echo "Step Name: {rhyl.name}"
-          echo "Track ID: {rhyl.trackId}"
-          echo "Description: {rhyl.description}"
-          echo "Environment: {rhyl.environment}"
-      
-      - stepId: shell_filename
-        name: Shell Filename Generation
-        description: Use step variables to generate filenames
-        filePrefix: data
-        startTrigger:
-          type: afterStep
-          stepId: shell_vars
-        duration:
-          type: fixed
-          seconds: 5
-        shell: |
-          # Create a filename using step variables
-          echo "Creating file: {rhyl.filePrefix}_{rhyl.stepId}.txt"
-          echo "This file was created by step {rhyl.name}" > {rhyl.filePrefix}_{rhyl.stepId}.txt
-          ls -la {rhyl.filePrefix}_{rhyl.stepId}.txt
+- name: Python Variable Examples
+  steps:
+  - customField: This is a custom field value
+    description: Demonstrate accessing step variables in Python code
+    duration:
+      seconds: 10
+      type: fixed
+    name: Python Variable Access
+    priority: 50
+    script: '# Access standard step properties
 
-resourceConstraints: [] 
+      print(f"Step ID: {rhyl.stepId}")
+
+      print(f"Step Name: {rhyl.name}")
+
+      print(f"Track ID: {rhyl.trackId}")
+
+      print(f"Description: {rhyl.description}")
+
+      print(f"Status: {rhyl.status}")
+
+
+      # Access custom fields
+
+      print(f"Priority: {rhyl.priority}")
+
+      print(f"Custom Field: {rhyl.customField}")
+
+
+      # Use variables in calculations
+
+      step_name_length = len(rhyl.name)
+
+      print(f"The step name has {step_name_length} characters")
+
+      '
+    startTrigger:
+      type: programStart
+    stepId: python_vars
+    task: unknown-task
+  - condition: true
+    description: Use step variables in conditional logic
+    duration:
+      seconds: 5
+      type: fixed
+    name: Python Conditional Logic
+    script: "# Use step variables in conditional logic\nif rhyl.condition:\n    print(f\"\
+      Condition is True for step {rhyl.name}\")\nelse:\n    print(f\"Condition is\
+      \ False for step {rhyl.name}\")\n"
+    startTrigger:
+      stepId: python_vars
+      type: afterStep
+    stepId: python_conditional
+    task: unknown-task
+  trackId: python_track
+- name: Shell Variable Examples
+  steps:
+  - description: Demonstrate accessing step variables in shell commands
+    duration:
+      seconds: 10
+      type: fixed
+    environment: production
+    name: Shell Variable Access
+    shell: 'echo "Step ID: {rhyl.stepId}"
+
+      echo "Step Name: {rhyl.name}"
+
+      echo "Track ID: {rhyl.trackId}"
+
+      echo "Description: {rhyl.description}"
+
+      echo "Environment: {rhyl.environment}"
+
+      '
+    startTrigger:
+      type: programStart
+    stepId: shell_vars
+    task: unknown-task
+  - description: Use step variables to generate filenames
+    duration:
+      seconds: 5
+      type: fixed
+    filePrefix: data
+    name: Shell Filename Generation
+    shell: '# Create a filename using step variables
+
+      echo "Creating file: {rhyl.filePrefix}_{rhyl.stepId}.txt"
+
+      echo "This file was created by step {rhyl.name}" > {rhyl.filePrefix}_{rhyl.stepId}.txt
+
+      ls -la {rhyl.filePrefix}_{rhyl.stepId}.txt
+
+      '
+    startTrigger:
+      stepId: shell_vars
+      type: afterStep
+    stepId: shell_filename
+    task: unknown-task
+  trackId: shell_track
