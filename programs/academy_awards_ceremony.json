@@ -687,10 +687,10 @@
         {
           "stepId": "commercial-break-1",
           "name": "Commercial Break 1",
-          "description": "First commercial break after opening host segment",
+          "description": "First commercial break after opening",
           "startTrigger": {
             "type": "afterStep",
-            "stepId": "host-segment-1"
+            "stepId": "awards-intro-monologue"
           },
           "duration": {
             "type": "fixed",
@@ -843,9 +843,8 @@
   ],
   "resourceConstraints": [
     {
-      "name": "broadcast",
+      "task": "broadcast",
       "description": "Live television broadcast - only one segment can be on air at a time",
-      "task": "unknown-task",
       "maxConcurrent": 1
     }
   ]

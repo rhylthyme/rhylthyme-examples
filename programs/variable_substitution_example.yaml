@@ -1,7 +1,10 @@
 description: Example program demonstrating variable substitution in code blocks
 name: Variable Substitution Example
 programId: variable_substitution_example
-resourceConstraints: []
+resourceConstraints:
+- task: manual-labor
+  maxConcurrent: 5
+  description: Manual tasks that don't require specific equipment
 tracks:
 - name: Python Variable Examples
   steps:
@@ -42,7 +45,7 @@ tracks:
     startTrigger:
       type: programStart
     stepId: python_vars
-    task: unknown-task
+    task: manual-labor
   - condition: true
     description: Use step variables in conditional logic
     duration:
@@ -56,7 +59,7 @@ tracks:
       stepId: python_vars
       type: afterStep
     stepId: python_conditional
-    task: unknown-task
+    task: manual-labor
   trackId: python_track
 - name: Shell Variable Examples
   steps:
@@ -80,7 +83,7 @@ tracks:
     startTrigger:
       type: programStart
     stepId: shell_vars
-    task: unknown-task
+    task: manual-labor
   - description: Use step variables to generate filenames
     duration:
       seconds: 5
@@ -100,5 +103,5 @@ tracks:
       stepId: shell_vars
       type: afterStep
     stepId: shell_filename
-    task: unknown-task
+    task: manual-labor
   trackId: shell_track

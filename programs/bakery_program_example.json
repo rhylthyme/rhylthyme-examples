@@ -44,7 +44,7 @@
             "type": "fixed",
             "seconds": 3600
           },
-          "task": "unknown-task"
+          "task": "manual-labor"
         },
         {
           "stepId": "sourdough-shape",
@@ -144,7 +144,7 @@
             "type": "fixed",
             "seconds": 2700
           },
-          "task": "unknown-task"
+          "task": "manual-labor"
         },
         {
           "stepId": "baguette-shape",
@@ -244,7 +244,7 @@
             "type": "fixed",
             "seconds": 3000
           },
-          "task": "unknown-task"
+          "task": "manual-labor"
         },
         {
           "stepId": "ciabatta-shape",
@@ -334,6 +334,11 @@
       "task": "cooling-rack",
       "maxConcurrent": 8,
       "description": "Cooling racks for finished bread"
+    },
+    {
+      "task": "manual-labor",
+      "maxConcurrent": 5,
+      "description": "Manual tasks that don't require specific equipment"
     }
   ],
   "trackTemplates": [

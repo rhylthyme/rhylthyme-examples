@@ -277,6 +277,7 @@ All examples conform to the [Rhylthyme Schema](https://github.com/rhylthyme/rhyl
 
 - **[rhylthyme-spec](https://github.com/rhylthyme/rhylthyme-spec)** - Schema definitions and specifications
 - **[rhylthyme-cli-runner](https://github.com/rhylthyme/rhylthyme-cli-runner)** - Command-line interface and runner
+- **[rhylthyme-web](https://github.com/rhylthyme/rhylthyme-web)** - Web-based interface
 
 ## License
 
