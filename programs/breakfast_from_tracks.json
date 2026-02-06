@@ -133,8 +133,15 @@
             "seconds": 90
           },
           "preBuffer": {
-            "duration": "45s",
-            "description": "Get bacon from fridge and arrange strips",
+            "duration": "30s",
+            "description": "Get bacon from fridge",
+            "tasks": [
+              "prep-work"
+            ]
+          },
+          "postBuffer": {
+            "duration": "15s",
+            "description": "Arrange strips in pan",
             "tasks": [
               "prep-work"
             ]
