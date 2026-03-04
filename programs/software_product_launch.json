@@ -1,0 +1,442 @@
+{
+  "programId": "software_product_launch",
+  "name": "SaaS Product Launch - Q1 2024",
+  "description": "Complete end-to-end software product launch including development, testing, marketing, and operations deployment over 3 weeks",
+  "version": "0.1.0-alpha",
+  "tracks": [
+    {
+      "trackId": "engineering",
+      "name": "Engineering Track",
+      "priority": 90,
+      "steps": [
+        {
+          "stepId": "feature_freeze",
+          "name": "Feature Freeze & Code Review",
+          "duration": {
+            "type": "fixed",
+            "seconds": 28800
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "task": "code_review"
+        },
+        {
+          "stepId": "integration_testing",
+          "name": "Integration Testing Suite",
+          "duration": {
+            "type": "fixed",
+            "seconds": 57600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "feature_freeze"
+          },
+          "task": "testing"
+        },
+        {
+          "stepId": "performance_optimization",
+          "name": "Performance Tuning & Load Testing",
+          "duration": {
+            "type": "fixed",
+            "seconds": 86400
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "integration_testing"
+          },
+          "task": "optimization"
+        },
+        {
+          "stepId": "security_audit",
+          "name": "Security Penetration Testing",
+          "duration": {
+            "type": "variable",
+            "defaultSeconds": 43200,
+            "minSeconds": 28800,
+            "maxSeconds": 86400,
+            "triggerName": "security_approval"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "integration_testing"
+          },
+          "task": "security_audit"
+        },
+        {
+          "stepId": "production_deployment",
+          "name": "Production Environment Deployment",
+          "duration": {
+            "type": "manual",
+            "defaultSeconds": 14400
+          },
+          "startTrigger": {
+            "type": "manual"
+          },
+          "task": "deployment"
+        },
+        {
+          "stepId": "monitoring_setup",
+          "name": "Production Monitoring & Alerts Setup",
+          "duration": {
+            "type": "fixed",
+            "seconds": 21600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "production_deployment"
+          },
+          "task": "monitoring"
+        }
+      ]
+    },
+    {
+      "trackId": "design",
+      "name": "Design & UX Track",
+      "priority": 85,
+      "steps": [
+        {
+          "stepId": "final_ui_polish",
+          "name": "Final UI Polish & Accessibility Review",
+          "duration": {
+            "type": "fixed",
+            "seconds": 43200
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "task": "design"
+        },
+        {
+          "stepId": "user_testing",
+          "name": "User Acceptance Testing Sessions",
+          "duration": {
+            "type": "variable",
+            "defaultSeconds": 72000,
+            "minSeconds": 43200,
+            "maxSeconds": 129600,
+            "triggerName": "user_feedback_complete"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "final_ui_polish"
+          },
+          "task": "user_testing"
+        },
+        {
+          "stepId": "design_documentation",
+          "name": "Design System Documentation",
+          "duration": {
+            "type": "fixed",
+            "seconds": 28800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "user_testing"
+          },
+          "task": "documentation"
+        },
+        {
+          "stepId": "onboarding_flow",
+          "name": "User Onboarding Flow Creation",
+          "duration": {
+            "type": "fixed",
+            "seconds": 57600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "design_documentation"
+          },
+          "task": "design"
+        }
+      ]
+    },
+    {
+      "trackId": "marketing",
+      "name": "Marketing & Growth Track",
+      "priority": 80,
+      "steps": [
+        {
+          "stepId": "content_creation",
+          "name": "Launch Content Creation (Blog, Videos, Demos)",
+          "duration": {
+            "type": "fixed",
+            "seconds": 172800
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "task": "content_creation"
+        },
+        {
+          "stepId": "influencer_outreach",
+          "name": "Industry Influencer Outreach Campaign",
+          "duration": {
+            "type": "fixed",
+            "seconds": 259200
+          },
+          "startTrigger": {
+            "type": "programStart",
+            "offsetSeconds": 43200
+          },
+          "task": "outreach"
+        },
+        {
+          "stepId": "press_kit",
+          "name": "Press Kit & Media Asset Preparation",
+          "duration": {
+            "type": "fixed",
+            "seconds": 86400
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "content_creation"
+          },
+          "task": "press"
+        },
+        {
+          "stepId": "beta_program",
+          "name": "Private Beta Program Launch",
+          "duration": {
+            "type": "manual",
+            "defaultSeconds": 345600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "user_testing"
+          },
+          "task": "beta_management"
+        },
+        {
+          "stepId": "launch_announcement",
+          "name": "Public Launch Announcement",
+          "duration": {
+            "type": "manual",
+            "defaultSeconds": 3600
+          },
+          "startTrigger": {
+            "type": "manual"
+          },
+          "task": "announcement"
+        },
+        {
+          "stepId": "social_media_campaign",
+          "name": "Social Media Launch Campaign",
+          "duration": {
+            "type": "indefinite"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "launch_announcement"
+          },
+          "task": "social_media"
+        }
+      ]
+    },
+    {
+      "trackId": "operations",
+      "name": "Operations & Infrastructure Track",
+      "priority": 95,
+      "steps": [
+        {
+          "stepId": "infrastructure_scaling",
+          "name": "Auto-scaling Infrastructure Setup",
+          "duration": {
+            "type": "fixed",
+            "seconds": 57600
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "task": "infrastructure"
+        },
+        {
+          "stepId": "backup_procedures",
+          "name": "Backup & Disaster Recovery Setup",
+          "duration": {
+            "type": "fixed",
+            "seconds": 43200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "infrastructure_scaling"
+          },
+          "task": "backup_setup"
+        },
+        {
+          "stepId": "support_training",
+          "name": "Customer Support Team Training",
+          "duration": {
+            "type": "fixed",
+            "seconds": 86400
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "onboarding_flow"
+          },
+          "task": "training"
+        },
+        {
+          "stepId": "analytics_setup",
+          "name": "Analytics & Reporting Dashboard Setup",
+          "duration": {
+            "type": "fixed",
+            "seconds": 28800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "backup_procedures"
+          },
+          "task": "analytics"
+        },
+        {
+          "stepId": "go_live_checklist",
+          "name": "Final Go-Live Checklist Review",
+          "duration": {
+            "type": "manual",
+            "defaultSeconds": 7200
+          },
+          "startTrigger": {
+            "type": "manual"
+          },
+          "task": "checklist_review"
+        }
+      ]
+    },
+    {
+      "trackId": "business",
+      "name": "Business & Legal Track",
+      "priority": 75,
+      "steps": [
+        {
+          "stepId": "pricing_finalization",
+          "name": "Pricing Strategy Finalization",
+          "duration": {
+            "type": "variable",
+            "defaultSeconds": 86400,
+            "minSeconds": 43200,
+            "maxSeconds": 172800,
+            "triggerName": "executive_approval"
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "task": "strategy"
+        },
+        {
+          "stepId": "legal_compliance",
+          "name": "Legal & Compliance Review",
+          "duration": {
+            "type": "fixed",
+            "seconds": 129600
+          },
+          "startTrigger": {
+            "type": "programStart",
+            "offsetSeconds": 28800
+          },
+          "task": "legal_review"
+        },
+        {
+          "stepId": "partnership_agreements",
+          "name": "Partnership & Integration Agreements",
+          "duration": {
+            "type": "variable",
+            "defaultSeconds": 172800,
+            "minSeconds": 86400,
+            "maxSeconds": 345600,
+            "triggerName": "partner_signatures"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pricing_finalization"
+          },
+          "task": "partnerships"
+        },
+        {
+          "stepId": "financial_setup",
+          "name": "Payment Processing & Billing Setup",
+          "duration": {
+            "type": "fixed",
+            "seconds": 57600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "legal_compliance"
+          },
+          "task": "financial_setup"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "name": "senior_engineer",
+      "capacity": 2,
+      "description": "Senior software engineers for code review and deployment"
+    },
+    {
+      "name": "designer",
+      "capacity": 1,
+      "description": "Lead designer for UI/UX work"
+    },
+    {
+      "name": "marketing_manager",
+      "capacity": 1,
+      "description": "Marketing manager for campaigns and outreach"
+    },
+    {
+      "name": "devops_engineer",
+      "capacity": 1,
+      "description": "DevOps engineer for infrastructure and deployment"
+    },
+    {
+      "name": "legal_counsel",
+      "capacity": 1,
+      "description": "Legal counsel for compliance and agreements"
+    }
+  ],
+  "actors": [
+    {
+      "actorId": "engineering_lead",
+      "name": "Engineering Lead",
+      "tasks": ["code_review", "testing", "optimization", "deployment", "monitoring"]
+    },
+    {
+      "actorId": "design_lead",
+      "name": "Design Lead",
+      "tasks": ["design", "user_testing", "documentation"]
+    },
+    {
+      "actorId": "marketing_director",
+      "name": "Marketing Director",
+      "tasks": ["content_creation", "outreach", "press", "beta_management", "announcement", "social_media"]
+    },
+    {
+      "actorId": "devops_lead",
+      "name": "DevOps Lead",
+      "tasks": ["infrastructure", "backup_setup", "analytics", "monitoring"]
+    },
+    {
+      "actorId": "support_manager",
+      "name": "Support Manager",
+      "tasks": ["training", "checklist_review"]
+    },
+    {
+      "actorId": "business_lead",
+      "name": "Business Lead",
+      "tasks": ["strategy", "partnerships", "financial_setup"]
+    },
+    {
+      "actorId": "legal_counsel",
+      "name": "Legal Counsel",
+      "tasks": ["legal_review", "partnerships"]
+    }
+  ],
+  "duration": {
+    "type": "calculated"
+  },
+  "targetDuration": {
+    "type": "flexible",
+    "seconds": 1814400
+  }
+}

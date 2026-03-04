@@ -251,6 +251,21 @@ rhylthyme run optimized_program.json
 - ✅ **Resource Constraints** - Equipment and space limits
 - ✅ **Metadata** - Additional environment information
 
+## Notebook Examples
+
+Interactive notebooks that embed the Rhylthyme D3 timeline visualization inline.
+
+- **`rhylthyme_notebook_example.ipynb`** - Jupyter notebook: load an example program and build one from scratch, rendered as interactive timelines
+- **`rhylthyme_marimo_example.py`** - Marimo notebook: same examples using `mo.iframe()` for reactive, script-enabled embedding
+
+```bash
+# Jupyter
+jupyter notebook rhylthyme_notebook_example.ipynb
+
+# Marimo
+marimo edit rhylthyme_marimo_example.py
+```
+
 ## Contributing
 
 To add new examples:
@@ -271,7 +286,7 @@ To add new examples:
 
 ## Schema Reference
 
-All examples conform to the [Rhylthyme Schema](https://github.com/rhylthyme/rhylthyme-spec) version 0.1.0-alpha.
+All examples conform to the [Rhylthyme Schema](https://github.com/rhylthyme/rhylthyme-spec) version 0.1.0.
 
 ## Related Repositories
 

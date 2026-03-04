@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "comprehensive-example",
   "name": "Comprehensive Kitchen Workflow",
   "description": "Comprehensive example demonstrating multiple kitchen workflow features and coordination",
@@ -62,6 +63,7 @@
           },
           "duration": {
             "type": "indefinite",
+            "defaultSeconds": 120,
             "triggerName": "end-step-3"
           },
           "metadata": {

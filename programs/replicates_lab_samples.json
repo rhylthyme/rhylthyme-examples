@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "lab-sample-processing",
+  "name": "Lab Sample Processing (3 Samples)",
+  "description": "Process 3 blood samples through centrifuge and analysis — step-level parallel replicates for centrifugation",
+  "environmentType": "laboratory",
+  "tracks": [
+    {
+      "trackId": "sample-processing",
+      "name": "Sample Processing",
+      "steps": [
+        {
+          "stepId": "label-tubes",
+          "name": "Label Tubes",
+          "task": "prep-work",
+          "description": "Label all sample tubes with patient IDs",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "centrifuge",
+          "name": "Centrifuge",
+          "task": "centrifuge",
+          "description": "Spin sample at 3000 RPM for 10 minutes",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "label-tubes" },
+          "replicates": { "count": 3, "mode": "parallel" }
+        },
+        {
+          "stepId": "analyze",
+          "name": "Run Analysis",
+          "task": "analyzer",
+          "description": "Run CBC panel on separated sample",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "centrifuge" }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    { "task": "prep-work", "maxConcurrent": 2, "description": "Lab bench space" },
+    { "task": "centrifuge", "maxConcurrent": 3, "description": "3-slot centrifuge" },
+    { "task": "analyzer", "maxConcurrent": 1, "description": "Single hematology analyzer" }
+  ]
+}

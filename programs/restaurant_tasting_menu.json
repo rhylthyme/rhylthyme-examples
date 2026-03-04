@@ -1,0 +1,335 @@
+{
+  "schemaVersion": "0.1.0-alpha",
+  "programId": "restaurant-tasting-menu",
+  "name": "7-Course Restaurant Tasting Menu",
+  "description": "Fine dining tasting menu service for 12 guests: amuse-bouche, scallops, soup, fish, beef, cheese, dessert — perfectly timed service every 20 minutes",
+  "environmentType": "kitchen",
+  "resourceConstraints": [
+    { "task": "oven", "maxConcurrent": 2, "description": "Two ovens available" },
+    { "task": "stovetop-burner", "maxConcurrent": 6, "description": "6 burners on range" },
+    { "task": "grill", "maxConcurrent": 1, "description": "Single grill station" },
+    { "task": "prep-station", "maxConcurrent": 3, "description": "3 prep stations available" },
+    { "task": "plating-station", "maxConcurrent": 2, "description": "2 plating areas" }
+  ],
+  "actors": 4,
+  "tracks": [
+    {
+      "trackId": "amuse-bouche",
+      "name": "Amuse-Bouche: Oyster Foam",
+      "steps": [
+        {
+          "stepId": "prepare-oyster-foam",
+          "name": "Prepare Oyster Foam",
+          "task": "prep-station",
+          "description": "Shuck oysters, blend with cream, charge in siphon",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "plate-amuse-bouche",
+          "name": "Plate Amuse-Bouche",
+          "task": "plating-station",
+          "description": "Dispense foam into spoons, garnish with chives",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "prepare-oyster-foam", "offsetSeconds": 1800 }
+        }
+      ]
+    },
+    {
+      "trackId": "appetizer",
+      "name": "1st Course: Pan-Seared Scallops",
+      "steps": [
+        {
+          "stepId": "prep-scallops",
+          "name": "Prep Scallops",
+          "task": "prep-station",
+          "description": "Remove scallops from shell, clean, season",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 600 }
+        },
+        {
+          "stepId": "make-cauliflower-puree",
+          "name": "Make Cauliflower Purée",
+          "task": "stovetop-burner",
+          "description": "Cook cauliflower, blend until smooth, pass through sieve",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "prep-scallops" }
+        },
+        {
+          "stepId": "sear-scallops",
+          "name": "Sear Scallops",
+          "task": "stovetop-burner",
+          "description": "Sear scallops in hot pan, 2 minutes per side",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "afterStep", "stepId": "plate-amuse-bouche", "offsetSeconds": 900 }
+        },
+        {
+          "stepId": "plate-scallops",
+          "name": "Plate Scallops",
+          "task": "plating-station",
+          "description": "Warm purée, plate with scallops and microgreens",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "sear-scallops" }
+        }
+      ]
+    },
+    {
+      "trackId": "soup",
+      "name": "2nd Course: Lobster Bisque",
+      "steps": [
+        {
+          "stepId": "make-lobster-stock",
+          "name": "Make Lobster Stock",
+          "task": "stovetop-burner",
+          "description": "Roast lobster shells, simmer with aromatics for rich stock",
+          "duration": { "type": "fixed", "seconds": 2400 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 1200 }
+        },
+        {
+          "stepId": "prepare-bisque",
+          "name": "Prepare Bisque",
+          "task": "stovetop-burner",
+          "description": "Strain stock, reduce, finish with cream and cognac",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "make-lobster-stock" }
+        },
+        {
+          "stepId": "serve-bisque",
+          "name": "Serve Bisque",
+          "task": "plating-station",
+          "description": "Pour bisque into bowls, garnish with lobster and herbs",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "plate-scallops", "offsetSeconds": 1200 },
+              { "type": "afterStep", "stepId": "prepare-lobster-garnish" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "soup-garnish",
+      "name": "Soup Garnish Prep",
+      "steps": [
+        {
+          "stepId": "prepare-lobster-garnish",
+          "name": "Prepare Lobster Garnish",
+          "task": "prep-station",
+          "description": "Dice cooked lobster tail for garnish",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "make-lobster-stock", "offsetSeconds": 900 }
+        }
+      ]
+    },
+    {
+      "trackId": "fish-course",
+      "name": "3rd Course: Halibut with Beurre Blanc",
+      "steps": [
+        {
+          "stepId": "prep-halibut",
+          "name": "Prep Halibut",
+          "task": "prep-station",
+          "description": "Portion halibut fillets, season, score skin",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 2400 }
+        },
+        {
+          "stepId": "prepare-vegetables",
+          "name": "Prepare Vegetables",
+          "task": "prep-station",
+          "description": "Blanch asparagus, turn potatoes, prepare garnish",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "prep-halibut" }
+        },
+        {
+          "stepId": "make-beurre-blanc",
+          "name": "Make Beurre Blanc",
+          "task": "stovetop-burner",
+          "description": "Reduce shallots and wine, whisk in butter",
+          "duration": { "type": "variable", "minSeconds": 300, "maxSeconds": 600, "defaultSeconds": 450 },
+          "startTrigger": { "type": "afterStep", "stepId": "serve-bisque", "offsetSeconds": 900 }
+        },
+        {
+          "stepId": "cook-halibut",
+          "name": "Cook Halibut",
+          "task": "stovetop-burner",
+          "description": "Pan-sear halibut skin-side down, flip, finish in oven",
+          "duration": { "type": "fixed", "seconds": 480 },
+          "startTrigger": { "type": "afterStep", "stepId": "make-beurre-blanc" }
+        },
+        {
+          "stepId": "plate-halibut",
+          "name": "Plate Halibut",
+          "task": "plating-station",
+          "description": "Plate with vegetables, sauce with beurre blanc",
+          "duration": { "type": "fixed", "seconds": 360 },
+          "startTrigger": { "type": "afterStep", "stepId": "cook-halibut" }
+        }
+      ]
+    },
+    {
+      "trackId": "meat-course",
+      "name": "4th Course: Wagyu Beef with Red Wine Jus",
+      "steps": [
+        {
+          "stepId": "prepare-beef",
+          "name": "Prepare Wagyu Beef",
+          "task": "prep-station",
+          "description": "Trim and portion wagyu, bring to room temperature",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 3600 }
+        },
+        {
+          "stepId": "make-red-wine-jus",
+          "name": "Make Red Wine Jus",
+          "task": "stovetop-burner",
+          "description": "Reduce red wine and stock to glossy jus",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "prepare-beef" }
+        },
+        {
+          "stepId": "grill-beef",
+          "name": "Grill Wagyu Beef",
+          "task": "grill",
+          "description": "Grill beef to perfect medium-rare, rest briefly",
+          "duration": { "type": "variable", "minSeconds": 600, "maxSeconds": 900, "defaultSeconds": 720 },
+          "startTrigger": { "type": "afterStep", "stepId": "plate-halibut", "offsetSeconds": 1200 }
+        },
+        {
+          "stepId": "plate-beef",
+          "name": "Plate Beef Course",
+          "task": "plating-station",
+          "description": "Slice beef, plate with gratin and jus",
+          "duration": { "type": "fixed", "seconds": 420 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "grill-beef" },
+              { "type": "afterStep", "stepId": "prepare-potato-gratin" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "meat-sides",
+      "name": "Beef Course Sides",
+      "steps": [
+        {
+          "stepId": "prepare-potato-gratin",
+          "name": "Prepare Potato Gratin",
+          "task": "oven",
+          "description": "Layer potatoes with cream, bake until golden",
+          "duration": { "type": "fixed", "seconds": 2700 },
+          "startTrigger": { "type": "afterStep", "stepId": "prepare-beef", "offsetSeconds": 300 }
+        }
+      ]
+    },
+    {
+      "trackId": "cheese-course",
+      "name": "5th Course: Artisanal Cheese Selection",
+      "steps": [
+        {
+          "stepId": "prepare-cheese-board",
+          "name": "Prepare Cheese Selection",
+          "task": "prep-station",
+          "description": "Arrange three artisanal cheeses, prepare accompaniments",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 5400 }
+        },
+        {
+          "stepId": "toast-bread",
+          "name": "Toast Artisan Bread",
+          "task": "oven",
+          "description": "Toast sourdough and walnut bread slices",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "plate-beef", "offsetSeconds": 900 }
+        },
+        {
+          "stepId": "plate-cheese-course",
+          "name": "Plate Cheese Course",
+          "task": "plating-station",
+          "description": "Plate cheeses with warm bread and quince paste",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "toast-bread" },
+              { "type": "afterStep", "stepId": "make-quince-paste" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "cheese-accompaniments",
+      "name": "Cheese Course Accompaniments",
+      "steps": [
+        {
+          "stepId": "make-quince-paste",
+          "name": "Make Quince Paste",
+          "task": "stovetop-burner",
+          "description": "Cook quince with honey until jammy consistency",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 4800 }
+        }
+      ]
+    },
+    {
+      "trackId": "dessert",
+      "name": "6th Course: Chocolate Soufflé",
+      "steps": [
+        {
+          "stepId": "prepare-souffle-base",
+          "name": "Prepare Soufflé Base",
+          "task": "stovetop-burner",
+          "description": "Make chocolate pastry cream base, cool slightly",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 4800 }
+        },
+        {
+          "stepId": "prepare-ramekins",
+          "name": "Prepare Ramekins",
+          "task": "prep-station",
+          "description": "Butter and sugar individual ramekins",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "prepare-souffle-base" }
+        },
+        {
+          "stepId": "make-vanilla-sauce",
+          "name": "Make Vanilla Sauce",
+          "task": "stovetop-burner",
+          "description": "Prepare crème anglaise with vanilla bean",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "prepare-ramekins" }
+        },
+        {
+          "stepId": "whip-egg-whites",
+          "name": "Whip Egg Whites",
+          "task": "prep-station",
+          "description": "Whip egg whites to soft peaks, fold into base",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "plate-cheese-course", "offsetSeconds": 600 }
+        },
+        {
+          "stepId": "bake-souffles",
+          "name": "Bake Soufflés",
+          "task": "oven",
+          "description": "Bake soufflés until risen and golden, serve immediately",
+          "duration": { "type": "variable", "minSeconds": 720, "maxSeconds": 900, "defaultSeconds": 800 },
+          "startTrigger": { "type": "afterStep", "stepId": "whip-egg-whites" }
+        },
+        {
+          "stepId": "serve-dessert",
+          "name": "Serve Dessert",
+          "task": "plating-station",
+          "description": "Dust with powdered sugar, serve with vanilla sauce",
+          "duration": { "type": "fixed", "seconds": 180 },
+          "startTrigger": { "type": "afterStep", "stepId": "bake-souffles" }
+        }
+      ]
+    }
+  ]
+}

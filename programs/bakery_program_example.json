@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "bakery-morning-batch-20230601",
   "name": "Morning Bread Batch - June 1, 2023",
   "description": "Morning batch of bread production including sourdough, baguettes, and ciabatta",
@@ -462,6 +463,22 @@
       ]
     }
   ],
+  "meta": {
+    "ingredients": [
+      {"name": "Bread flour", "quantity": 15, "unit": "kg"},
+      {"name": "Sourdough starter", "quantity": 2, "unit": "kg"},
+      {"name": "Water", "quantity": 10, "unit": "L"},
+      {"name": "Salt", "quantity": 300, "unit": "g"},
+      {"name": "Active dry yeast", "quantity": 100, "unit": "g"},
+      {"name": "Olive oil", "quantity": 500, "unit": "mL"}
+    ],
+    "yield": {
+      "sourdough": {"loaves": 24, "weightPerLoaf": "800g"},
+      "baguette": {"loaves": 36, "weightPerLoaf": "250g"},
+      "ciabatta": {"loaves": 18, "weightPerLoaf": "400g"}
+    },
+    "batchId": "2023-06-01-AM"
+  },
   "metadata": {
     "createdBy": "Head Baker",
     "priority": "high",

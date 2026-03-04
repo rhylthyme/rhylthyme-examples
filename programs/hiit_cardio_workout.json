@@ -1,0 +1,71 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "hiit-cardio-workout",
+  "name": "HIIT Cardio Workout (20 min)",
+  "description": "High-intensity interval training with alternating cardio exercises — 4 rounds of 4 minutes each",
+  "environmentType": "fitness",
+  "resourceConstraints": [
+    { "task": "cardio-space", "maxConcurrent": 1, "description": "Open floor space for exercises" },
+    { "task": "timer", "maxConcurrent": 1, "description": "Interval timer" }
+  ],
+  "tracks": [
+    {
+      "trackId": "hiit-rounds",
+      "name": "HIIT Rounds",
+      "steps": [
+        {
+          "stepId": "warmup",
+          "name": "Warm-up",
+          "task": "cardio-space",
+          "description": "Light jogging in place, arm circles, leg swings",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "round-1",
+          "name": "Round 1: Jump Squats",
+          "task": "cardio-space",
+          "description": "45 seconds jump squats, 15 seconds rest, repeat 4 times",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "afterStep", "stepId": "warmup" },
+          "replicates": { "count": 4, "mode": "serial" }
+        },
+        {
+          "stepId": "round-2",
+          "name": "Round 2: Burpees",
+          "task": "cardio-space",
+          "description": "45 seconds burpees, 15 seconds rest, repeat 4 times",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "afterStep", "stepId": "round-1" },
+          "replicates": { "count": 4, "mode": "serial" }
+        },
+        {
+          "stepId": "round-3",
+          "name": "Round 3: Mountain Climbers",
+          "task": "cardio-space",
+          "description": "45 seconds mountain climbers, 15 seconds rest, repeat 4 times",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "afterStep", "stepId": "round-2" },
+          "replicates": { "count": 4, "mode": "serial" }
+        },
+        {
+          "stepId": "round-4",
+          "name": "Round 4: High Knees",
+          "task": "cardio-space",
+          "description": "45 seconds high knees, 15 seconds rest, repeat 4 times",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "afterStep", "stepId": "round-3" },
+          "replicates": { "count": 4, "mode": "serial" }
+        },
+        {
+          "stepId": "cooldown",
+          "name": "Cool-down & Stretch",
+          "task": "cardio-space",
+          "description": "Walking in place, deep breathing, stretching major muscle groups",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "round-4" }
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "artisan-bread-production",
   "name": "Artisan Bread Production Workflow",
   "description": "Complete workflow for producing artisan bread using detailed equipment specifications",
@@ -32,7 +33,11 @@
               "category": "prep-station",
               "notes": "Manual mixing of starter ingredients"
             },
-            "ingredients": ["sourdough_starter", "bread_flour", "water"],
+            "ingredients": [
+              "sourdough_starter",
+              "bread_flour",
+              "water"
+            ],
             "temperature": "room_temperature"
           }
         },
@@ -58,7 +63,7 @@
               "manufacturer": "Carter-Hoffmann",
               "model": "PH1845",
               "settings": {
-                "temperature": "78°F",
+                "temperature": "78\u00b0F",
                 "humidity": "75%"
               }
             },
@@ -100,7 +105,10 @@
                 "mixing_time": "2 minutes"
               }
             },
-            "ingredients": ["bread_flour", "water"],
+            "ingredients": [
+              "bread_flour",
+              "water"
+            ],
             "batch_size": "20 lbs flour capacity",
             "hydration": "75%"
           }
@@ -143,8 +151,11 @@
                 "Ensure loose clothing is secured"
               ]
             },
-            "ingredients_added": ["active_sourdough_starter", "sea_salt"],
-            "final_dough_temperature": "76-78°F",
+            "ingredients_added": [
+              "active_sourdough_starter",
+              "sea_salt"
+            ],
+            "final_dough_temperature": "76-78\u00b0F",
             "gluten_development": "medium_strength"
           }
         }
@@ -170,7 +181,7 @@
           "task": "prep-work",
           "metadata": {
             "container": "large_fermentation_tub",
-            "temperature_target": "76-78°F"
+            "temperature_target": "76-78\u00b0F"
           }
         },
         {
@@ -316,7 +327,7 @@
               "manufacturer": "Carter-Hoffmann",
               "model": "PH1845",
               "settings": {
-                "temperature": "75°F",
+                "temperature": "75\u00b0F",
                 "humidity": "80%"
               }
             },
@@ -351,7 +362,7 @@
               "manufacturer": "Blodgett",
               "model": "DFG-200-ES",
               "settings": {
-                "temperature": "450°F",
+                "temperature": "450\u00b0F",
                 "both_chambers": true,
                 "steam_injection": true,
                 "convection_fan": "medium"
@@ -416,10 +427,10 @@
               "manufacturer": "Blodgett",
               "model": "DFG-200-ES",
               "baking_profile": {
-                "initial_temp": "450°F",
+                "initial_temp": "450\u00b0F",
                 "steam_duration": "20 minutes",
-                "final_temp": "425°F",
-                "internal_temp_target": "205-210°F"
+                "final_temp": "425\u00b0F",
+                "internal_temp_target": "205-210\u00b0F"
               }
             },
             "quality_indicators": [

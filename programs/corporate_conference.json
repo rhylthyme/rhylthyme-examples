@@ -1,0 +1,294 @@
+{
+  "schemaVersion": "0.1.0-alpha",
+  "programId": "corporate-conference-day",
+  "name": "Corporate Conference Day",
+  "description": "Full-day corporate conference coordination: 4 keynote sessions, 2 panel discussions, networking breaks, AV setup, and speaker management — seamless event flow for 200 attendees",
+  "environmentType": "event",
+  "resourceConstraints": [
+    { "task": "main-auditorium", "maxConcurrent": 1, "description": "Primary presentation venue" },
+    { "task": "breakout-room", "maxConcurrent": 2, "description": "2 breakout rooms for panels" },
+    { "task": "av-technician", "maxConcurrent": 2, "description": "2 AV techs for setup and support" },
+    { "task": "event-coordinator", "maxConcurrent": 3, "description": "3 event coordinators" },
+    { "task": "catering-station", "maxConcurrent": 1, "description": "Single catering setup area" }
+  ],
+  "actors": 6,
+  "tracks": [
+    {
+      "trackId": "venue-setup",
+      "name": "Venue & AV Setup",
+      "steps": [
+        {
+          "stepId": "venue-prep",
+          "name": "Venue Preparation",
+          "task": "event-coordinator",
+          "description": "Set up registration tables, signage, seating for 200 attendees",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "av-system-setup",
+          "name": "AV System Setup",
+          "task": "av-technician",
+          "description": "Test projectors, sound system, wireless mics, laptop connections",
+          "duration": { "type": "fixed", "seconds": 2700 },
+          "startTrigger": { "type": "afterStep", "stepId": "venue-prep" }
+        },
+        {
+          "stepId": "slide-deck-testing",
+          "name": "Slide Deck Testing",
+          "task": "av-technician",
+          "description": "Test all speaker slide decks on presentation system, backup files",
+          "duration": { "type": "variable", "minSeconds": 1800, "maxSeconds": 3600, "defaultSeconds": 2400 },
+          "startTrigger": { "type": "afterStep", "stepId": "av-system-setup" }
+        }
+      ]
+    },
+    {
+      "trackId": "speaker-coordination",
+      "name": "Speaker Coordination",
+      "steps": [
+        {
+          "stepId": "speaker-briefing",
+          "name": "Speaker Briefing Session",
+          "task": "event-coordinator",
+          "description": "Brief all speakers on timing, AV setup, Q&A format, transitions",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 1800 }
+        },
+        {
+          "stepId": "keynote-speaker-prep",
+          "name": "Keynote Speaker Preparation",
+          "task": "event-coordinator",
+          "description": "Final prep with keynote speakers, mic checks, slide reviews",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "slide-deck-testing" }
+        }
+      ]
+    },
+    {
+      "trackId": "registration-networking",
+      "name": "Registration & Networking",
+      "steps": [
+        {
+          "stepId": "registration-open",
+          "name": "Registration & Welcome",
+          "task": "event-coordinator",
+          "description": "Attendee check-in, welcome packets, networking coffee service",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-speaker-prep", "offsetSeconds": 300 }
+        },
+        {
+          "stepId": "welcome-remarks",
+          "name": "Opening Remarks",
+          "task": "main-auditorium",
+          "description": "CEO welcome, agenda overview, conference goals introduction",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "registration-open" }
+        }
+      ]
+    },
+    {
+      "trackId": "keynote-session-1",
+      "name": "Keynote 1: Digital Transformation",
+      "steps": [
+        {
+          "stepId": "keynote-1-intro",
+          "name": "Keynote 1 Introduction",
+          "task": "main-auditorium",
+          "description": "Speaker introduction and background",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "welcome-remarks" }
+        },
+        {
+          "stepId": "keynote-1-presentation",
+          "name": "Digital Transformation Keynote",
+          "task": "main-auditorium",
+          "description": "45-minute presentation on digital transformation strategies",
+          "duration": { "type": "variable", "minSeconds": 2400, "maxSeconds": 3000, "defaultSeconds": 2700 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-1-intro" }
+        },
+        {
+          "stepId": "keynote-1-qa",
+          "name": "Q&A Session",
+          "task": "main-auditorium",
+          "description": "Audience Q&A with keynote speaker",
+          "duration": { "type": "variable", "minSeconds": 600, "maxSeconds": 900, "defaultSeconds": 750 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-1-presentation" }
+        }
+      ]
+    },
+    {
+      "trackId": "morning-break",
+      "name": "Morning Networking Break",
+      "steps": [
+        {
+          "stepId": "setup-coffee-break",
+          "name": "Setup Coffee Break",
+          "task": "catering-station",
+          "description": "Set up coffee, pastries, networking area",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-1-qa" }
+        },
+        {
+          "stepId": "networking-break-1",
+          "name": "Morning Networking Break",
+          "task": "catering-station",
+          "description": "20-minute networking and refreshment break",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "setup-coffee-break" }
+        }
+      ]
+    },
+    {
+      "trackId": "keynote-session-2",
+      "name": "Keynote 2: Innovation Leadership",
+      "steps": [
+        {
+          "stepId": "keynote-2-setup",
+          "name": "Keynote 2 AV Setup",
+          "task": "av-technician",
+          "description": "Test slides, audio for second keynote speaker",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-1-qa", "offsetSeconds": 300 }
+        },
+        {
+          "stepId": "keynote-2-presentation",
+          "name": "Innovation Leadership Keynote",
+          "task": "main-auditorium",
+          "description": "Leadership strategies for driving innovation in organizations",
+          "duration": { "type": "variable", "minSeconds": 2700, "maxSeconds": 3300, "defaultSeconds": 3000 },
+          "startTrigger": { "type": "afterStep", "stepId": "networking-break-1" }
+        },
+        {
+          "stepId": "keynote-2-qa",
+          "name": "Q&A Session",
+          "task": "main-auditorium",
+          "description": "Interactive Q&A with audience participation",
+          "duration": { "type": "variable", "minSeconds": 600, "maxSeconds": 900, "defaultSeconds": 750 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-2-presentation" }
+        }
+      ]
+    },
+    {
+      "trackId": "panel-sessions",
+      "name": "Parallel Panel Discussions",
+      "steps": [
+        {
+          "stepId": "setup-panel-rooms",
+          "name": "Setup Panel Discussion Rooms",
+          "task": "av-technician",
+          "description": "Prepare breakout rooms with AV for panel discussions",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-2-presentation", "offsetSeconds": 300 }
+        },
+        {
+          "stepId": "panel-discussions",
+          "name": "Parallel Panel Discussions",
+          "task": "breakout-room",
+          "description": "Two simultaneous panels: 'Future of Work' and 'Sustainable Business'",
+          "duration": { "type": "fixed", "seconds": 2700 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-2-qa" },
+          "replicates": { "count": 2, "mode": "parallel" }
+        }
+      ]
+    },
+    {
+      "trackId": "lunch-networking",
+      "name": "Lunch & Extended Networking",
+      "steps": [
+        {
+          "stepId": "lunch-setup",
+          "name": "Lunch Setup",
+          "task": "catering-station",
+          "description": "Set up buffet lunch service for 200 attendees",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "panel-discussions" }
+        },
+        {
+          "stepId": "lunch-networking",
+          "name": "Lunch & Networking Session",
+          "task": "catering-station",
+          "description": "90-minute lunch break with structured networking activities",
+          "duration": { "type": "fixed", "seconds": 5400 },
+          "startTrigger": { "type": "afterStep", "stepId": "lunch-setup" }
+        }
+      ]
+    },
+    {
+      "trackId": "afternoon-sessions",
+      "name": "Afternoon Keynotes",
+      "steps": [
+        {
+          "stepId": "keynote-3-presentation",
+          "name": "Technology Trends Keynote",
+          "task": "main-auditorium",
+          "description": "Emerging technology trends and their business impact",
+          "duration": { "type": "variable", "minSeconds": 2700, "maxSeconds": 3300, "defaultSeconds": 3000 },
+          "startTrigger": { "type": "afterStep", "stepId": "lunch-networking" }
+        },
+        {
+          "stepId": "keynote-3-qa",
+          "name": "Q&A Session",
+          "task": "main-auditorium",
+          "description": "Technology trends Q&A session",
+          "duration": { "type": "variable", "minSeconds": 600, "maxSeconds": 900, "defaultSeconds": 750 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-3-presentation" }
+        },
+        {
+          "stepId": "afternoon-break",
+          "name": "Afternoon Break",
+          "task": "catering-station",
+          "description": "15-minute refreshment break",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-3-qa" }
+        },
+        {
+          "stepId": "keynote-4-presentation",
+          "name": "Future Strategy Keynote",
+          "task": "main-auditorium",
+          "description": "Strategic planning for the next decade",
+          "duration": { "type": "variable", "minSeconds": 2700, "maxSeconds": 3300, "defaultSeconds": 3000 },
+          "startTrigger": { "type": "afterStep", "stepId": "afternoon-break" }
+        },
+        {
+          "stepId": "keynote-4-qa",
+          "name": "Final Q&A Session",
+          "task": "main-auditorium",
+          "description": "Strategy discussion and audience interaction",
+          "duration": { "type": "variable", "minSeconds": 600, "maxSeconds": 900, "defaultSeconds": 750 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-4-presentation" }
+        }
+      ]
+    },
+    {
+      "trackId": "closing-ceremony",
+      "name": "Closing & Wrap-up",
+      "steps": [
+        {
+          "stepId": "closing-remarks",
+          "name": "Closing Remarks",
+          "task": "main-auditorium",
+          "description": "Conference summary, key takeaways, next steps",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-4-qa" }
+        },
+        {
+          "stepId": "final-networking",
+          "name": "Final Networking Reception",
+          "task": "catering-station",
+          "description": "Closing reception with refreshments and business card exchange",
+          "duration": { "type": "variable", "minSeconds": 1800, "maxSeconds": 3600, "defaultSeconds": 2700 },
+          "startTrigger": { "type": "afterStep", "stepId": "closing-remarks" }
+        },
+        {
+          "stepId": "venue-breakdown",
+          "name": "Venue Breakdown",
+          "task": "event-coordinator",
+          "description": "Pack up AV equipment, clean venue, final logistics",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "final-networking" }
+        }
+      ]
+    }
+  ]
+}

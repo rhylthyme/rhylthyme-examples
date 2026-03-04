@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "breakfast-manual-triggers",
   "name": "Breakfast Preparation with Manual Triggers",
   "description": "A schedule for preparing scrambled eggs, bacon, and toast with manual triggers",

@@ -1,0 +1,235 @@
+{
+  "schemaVersion": "0.1.0-alpha",
+  "programId": "corporate-presentation-logistics",
+  "name": "Corporate Presentation: Digital Innovation Strategy 2025",
+  "description": "45-minute keynote presentation logistics coordination: AV setup, slide testing, speaker prep, audience management, Q&A facilitation, and post-event activities for 200 attendees",
+  "environmentType": "event",
+  "resourceConstraints": [
+    { "task": "main-auditorium", "maxConcurrent": 1, "description": "Primary presentation venue" },
+    { "task": "av-technician", "maxConcurrent": 2, "description": "2 AV technicians for setup and support" },
+    { "task": "event-coordinator", "maxConcurrent": 3, "description": "3 event coordinators for logistics" },
+    { "task": "presentation-system", "maxConcurrent": 1, "description": "Single projection system" },
+    { "task": "sound-system", "maxConcurrent": 1, "description": "Wireless microphone and audio" }
+  ],
+  "actors": 3,
+  "tracks": [
+    {
+      "trackId": "venue-av-setup",
+      "name": "Venue & AV Setup",
+      "steps": [
+        {
+          "stepId": "venue-preparation",
+          "name": "Auditorium Setup",
+          "task": "event-coordinator",
+          "description": "Set up seating for 200, test lighting, prepare registration area, position signage",
+          "duration": { "type": "fixed", "seconds": 2700 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "av-system-setup",
+          "name": "Audio/Visual System Setup",
+          "task": "av-technician",
+          "description": "Connect projectors, test wireless microphone, verify laptop connections, backup systems ready",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "venue-preparation" }
+        },
+        {
+          "stepId": "slide-deck-loading",
+          "name": "Load Presentation Slides",
+          "task": "presentation-system",
+          "description": "Load Digital Innovation Strategy 2025 slide deck, create backup copies on multiple devices",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "av-system-setup" }
+        },
+        {
+          "stepId": "tech-rehearsal",
+          "name": "Technical Rehearsal",
+          "task": "av-technician",
+          "description": "Full run-through of slides, test clicker, verify all 16 slides display correctly, audio levels",
+          "duration": { "type": "variable", "minSeconds": 1200, "maxSeconds": 2400, "defaultSeconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "slide-deck-loading" }
+        }
+      ]
+    },
+    {
+      "trackId": "speaker-preparation",
+      "name": "Speaker Preparation",
+      "steps": [
+        {
+          "stepId": "speaker-briefing",
+          "name": "Speaker Briefing & Setup",
+          "task": "event-coordinator",
+          "description": "Review timing (45min + 15min Q&A), test microphone, verify slide transitions, final prep",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 1800 }
+        },
+        {
+          "stepId": "slide-walkthrough",
+          "name": "Slide Deck Walkthrough",
+          "task": "presentation-system",
+          "description": "Speaker reviews all 16 slides on presentation system, practices transitions, timing check",
+          "duration": { "type": "variable", "minSeconds": 900, "maxSeconds": 1800, "defaultSeconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "tech-rehearsal" }
+        },
+        {
+          "stepId": "final-speaker-prep",
+          "name": "Final Speaker Preparation",
+          "task": "event-coordinator",
+          "description": "Last-minute questions, water setup, backup materials ready, introduction cards prepared",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "slide-walkthrough" }
+        }
+      ]
+    },
+    {
+      "trackId": "audience-management",
+      "name": "Audience & Registration",
+      "steps": [
+        {
+          "stepId": "registration-open",
+          "name": "Attendee Registration",
+          "task": "event-coordinator",
+          "description": "Check-in 200 attendees, distribute materials, networking pre-session",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "final-speaker-prep" }
+        },
+        {
+          "stepId": "audience-seating",
+          "name": "Audience Seating",
+          "task": "event-coordinator",
+          "description": "Guide attendees to seats, distribute handouts, final audio check with audience present",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "registration-open" }
+        }
+      ]
+    },
+    {
+      "trackId": "presentation-delivery",
+      "name": "Main Presentation Delivery",
+      "steps": [
+        {
+          "stepId": "opening-remarks",
+          "name": "Opening Remarks & Introduction",
+          "task": "main-auditorium",
+          "description": "Welcome attendees, introduce speaker background, set expectations for session",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "audience-seating" }
+        },
+        {
+          "stepId": "agenda-overview",
+          "name": "Agenda Overview (Slide 2)",
+          "task": "main-auditorium",
+          "description": "Present 5-section agenda: Market Landscape, Framework, Roadmap, Outcomes, Q&A",
+          "duration": { "type": "fixed", "seconds": 180 },
+          "startTrigger": { "type": "afterStep", "stepId": "opening-remarks" }
+        },
+        {
+          "stepId": "market-landscape",
+          "name": "Market Landscape Section (Slides 3-4)",
+          "task": "main-auditorium",
+          "description": "Current market trends, competitive pressures, opportunity windows (10 min section)",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "agenda-overview" }
+        },
+        {
+          "stepId": "transformation-framework",
+          "name": "Digital Transformation Framework (Slides 5-7)",
+          "task": "main-auditorium",
+          "description": "3 pillars: Technology Infrastructure, Process Optimization, Human Capital (15 min section)",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "market-landscape" }
+        },
+        {
+          "stepId": "implementation-roadmap",
+          "name": "Implementation Roadmap (Slides 8-10)",
+          "task": "main-auditorium",
+          "description": "3-phase approach, resource requirements, timeline visualization (10 min section)",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "transformation-framework" }
+        },
+        {
+          "stepId": "expected-outcomes",
+          "name": "Expected Outcomes & Impact (Slides 11-13)",
+          "task": "main-auditorium",
+          "description": "Success metrics, business impact, competitive advantages (5 min section)",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "implementation-roadmap" }
+        },
+        {
+          "stepId": "next-steps",
+          "name": "Next Steps (Slide 14)",
+          "task": "main-auditorium",
+          "description": "Immediate actions (30 days) and short-term goals (90 days)",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "afterStep", "stepId": "expected-outcomes" }
+        }
+      ]
+    },
+    {
+      "trackId": "qa-coordination",
+      "name": "Q&A Session Management",
+      "steps": [
+        {
+          "stepId": "qa-transition",
+          "name": "Transition to Q&A",
+          "task": "event-coordinator",
+          "description": "Set up microphones for audience questions, explain Q&A format, moderate session",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "next-steps" }
+        },
+        {
+          "stepId": "qa-session",
+          "name": "Questions & Discussion",
+          "task": "main-auditorium",
+          "description": "15-minute interactive Q&A covering implementation, priorities, risks, timeline",
+          "duration": { "type": "variable", "minSeconds": 600, "maxSeconds": 1200, "defaultSeconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "qa-transition" }
+        },
+        {
+          "stepId": "closing-remarks",
+          "name": "Closing Remarks (Slide 16)",
+          "task": "main-auditorium",
+          "description": "Thank attendees, provide contact information, mention follow-up materials",
+          "duration": { "type": "fixed", "seconds": 180 },
+          "startTrigger": { "type": "afterStep", "stepId": "qa-session" }
+        }
+      ]
+    },
+    {
+      "trackId": "post-event",
+      "name": "Post-Presentation Activities",
+      "steps": [
+        {
+          "stepId": "immediate-followup",
+          "name": "Immediate Follow-up",
+          "task": "event-coordinator",
+          "description": "Collect feedback forms, handle immediate questions, network with key attendees",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "closing-remarks" }
+        },
+        {
+          "stepId": "materials-distribution",
+          "name": "Materials Distribution",
+          "task": "event-coordinator",
+          "description": "Share slide deck and detailed roadmap with attendees within 24 hours (as promised)",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "immediate-followup" }
+        }
+      ]
+    },
+    {
+      "trackId": "venue-cleanup",
+      "name": "Venue Cleanup",
+      "steps": [
+        {
+          "stepId": "venue-breakdown",
+          "name": "Venue Breakdown",
+          "task": "av-technician",
+          "description": "Pack up AV equipment, restore venue setup, secure presentation materials",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "immediate-followup" }
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "commercial-kitchen-service",
   "name": "Commercial Kitchen Service Workflow",
   "description": "Commercial kitchen workflow for breakfast service during peak hours",
@@ -240,7 +241,11 @@
       "maxConcurrent": 6,
       "description": "Stove burner usage"
     },
-    { "task": "oven", "maxConcurrent": 2, "description": "Oven usage" },
+    {
+      "task": "oven",
+      "maxConcurrent": 2,
+      "description": "Oven usage"
+    },
     {
       "task": "grill-station",
       "maxConcurrent": 1,

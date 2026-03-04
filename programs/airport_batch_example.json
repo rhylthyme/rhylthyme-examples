@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "airport-runway-schedule-batch",
   "name": "Airport Runway Schedule with Multiple Flights",
   "description": "Coordinated landing and takeoff schedule for morning operations at a medium-sized airport with two runways and multiple flights of the same type",

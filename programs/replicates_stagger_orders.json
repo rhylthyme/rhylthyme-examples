@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "restaurant-stagger-orders",
+  "name": "Restaurant Staggered Orders (5 Tables)",
+  "description": "5 identical dinner orders staggered 1 minute apart to manage kitchen flow",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "dinner-order",
+      "name": "Dinner Order",
+      "replicates": { "count": 5, "mode": "stagger", "delay": 60 },
+      "steps": [
+        {
+          "stepId": "fire-appetizer",
+          "name": "Fire Appetizer",
+          "task": "stovetop",
+          "description": "Prepare and plate appetizer course",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "prep-entree",
+          "name": "Prep Entree",
+          "task": "prep-station",
+          "description": "Season and prepare protein, prep vegetables",
+          "duration": { "type": "fixed", "seconds": 180 },
+          "startTrigger": { "type": "afterStep", "stepId": "fire-appetizer" }
+        },
+        {
+          "stepId": "cook-entree",
+          "name": "Cook Entree",
+          "task": "stovetop",
+          "description": "Sear protein and cook sides",
+          "duration": { "type": "fixed", "seconds": 480 },
+          "startTrigger": { "type": "afterStep", "stepId": "prep-entree" }
+        },
+        {
+          "stepId": "plate-serve",
+          "name": "Plate & Serve",
+          "task": "plating-station",
+          "description": "Final plating, garnish, and send to table",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "afterStep", "stepId": "cook-entree" }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    { "task": "stovetop", "maxConcurrent": 4, "description": "4 burners on the stove" },
+    { "task": "prep-station", "maxConcurrent": 2, "description": "2 prep stations" },
+    { "task": "plating-station", "maxConcurrent": 1, "description": "Single plating area" }
+  ]
+}

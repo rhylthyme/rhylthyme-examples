@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "breakfast-with-environment",
   "name": "Breakfast Preparation with Environment",
   "description": "Morning breakfast routine using explicit environment reference for resource visualization",
@@ -238,7 +239,11 @@
       "maxConcurrent": 2,
       "description": "Preparation work"
     },
-    { "task": "toaster", "maxConcurrent": 1, "description": "Toaster usage" },
+    {
+      "task": "toaster",
+      "maxConcurrent": 1,
+      "description": "Toaster usage"
+    },
     {
       "task": "microwave",
       "maxConcurrent": 1,

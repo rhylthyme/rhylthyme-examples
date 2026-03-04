@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "protein-lysate-immunoblotting",
   "name": "Protein Lysate and Immunoblotting",
   "description": "Laboratory protocol for creating protein lysates and performing immunoblotting in RAW 264.7 cells, adapted from protocols.io protocol 5qpvo9bmdv4o",
@@ -10,7 +11,10 @@
     "protocolId": "5qpvo9bmdv4o",
     "doi": "dx.doi.org/10.17504/protocols.io.5qpvo9bmdv4o/v1",
     "url": "https://www.protocols.io/view/protein-lysate-and-immunoblotting-5qpvo9bmdv4o/v1",
-    "authors": ["Amanda Bentley-DeSousa", "Shawn Ferguson"],
+    "authors": [
+      "Amanda Bentley-DeSousa",
+      "Shawn Ferguson"
+    ],
     "institution": "Department of Cell Biology, Yale University School of Medicine"
   },
   "actors": 1,
@@ -38,7 +42,9 @@
           "preBuffer": {
             "duration": "15m",
             "description": "Prepare media and gather materials",
-            "tasks": ["prep-work"]
+            "tasks": [
+              "prep-work"
+            ]
           }
         }
       ]
@@ -79,7 +85,7 @@
         {
           "stepId": "lyse-cells",
           "name": "Cell Lysis",
-          "description": "Remove PBS, scrape each well with 50 µL of ice-cold lysis buffer, transfer to Eppendorf tubes",
+          "description": "Remove PBS, scrape each well with 50 \u00b5L of ice-cold lysis buffer, transfer to Eppendorf tubes",
           "task": "bench-space",
           "startTrigger": {
             "type": "afterStep",
@@ -107,7 +113,7 @@
         {
           "stepId": "centrifuge-lysates",
           "name": "Centrifuge Lysates",
-          "description": "Centrifuge lysates at 14000 rpm, 4°C for 8 minutes",
+          "description": "Centrifuge lysates at 14000 rpm, 4\u00b0C for 8 minutes",
           "task": "centrifuge",
           "startTrigger": {
             "type": "afterStep",
@@ -135,7 +141,7 @@
         {
           "stepId": "prepare-samples",
           "name": "Prepare Samples with Laemmli Buffer",
-          "description": "Mix supernatant 1:1 with Laemmli Buffer and heat at 95°C for 3 minutes",
+          "description": "Mix supernatant 1:1 with Laemmli Buffer and heat at 95\u00b0C for 3 minutes",
           "task": "bench-space",
           "startTrigger": {
             "type": "afterStep",
@@ -148,7 +154,9 @@
           "postBuffer": {
             "duration": "10m",
             "description": "Cool samples and store",
-            "tasks": ["storage"]
+            "tasks": [
+              "storage"
+            ]
           }
         }
       ]
@@ -161,7 +169,7 @@
         {
           "stepId": "run-gel",
           "name": "Run SDS-PAGE",
-          "description": "Perform electrophoresis using 20-30 μG protein in 4-15% miniPROTEAN TGX gels",
+          "description": "Perform electrophoresis using 20-30 \u03bcG protein in 4-15% miniPROTEAN TGX gels",
           "task": "electrophoresis",
           "startTrigger": {
             "type": "afterStep",
@@ -176,13 +184,15 @@
           "preBuffer": {
             "duration": "15m",
             "description": "Set up gel apparatus and prepare buffer",
-            "tasks": ["prep-work"]
+            "tasks": [
+              "prep-work"
+            ]
           }
         },
         {
           "stepId": "transfer-membrane",
           "name": "Transfer to Membrane",
-          "description": "Transfer gels onto 0.45 μm nitrocellulose membrane at 100V for 1 hour",
+          "description": "Transfer gels onto 0.45 \u03bcm nitrocellulose membrane at 100V for 1 hour",
           "task": "electrophoresis",
           "startTrigger": {
             "type": "afterStep",
@@ -217,7 +227,7 @@
         {
           "stepId": "primary-antibody",
           "name": "Primary Antibody Incubation",
-          "description": "Add primary antibodies in 5% BSA TBST at 4°C overnight",
+          "description": "Add primary antibodies in 5% BSA TBST at 4\u00b0C overnight",
           "task": "incubator",
           "startTrigger": {
             "type": "afterStep",
@@ -288,7 +298,10 @@
           "postBuffer": {
             "duration": "15m",
             "description": "Data analysis and cleanup",
-            "tasks": ["data-analysis", "cleanup"]
+            "tasks": [
+              "data-analysis",
+              "cleanup"
+            ]
           }
         }
       ]
@@ -318,7 +331,7 @@
     {
       "task": "incubator",
       "maxConcurrent": 1,
-      "description": "Single 4°C incubator available"
+      "description": "Single 4\u00b0C incubator available"
     },
     {
       "task": "imaging-system",
@@ -397,7 +410,7 @@
       "category": "consumable",
       "supplier": "Thermo Fisher Scientific",
       "catalog": "1620115",
-      "poreSize": "0.45 μm",
+      "poreSize": "0.45 \u03bcm",
       "required": true
     },
     {

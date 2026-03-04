@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "0.1.0-alpha",
+  "programId": "chemical-plant-batch-production",
+  "name": "Chemical Plant Batch Production",
+  "description": "Multi-stage pharmaceutical intermediate synthesis: raw material prep, 3-stage reaction cascade, purification, crystallization, and quality control — coordinated across 4 batch reactors",
+  "environmentType": "manufacturing",
+  "resourceConstraints": [
+    { "task": "reactor-vessel", "maxConcurrent": 4, "description": "4 jacketed batch reactors available" },
+    { "task": "distillation-column", "maxConcurrent": 2, "description": "2 distillation units for purification" },
+    { "task": "crystallizer", "maxConcurrent": 2, "description": "2 cooling crystallizers" },
+    { "task": "centrifuge", "maxConcurrent": 1, "description": "Single high-speed centrifuge" },
+    { "task": "storage-tank", "maxConcurrent": 6, "description": "6 intermediate storage tanks" },
+    { "task": "quality-lab", "maxConcurrent": 1, "description": "Single analytical laboratory" }
+  ],
+  "actors": 3,
+  "tracks": [
+    {
+      "trackId": "raw-material-prep",
+      "name": "Raw Material Inspection",
+      "steps": [
+        {
+          "stepId": "receive-raw-materials",
+          "name": "Receive & Inspect Raw Materials",
+          "task": "quality-lab",
+          "description": "Incoming inspection: assay purity, moisture content, identify impurities",
+          "duration": { "type": "variable", "minSeconds": 1800, "maxSeconds": 3600, "defaultSeconds": 2700 },
+          "startTrigger": { "type": "programStart" }
+        }
+      ]
+    },
+    {
+      "trackId": "reagent-a-prep",
+      "name": "Reagent A Preparation",
+      "steps": [
+        {
+          "stepId": "prepare-reagent-a",
+          "name": "Prepare Reagent Solution A",
+          "task": "storage-tank",
+          "description": "Dissolve 50kg reagent A in anhydrous solvent, nitrogen blanket",
+          "duration": { "type": "fixed", "seconds": 2400 },
+          "startTrigger": { "type": "afterStep", "stepId": "receive-raw-materials" }
+        }
+      ]
+    },
+    {
+      "trackId": "reagent-b-prep",
+      "name": "Reagent B Preparation",
+      "steps": [
+        {
+          "stepId": "prepare-reagent-b",
+          "name": "Prepare Reagent Solution B",
+          "task": "storage-tank",
+          "description": "Prepare 30kg reagent B solution, maintain temperature <10°C",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "receive-raw-materials" }
+        }
+      ]
+    },
+    {
+      "trackId": "stage-1-reaction",
+      "name": "Stage 1: Condensation Reaction",
+      "steps": [
+        {
+          "stepId": "charge-reactor-1",
+          "name": "Charge Reactor R-101",
+          "task": "reactor-vessel",
+          "description": "Transfer reagent A to reactor, inert atmosphere, confirm temperature",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "prepare-reagent-a" }
+        },
+        {
+          "stepId": "add-reagent-b-slowly",
+          "name": "Add Reagent B (Controlled Addition)",
+          "task": "reactor-vessel",
+          "description": "Slow addition of reagent B over 2 hours, maintain temperature 15-20°C",
+          "duration": { "type": "variable", "minSeconds": 6600, "maxSeconds": 8400, "defaultSeconds": 7200 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "charge-reactor-1" },
+              { "type": "afterStep", "stepId": "prepare-reagent-b" }
+            ]
+          }
+        },
+        {
+          "stepId": "reaction-1-aging",
+          "name": "Reaction Aging & Stirring",
+          "task": "reactor-vessel",
+          "description": "Continue stirring at 20°C for 3 hours, monitor conversion by HPLC",
+          "duration": { "type": "variable", "minSeconds": 9000, "maxSeconds": 12600, "defaultSeconds": 10800 },
+          "startTrigger": { "type": "afterStep", "stepId": "add-reagent-b-slowly" }
+        }
+      ]
+    },
+    {
+      "trackId": "stage-2-reaction",
+      "name": "Stage 2: Oxidation Reaction",
+      "steps": [
+        {
+          "stepId": "transfer-to-reactor-2",
+          "name": "Transfer to Reactor R-102",
+          "task": "reactor-vessel",
+          "description": "Transfer stage 1 product to fresh reactor, maintain inert atmosphere",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "reaction-1-aging" }
+        },
+        {
+          "stepId": "heat-to-reaction-temp",
+          "name": "Heat to Reaction Temperature",
+          "task": "reactor-vessel",
+          "description": "Gradually heat mixture to 85°C over 1 hour, monitor for hot spots",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "transfer-to-reactor-2" }
+        },
+        {
+          "stepId": "oxidation-reaction",
+          "name": "Oxidation Reaction",
+          "task": "reactor-vessel",
+          "description": "Add oxidizing agent, maintain 85°C for 4 hours, monitor oxygen uptake",
+          "duration": { "type": "variable", "minSeconds": 13200, "maxSeconds": 16200, "defaultSeconds": 14400 },
+          "startTrigger": { "type": "afterStep", "stepId": "heat-to-reaction-temp" }
+        }
+      ]
+    },
+    {
+      "trackId": "stage-3-cyclization",
+      "name": "Stage 3: Cyclization & Ring Closure",
+      "steps": [
+        {
+          "stepId": "cool-and-transfer",
+          "name": "Cool & Transfer to R-103",
+          "task": "reactor-vessel",
+          "description": "Cool to 40°C, transfer to reactor R-103 for cyclization",
+          "duration": { "type": "fixed", "seconds": 2400 },
+          "startTrigger": { "type": "afterStep", "stepId": "oxidation-reaction" }
+        },
+        {
+          "stepId": "add-cyclization-catalyst",
+          "name": "Add Cyclization Catalyst",
+          "task": "reactor-vessel",
+          "description": "Add Lewis acid catalyst, confirm homogeneous solution",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "cool-and-transfer" }
+        },
+        {
+          "stepId": "cyclization-reaction",
+          "name": "Cyclization Reaction",
+          "task": "reactor-vessel",
+          "description": "Heat to 120°C, maintain for 6 hours, monitor ring closure by NMR",
+          "duration": { "type": "variable", "minSeconds": 20400, "maxSeconds": 23400, "defaultSeconds": 21600 },
+          "startTrigger": { "type": "afterStep", "stepId": "add-cyclization-catalyst" }
+        }
+      ]
+    },
+    {
+      "trackId": "workup-purification",
+      "name": "Workup & Purification",
+      "steps": [
+        {
+          "stepId": "quench-reaction",
+          "name": "Reaction Quench & Neutralization",
+          "task": "reactor-vessel",
+          "description": "Cool to room temperature, quench with water, neutralize pH to 7-8",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "cyclization-reaction" }
+        },
+        {
+          "stepId": "extraction-separation",
+          "name": "Liquid-Liquid Extraction",
+          "task": "reactor-vessel",
+          "description": "Extract product with organic solvent, separate phases, wash organic layer",
+          "duration": { "type": "fixed", "seconds": 4800 },
+          "startTrigger": { "type": "afterStep", "stepId": "quench-reaction" }
+        },
+        {
+          "stepId": "solvent-distillation",
+          "name": "Solvent Recovery & Distillation",
+          "task": "distillation-column",
+          "description": "Distill organic solvent under vacuum, concentrate crude product",
+          "duration": { "type": "variable", "minSeconds": 7200, "maxSeconds": 10800, "defaultSeconds": 9000 },
+          "startTrigger": { "type": "afterStep", "stepId": "extraction-separation" }
+        }
+      ]
+    },
+    {
+      "trackId": "crystallization",
+      "name": "Crystallization & Isolation",
+      "steps": [
+        {
+          "stepId": "prepare-crystallization",
+          "name": "Prepare for Crystallization",
+          "task": "crystallizer",
+          "description": "Dissolve crude product in hot solvent, filter hot to remove impurities",
+          "duration": { "type": "fixed", "seconds": 2400 },
+          "startTrigger": { "type": "afterStep", "stepId": "solvent-distillation" }
+        },
+        {
+          "stepId": "controlled-crystallization",
+          "name": "Controlled Cooling Crystallization",
+          "task": "crystallizer",
+          "description": "Cool solution from 80°C to 5°C over 8 hours, seed with pure crystals",
+          "duration": { "type": "variable", "minSeconds": 25200, "maxSeconds": 32400, "defaultSeconds": 28800 },
+          "startTrigger": { "type": "afterStep", "stepId": "prepare-crystallization" }
+        },
+        {
+          "stepId": "crystal-isolation",
+          "name": "Crystal Isolation & Washing",
+          "task": "centrifuge",
+          "description": "Filter crystals, wash with cold solvent, dry under vacuum",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "controlled-crystallization" }
+        }
+      ]
+    },
+    {
+      "trackId": "quality-control",
+      "name": "Quality Control & Testing",
+      "steps": [
+        {
+          "stepId": "sample-preparation",
+          "name": "Prepare QC Samples",
+          "task": "quality-lab",
+          "description": "Prepare representative samples for analytical testing",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "crystal-isolation" }
+        },
+        {
+          "stepId": "purity-analysis",
+          "name": "Purity Analysis (HPLC/GC)",
+          "task": "quality-lab",
+          "description": "Quantitative purity analysis, identify and quantify impurities",
+          "duration": { "type": "variable", "minSeconds": 3600, "maxSeconds": 5400, "defaultSeconds": 4200 },
+          "startTrigger": { "type": "afterStep", "stepId": "sample-preparation" }
+        },
+        {
+          "stepId": "structure-confirmation",
+          "name": "Structure Confirmation (NMR/MS)",
+          "task": "quality-lab",
+          "description": "Confirm molecular structure by NMR and mass spectrometry",
+          "duration": { "type": "variable", "minSeconds": 2400, "maxSeconds": 4200, "defaultSeconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "purity-analysis" }
+        },
+        {
+          "stepId": "release-testing",
+          "name": "Final Release Testing",
+          "task": "quality-lab",
+          "description": "Complete analytical package: assay, residual solvents, heavy metals",
+          "duration": { "type": "indefinite", "defaultSeconds": 7200, "triggerName": "QC Approval" },
+          "startTrigger": { "type": "afterStep", "stepId": "structure-confirmation" }
+        }
+      ]
+    },
+    {
+      "trackId": "packaging-storage",
+      "name": "Packaging & Storage",
+      "steps": [
+        {
+          "stepId": "weigh-and-package",
+          "name": "Weigh & Package Product",
+          "task": "storage-tank",
+          "description": "Weigh final product, package in moisture-proof containers",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "release-testing" }
+        },
+        {
+          "stepId": "label-and-store",
+          "name": "Label & Transfer to Storage",
+          "task": "storage-tank",
+          "description": "Apply batch labels, transfer to controlled temperature storage",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "weigh-and-package" }
+        }
+      ]
+    }
+  ]
+}

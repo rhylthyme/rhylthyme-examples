@@ -1,0 +1,76 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "yoga-flow-session",
+  "name": "Morning Yoga Flow (30 min)",
+  "description": "Gentle morning yoga sequence with sun salutations, standing poses, and relaxation",
+  "environmentType": "fitness",
+  "resourceConstraints": [
+    { "task": "yoga-mat", "maxConcurrent": 1, "description": "Yoga mat and quiet space" }
+  ],
+  "tracks": [
+    {
+      "trackId": "yoga-sequence",
+      "name": "Yoga Flow Sequence",
+      "steps": [
+        {
+          "stepId": "centering",
+          "name": "Centering & Breath",
+          "task": "yoga-mat",
+          "description": "Seated meditation, focus on breath, set intention",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "warmup-stretches",
+          "name": "Warm-up Stretches",
+          "task": "yoga-mat",
+          "description": "Neck rolls, shoulder shrugs, cat-cow pose, child's pose",
+          "duration": { "type": "fixed", "seconds": 360 },
+          "startTrigger": { "type": "afterStep", "stepId": "centering" }
+        },
+        {
+          "stepId": "sun-salutation-a",
+          "name": "Sun Salutation A",
+          "task": "yoga-mat",
+          "description": "Mountain pose → Forward fold → Half lift → Low push-up → Upward dog → Downward dog",
+          "duration": { "type": "fixed", "seconds": 90 },
+          "startTrigger": { "type": "afterStep", "stepId": "warmup-stretches" },
+          "replicates": { "count": 3, "mode": "serial" }
+        },
+        {
+          "stepId": "sun-salutation-b",
+          "name": "Sun Salutation B",
+          "task": "yoga-mat",
+          "description": "Chair pose → Forward fold → Warrior I → Low lunge → Downward dog (both sides)",
+          "duration": { "type": "fixed", "seconds": 150 },
+          "startTrigger": { "type": "afterStep", "stepId": "sun-salutation-a" },
+          "replicates": { "count": 2, "mode": "serial" }
+        },
+        {
+          "stepId": "standing-poses",
+          "name": "Standing Pose Sequence",
+          "task": "yoga-mat",
+          "description": "Warrior II, Triangle pose, Extended side angle, Tree pose (both sides)",
+          "duration": { "type": "fixed", "seconds": 480 },
+          "startTrigger": { "type": "afterStep", "stepId": "sun-salutation-b" }
+        },
+        {
+          "stepId": "seated-poses",
+          "name": "Seated Poses",
+          "task": "yoga-mat",
+          "description": "Seated forward fold, seated spinal twist, bound angle pose",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "standing-poses" }
+        },
+        {
+          "stepId": "savasana",
+          "name": "Final Relaxation (Savasana)",
+          "task": "yoga-mat",
+          "description": "Complete relaxation, body scan, mindful breathing",
+          "duration": { "type": "variable", "minSeconds": 300, "maxSeconds": 600, "defaultSeconds": 420 },
+          "startTrigger": { "type": "afterStep", "stepId": "seated-poses" }
+        }
+      ]
+    }
+  ]
+}

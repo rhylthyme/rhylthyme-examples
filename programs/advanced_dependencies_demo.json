@@ -1,0 +1,170 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "advanced-dependencies-demo",
+  "name": "Advanced Dependencies & Features Demo",
+  "description": "Demonstrates complex dependencies, variable durations, manual triggers, and advanced scheduling features",
+  "environmentType": "general",
+  "resourceConstraints": [
+    { "task": "machine-a", "maxConcurrent": 1, "description": "Primary processing machine" },
+    { "task": "machine-b", "maxConcurrent": 2, "description": "Secondary processing machines" },
+    { "task": "quality-control", "maxConcurrent": 1, "description": "QC inspection station" },
+    { "task": "prep-station", "maxConcurrent": 3, "description": "Preparation workstations" }
+  ],
+  "actors": 3,
+  "tracks": [
+    {
+      "trackId": "initialization",
+      "name": "System Initialization",
+      "steps": [
+        {
+          "stepId": "system-startup",
+          "name": "System Startup",
+          "task": "machine-a",
+          "description": "Initialize and calibrate primary machine",
+          "duration": { "type": "variable", "minSeconds": 120, "maxSeconds": 300, "defaultSeconds": 180 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "safety-check",
+          "name": "Safety Systems Check",
+          "task": "quality-control",
+          "description": "Verify all safety systems are operational - manual verification required",
+          "duration": { "type": "indefinite", "defaultSeconds": 180, "triggerName": "Safety Approved" },
+          "startTrigger": { "type": "afterStep", "stepId": "system-startup" }
+        }
+      ]
+    },
+    {
+      "trackId": "material-prep",
+      "name": "Material Preparation",
+      "steps": [
+        {
+          "stepId": "material-inspection",
+          "name": "Incoming Material Inspection",
+          "task": "prep-station",
+          "description": "Inspect raw materials for quality and consistency",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 60 }
+        },
+        {
+          "stepId": "material-prep",
+          "name": "Prepare Materials",
+          "task": "prep-station",
+          "description": "Cut, sort, and stage materials for processing",
+          "duration": { "type": "variable", "minSeconds": 300, "maxSeconds": 600, "defaultSeconds": 420 },
+          "startTrigger": { "type": "afterStep", "stepId": "material-inspection" },
+          "replicates": { "count": 3, "mode": "parallel" }
+        }
+      ]
+    },
+    {
+      "trackId": "primary-processing",
+      "name": "Primary Processing Line",
+      "steps": [
+        {
+          "stepId": "load-machine-a",
+          "name": "Load Machine A",
+          "task": "machine-a",
+          "description": "Load prepared materials into primary processing machine",
+          "duration": { "type": "fixed", "seconds": 180 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "safety-check" },
+              { "type": "afterStep", "stepId": "material-prep" }
+            ]
+          }
+        },
+        {
+          "stepId": "primary-process",
+          "name": "Primary Processing",
+          "task": "machine-a",
+          "description": "Main processing cycle - duration varies based on material properties",
+          "duration": { "type": "variable", "minSeconds": 600, "maxSeconds": 1200, "defaultSeconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "load-machine-a" }
+        },
+        {
+          "stepId": "unload-machine-a",
+          "name": "Unload Machine A",
+          "task": "machine-a",
+          "description": "Unload processed materials from primary machine",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "afterStep", "stepId": "primary-process" }
+        }
+      ]
+    },
+    {
+      "trackId": "secondary-processing",
+      "name": "Secondary Processing (Parallel Lines)",
+      "steps": [
+        {
+          "stepId": "secondary-process",
+          "name": "Secondary Processing",
+          "task": "machine-b",
+          "description": "Further processing on secondary machines - run 2 batches in parallel",
+          "duration": { "type": "fixed", "seconds": 480 },
+          "startTrigger": { "type": "afterStep", "stepId": "unload-machine-a", "offsetSeconds": 60 },
+          "replicates": { "count": 2, "mode": "parallel" }
+        }
+      ]
+    },
+    {
+      "trackId": "quality-assurance",
+      "name": "Quality Assurance",
+      "steps": [
+        {
+          "stepId": "initial-qa",
+          "name": "Initial QA Check",
+          "task": "quality-control",
+          "description": "Quick quality check after primary processing",
+          "duration": { "type": "fixed", "seconds": 180 },
+          "startTrigger": { "type": "afterStep", "stepId": "unload-machine-a" }
+        },
+        {
+          "stepId": "manual-inspection",
+          "name": "Manual Quality Inspection",
+          "task": "quality-control",
+          "description": "Detailed manual inspection - inspector determines when complete",
+          "duration": { "type": "indefinite", "defaultSeconds": 300, "triggerName": "Inspection Complete" },
+          "startTrigger": { "type": "afterStep", "stepId": "secondary-process" }
+        },
+        {
+          "stepId": "final-approval",
+          "name": "Final Approval",
+          "task": "quality-control",
+          "description": "Final sign-off on quality - may require rework",
+          "duration": { "type": "variable", "minSeconds": 120, "maxSeconds": 600, "defaultSeconds": 240, "triggerName": "Quality Approved" },
+          "startTrigger": { "type": "afterStep", "stepId": "manual-inspection" }
+        }
+      ]
+    },
+    {
+      "trackId": "packaging",
+      "name": "Final Packaging",
+      "steps": [
+        {
+          "stepId": "package-prep",
+          "name": "Packaging Preparation",
+          "task": "prep-station",
+          "description": "Prepare packaging materials and labels",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "afterStep", "stepId": "initial-qa" }
+        },
+        {
+          "stepId": "final-packaging",
+          "name": "Final Packaging",
+          "task": "prep-station",
+          "description": "Package approved products for shipment",
+          "duration": { "type": "fixed", "seconds": 360 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "final-approval" },
+              { "type": "afterStep", "stepId": "package-prep" }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "lab-experiment",
   "name": "Basic Laboratory Experiment",
   "description": "Simple laboratory experiment workflow for protein analysis",
@@ -7,6 +8,21 @@
   "defaultEnvironment": "basic-research-lab",
   "startTrigger": {
     "type": "manual"
+  },
+  "meta": {
+    "reagents": [
+      {"name": "DNA Extraction Kit", "catalog": "Qiagen 69504", "storage": "-20C"},
+      {"name": "Taq DNA Polymerase", "catalog": "NEB M0273", "storage": "-20C"},
+      {"name": "dNTP Mix (10mM each)", "catalog": "NEB N0447", "storage": "-20C"},
+      {"name": "PCR Primers (forward + reverse)", "storage": "-20C"},
+      {"name": "Agarose", "catalog": "Bio-Rad 1613100", "storage": "RT"},
+      {"name": "TAE Buffer (1X)", "storage": "RT"},
+      {"name": "Ethidium Bromide", "catalog": "Sigma E1510", "storage": "RT", "hazard": "mutagen"},
+      {"name": "DNA Ladder (100bp)", "catalog": "NEB N3231", "storage": "-20C"}
+    ],
+    "safetyNotes": ["Wear gloves when handling ethidium bromide", "Use UV-protective eyewear for gel imaging"],
+    "sampleType": "tissue",
+    "outputFormat": "gel image"
   },
   "tracks": [
     {
@@ -28,12 +44,16 @@
           "preBuffer": {
             "duration": "5m",
             "description": "Gather samples and reagents",
-            "tasks": ["prep-work"]
+            "tasks": [
+              "prep-work"
+            ]
           },
           "postBuffer": {
             "duration": "10m",
             "description": "Store extracted DNA",
-            "tasks": ["freezer-80"]
+            "tasks": [
+              "freezer-80"
+            ]
           }
         },
         {
@@ -72,7 +92,9 @@
           "preBuffer": {
             "duration": "5m",
             "description": "Thaw reagents",
-            "tasks": ["prep-work"]
+            "tasks": [
+              "prep-work"
+            ]
           }
         },
         {
@@ -105,7 +127,10 @@
           "postBuffer": {
             "duration": "15m",
             "description": "Document results and cleanup",
-            "tasks": ["data-analysis", "cleanup"]
+            "tasks": [
+              "data-analysis",
+              "cleanup"
+            ]
           }
         }
       ]
@@ -125,7 +150,7 @@
     {
       "task": "freezer-80",
       "maxConcurrent": 2,
-      "description": "-80°C freezer access"
+      "description": "-80\u00b0C freezer access"
     },
     {
       "task": "spectrophotometer",

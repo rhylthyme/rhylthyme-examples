@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "rat-psychopharmacology",
   "name": "Rat Psychopharmacology Study",
   "description": "Comprehensive psychopharmacology research protocol for studying drug effects in laboratory rats",
@@ -6,6 +7,25 @@
   "actors": 3,
   "startTrigger": {
     "type": "manual"
+  },
+  "meta": {
+    "reagents": [
+      {"name": "Saline (0.9% NaCl)", "route": "IP", "role": "vehicle/control"},
+      {"name": "Drug Compound A", "route": "IP", "concentration": "1 mg/kg", "role": "pretreatment"},
+      {"name": "Drug Compound B", "route": "IP", "concentration": "5 mg/kg", "role": "treatment"}
+    ],
+    "subjects": {
+      "species": "Rattus norvegicus",
+      "strain": "Sprague-Dawley",
+      "sex": "male",
+      "ageWeeks": "8-10",
+      "weightRange": "250-300g",
+      "n": 32,
+      "groupSize": 8
+    },
+    "apparatus": ["Open field arena (40x40 cm)", "Video tracking system", "Precision balance"],
+    "iacucProtocol": "IACUC-2023-0042",
+    "experimentalDesign": "2x2 factorial (pretreatment x treatment)"
   },
   "tracks": [
     {

@@ -1,0 +1,133 @@
+{
+  "schemaVersion": "0.1.0",
+  "programId": "sunny-side-up-eggs",
+  "name": "Sunny Side Up Eggs",
+  "description": "Cook perfect sunny side up eggs with a covered pan method for set whites and runny yolks",
+  "version": "1.0.0",
+  "environmentType": "kitchen",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "meta": {
+    "ingredients": [
+      {"name": "Eggs", "quantity": 2, "unit": "large"},
+      {"name": "Butter", "quantity": 1, "unit": "tbsp", "substitute": "olive oil"},
+      {"name": "Salt", "quantity": 1, "unit": "pinch"},
+      {"name": "Black pepper", "quantity": 1, "unit": "pinch"}
+    ],
+    "servings": 2,
+    "difficulty": "beginner",
+    "dietaryTags": ["gluten-free", "keto", "vegetarian"]
+  },
+  "metadata": {
+    "source": "https://www.youtube.com/watch?v=5SGkCdzhg4g",
+    "servings": 2
+  },
+  "tracks": [
+    {
+      "trackId": "sunny-eggs",
+      "name": "Sunny Side Up Eggs",
+      "description": "Cook sunny side up eggs using a covered pan technique",
+      "steps": [
+        {
+          "stepId": "prep",
+          "name": "Prep and Overview",
+          "description": "Heat pan over medium-low heat, add butter or oil, and gather eggs and tools",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "stove-burner",
+          "metadata": {
+            "media": {
+              "type": "video",
+              "src": "sunny-side-up-eggs/videos/chapter-001-prep.mp4",
+              "label": "Prep and overview"
+            }
+          }
+        },
+        {
+          "stepId": "crack-eggs",
+          "name": "Crack the Eggs",
+          "description": "Crack eggs gently into the heated pan, being careful not to break the yolks",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "task": "stove-burner",
+          "metadata": {
+            "media": {
+              "type": "video",
+              "src": "sunny-side-up-eggs/videos/chapter-002-crack.mp4",
+              "label": "Cracking the eggs"
+            }
+          }
+        },
+        {
+          "stepId": "cover-and-cook",
+          "name": "Cover the Pan",
+          "description": "Cover the pan with a lid and let the eggs cook until whites are set but yolks are still runny",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "crack-eggs"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 180,
+            "defaultSeconds": 150,
+            "triggerName": "whites-set"
+          },
+          "task": "stove-burner",
+          "metadata": {
+            "media": {
+              "type": "video",
+              "src": "sunny-side-up-eggs/videos/chapter-003-cover.mp4",
+              "label": "Cover the pan"
+            }
+          }
+        },
+        {
+          "stepId": "plate",
+          "name": "Plate and Serve",
+          "description": "Slide eggs onto plate, season with salt and pepper, and serve immediately",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cover-and-cook"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "task": "plating",
+          "metadata": {
+            "media": {
+              "type": "video",
+              "src": "sunny-side-up-eggs/videos/chapter-004-finish.mp4",
+              "label": "Finished product"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 1,
+      "description": "Stove burner"
+    },
+    {
+      "task": "plating",
+      "maxConcurrent": 1,
+      "description": "Plating area"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "drug-screening-from-tracks",
   "name": "Drug Screening Assay (Built from Track Library)",
   "description": "Example drug screening program built using tracks from the laboratory track library",

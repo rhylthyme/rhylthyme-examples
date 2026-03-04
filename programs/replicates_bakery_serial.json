@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "bakery-bread-batches",
+  "name": "Bakery Bread Production (4 Batches)",
+  "description": "Produce 4 batches of sourdough bread serially through a single oven",
+  "environmentType": "bakery",
+  "tracks": [
+    {
+      "trackId": "sourdough",
+      "name": "Sourdough Bread",
+      "replicates": { "count": 4, "mode": "serial" },
+      "steps": [
+        {
+          "stepId": "mix-dough",
+          "name": "Mix Dough",
+          "task": "mixer",
+          "description": "Combine flour, water, starter, and salt in stand mixer",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "bulk-ferment",
+          "name": "Bulk Fermentation",
+          "task": "proofing-area",
+          "description": "Let dough rise with stretch-and-folds every 30 minutes",
+          "duration": { "type": "fixed", "seconds": 7200 },
+          "startTrigger": { "type": "afterStep", "stepId": "mix-dough" }
+        },
+        {
+          "stepId": "shape",
+          "name": "Shape Loaves",
+          "task": "bench",
+          "description": "Pre-shape and final shape into bannetons",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "bulk-ferment" }
+        },
+        {
+          "stepId": "bake",
+          "name": "Bake",
+          "task": "oven",
+          "description": "Bake at 450°F with steam for 25 min, then uncovered for 20 min",
+          "duration": { "type": "fixed", "seconds": 2700 },
+          "startTrigger": { "type": "afterStep", "stepId": "shape" }
+        },
+        {
+          "stepId": "cool",
+          "name": "Cool on Rack",
+          "task": "cooling-rack",
+          "description": "Cool completely before slicing",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "bake" }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    { "task": "mixer", "maxConcurrent": 1, "description": "Single stand mixer" },
+    { "task": "proofing-area", "maxConcurrent": 2, "description": "Proofing shelves" },
+    { "task": "bench", "maxConcurrent": 1, "description": "Shaping bench" },
+    { "task": "oven", "maxConcurrent": 1, "description": "Single deck oven" },
+    { "task": "cooling-rack", "maxConcurrent": 4, "description": "Cooling racks" }
+  ]
+}

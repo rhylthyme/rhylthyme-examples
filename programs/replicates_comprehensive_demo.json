@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "replicates-comprehensive-demo",
+  "name": "Comprehensive Replicates Demo",
+  "description": "Demonstrates all three replication modes: parallel (simultaneous), serial (sequential), and stagger (delayed starts) at both track and step levels",
+  "environmentType": "general",
+  "resourceConstraints": [
+    { "task": "processor", "maxConcurrent": 3, "description": "3 parallel processing units available" },
+    { "task": "prep-work", "maxConcurrent": 2, "description": "2 prep stations available" },
+    { "task": "packaging", "maxConcurrent": 1, "description": "Single packaging station" }
+  ],
+  "tracks": [
+    {
+      "trackId": "parallel-demo",
+      "name": "Parallel Replicates Demo",
+      "description": "Shows parallel execution - all replicates start at the same time",
+      "steps": [
+        {
+          "stepId": "parallel-prep",
+          "name": "Prep Work (Parallel)",
+          "task": "prep-work",
+          "description": "Prepare 3 items simultaneously - demonstrates parallel step replication",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "programStart" },
+          "replicates": { "count": 3, "mode": "parallel" }
+        },
+        {
+          "stepId": "parallel-process",
+          "name": "Process Items (Parallel)",
+          "task": "processor",
+          "description": "Process all 3 items at the same time using available processors",
+          "duration": { "type": "fixed", "seconds": 180 },
+          "startTrigger": { "type": "afterStep", "stepId": "parallel-prep" },
+          "replicates": { "count": 3, "mode": "parallel" }
+        }
+      ]
+    },
+    {
+      "trackId": "serial-demo",
+      "name": "Serial Replicates Demo",
+      "description": "Shows serial execution - replicates run one after another",
+      "steps": [
+        {
+          "stepId": "serial-setup",
+          "name": "Setup",
+          "task": "prep-work",
+          "description": "Initial setup for serial processing",
+          "duration": { "type": "fixed", "seconds": 60 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 60 }
+        },
+        {
+          "stepId": "serial-process",
+          "name": "Process Batches (Serial)",
+          "task": "processor",
+          "description": "Process 4 batches sequentially - each batch waits for previous to complete",
+          "duration": { "type": "fixed", "seconds": 90 },
+          "startTrigger": { "type": "afterStep", "stepId": "serial-setup" },
+          "replicates": { "count": 4, "mode": "serial" }
+        },
+        {
+          "stepId": "serial-cleanup",
+          "name": "Cleanup",
+          "task": "prep-work",
+          "description": "Clean up after serial processing",
+          "duration": { "type": "fixed", "seconds": 30 },
+          "startTrigger": { "type": "afterStep", "stepId": "serial-process" }
+        }
+      ]
+    },
+    {
+      "trackId": "stagger-demo",
+      "name": "Stagger Replicates Demo",
+      "description": "Shows staggered execution - replicates start with delays between them",
+      "steps": [
+        {
+          "stepId": "stagger-init",
+          "name": "Initialize",
+          "task": "prep-work",
+          "description": "Initialize for staggered processing",
+          "duration": { "type": "fixed", "seconds": 30 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 120 }
+        },
+        {
+          "stepId": "stagger-process",
+          "name": "Staggered Processing",
+          "task": "processor",
+          "description": "Process 5 items with 30-second delays between starts - demonstrates stagger mode",
+          "duration": { "type": "fixed", "seconds": 150 },
+          "startTrigger": { "type": "afterStep", "stepId": "stagger-init" },
+          "replicates": {
+            "count": 5,
+            "mode": "stagger",
+            "delay": 30
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "packaging-final",
+      "name": "Final Packaging",
+      "description": "Collect all processed items and package them",
+      "steps": [
+        {
+          "stepId": "collect-items",
+          "name": "Collect All Items",
+          "task": "packaging",
+          "description": "Wait for all processing to complete, then collect items",
+          "duration": { "type": "fixed", "seconds": 60 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "parallel-process" },
+              { "type": "afterStep", "stepId": "serial-cleanup" },
+              { "type": "afterStep", "stepId": "stagger-process" }
+            ]
+          }
+        },
+        {
+          "stepId": "final-package",
+          "name": "Final Packaging",
+          "task": "packaging",
+          "description": "Package all items together",
+          "duration": { "type": "fixed", "seconds": 90 },
+          "startTrigger": { "type": "afterStep", "stepId": "collect-items" }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "schemaVersion": "0.1.0",
+  "programId": "comprehensive_manual_demo_v2",
+  "name": "Comprehensive Manual Controls Demo v2",
+  "description": "Variation with variable-duration setup step, manual start triggers, variable duration steps, and indefinite duration steps",
+  "environmentType": "test",
+  "tracks": [
+    {
+      "trackId": "preparation",
+      "name": "Preparation Track",
+      "steps": [
+        {
+          "stepId": "setup",
+          "name": "Initial Setup",
+          "description": "Setup step with variable duration - can be completed manually after 15 seconds",
+          "task": "setup",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 15,
+            "maxSeconds": 60,
+            "defaultSeconds": 30,
+            "triggerName": "setup-complete"
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "manual-prep",
+          "name": "Manual Preparation",
+          "description": "This step requires manual start - click the start button when ready",
+          "task": "preparation",
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "startTrigger": {
+            "type": "manual",
+            "triggerName": "start-preparation"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "monitoring",
+      "name": "Monitoring Track",
+      "steps": [
+        {
+          "stepId": "variable-monitor",
+          "name": "Variable Duration Monitoring",
+          "description": "Monitor process - can be stopped manually after 45 seconds, will auto-stop after 3 minutes",
+          "task": "monitoring",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 45,
+            "maxSeconds": 180,
+            "defaultSeconds": 120,
+            "triggerName": "monitoring-complete"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "setup"
+          }
+        },
+        {
+          "stepId": "indefinite-watch",
+          "name": "Indefinite Watching",
+          "description": "Watch process indefinitely - must be manually stopped",
+          "task": "watching",
+          "duration": {
+            "type": "indefinite",
+            "defaultSeconds": 120,
+            "triggerName": "stop-watching"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "variable-monitor"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "execution",
+      "name": "Execution Track",
+      "steps": [
+        {
+          "stepId": "auto-task",
+          "name": "Automatic Task",
+          "description": "This task runs automatically after setup",
+          "task": "execution",
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "setup"
+          }
+        },
+        {
+          "stepId": "manual-execution",
+          "name": "Manual Execution Step",
+          "description": "Another manual start step",
+          "task": "execution",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 30,
+            "maxSeconds": 120,
+            "defaultSeconds": 75,
+            "triggerName": "execution-done"
+          },
+          "startTrigger": {
+            "type": "manual",
+            "triggerName": "start-execution"
+          }
+        },
+        {
+          "stepId": "final-step",
+          "name": "Final Cleanup",
+          "description": "Final step that runs after manual execution is complete",
+          "task": "cleanup",
+          "duration": {
+            "type": "fixed",
+            "seconds": 45
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "manual-execution"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,196 @@
+{
+  "environmentId": "software_dev_team",
+  "name": "Software Development Team Environment",
+  "description": "Complete software development team environment with engineering, design, marketing, operations, and business resources for product launches and feature development",
+  "version": "0.1.0-alpha",
+  "environmentType": "software_development",
+  "resources": [
+    {
+      "name": "senior_engineer",
+      "capacity": 3,
+      "description": "Senior software engineers capable of architecture decisions, code reviews, and complex implementations",
+      "skills": ["backend", "frontend", "architecture", "code_review", "deployment"],
+      "hourlyRate": 150
+    },
+    {
+      "name": "junior_engineer",
+      "capacity": 5,
+      "description": "Junior to mid-level engineers for feature implementation and testing",
+      "skills": ["frontend", "backend", "testing", "bug_fixes"],
+      "hourlyRate": 100
+    },
+    {
+      "name": "designer",
+      "capacity": 2,
+      "description": "UX/UI designers for user experience design and interface creation",
+      "skills": ["ui_design", "ux_research", "prototyping", "user_testing"],
+      "hourlyRate": 120
+    },
+    {
+      "name": "marketing_manager",
+      "capacity": 2,
+      "description": "Marketing professionals for campaigns, content, and growth initiatives",
+      "skills": ["content_creation", "social_media", "campaigns", "analytics"],
+      "hourlyRate": 110
+    },
+    {
+      "name": "devops_engineer",
+      "capacity": 2,
+      "description": "DevOps engineers for infrastructure, deployment, and monitoring",
+      "skills": ["infrastructure", "deployment", "monitoring", "security"],
+      "hourlyRate": 140
+    },
+    {
+      "name": "product_manager",
+      "capacity": 2,
+      "description": "Product managers for strategy, roadmap, and stakeholder coordination",
+      "skills": ["strategy", "roadmap", "stakeholder_management", "analytics"],
+      "hourlyRate": 130
+    },
+    {
+      "name": "qa_engineer",
+      "capacity": 3,
+      "description": "Quality assurance engineers for testing and automation",
+      "skills": ["manual_testing", "automation", "performance_testing", "security_testing"],
+      "hourlyRate": 95
+    },
+    {
+      "name": "legal_counsel",
+      "capacity": 1,
+      "description": "Legal counsel for compliance, contracts, and regulatory matters",
+      "skills": ["compliance", "contracts", "regulatory", "intellectual_property"],
+      "hourlyRate": 200
+    },
+    {
+      "name": "business_analyst",
+      "capacity": 2,
+      "description": "Business analysts for requirements gathering and process optimization",
+      "skills": ["requirements", "process_design", "stakeholder_interviews", "documentation"],
+      "hourlyRate": 105
+    },
+    {
+      "name": "technical_writer",
+      "capacity": 1,
+      "description": "Technical writer for documentation and user guides",
+      "skills": ["technical_writing", "api_documentation", "user_guides"],
+      "hourlyRate": 85
+    }
+  ],
+  "equipment": [
+    {
+      "name": "development_workstation",
+      "capacity": 15,
+      "description": "High-performance development workstations with multiple monitors",
+      "specifications": {
+        "cpu": "Intel i9 or AMD Ryzen 9",
+        "ram": "32GB",
+        "storage": "1TB NVMe SSD",
+        "monitors": "Dual 27-inch 4K displays"
+      },
+      "costPerDay": 25
+    },
+    {
+      "name": "design_workstation",
+      "capacity": 3,
+      "description": "Specialized design workstations with color-calibrated displays",
+      "specifications": {
+        "cpu": "Apple M3 Pro or Intel i9",
+        "ram": "64GB",
+        "storage": "2TB NVMe SSD",
+        "monitors": "32-inch 5K color-calibrated display"
+      },
+      "costPerDay": 35
+    },
+    {
+      "name": "testing_devices",
+      "capacity": 50,
+      "description": "Various mobile devices and tablets for cross-platform testing",
+      "specifications": {
+        "types": ["iOS devices", "Android phones", "tablets", "older devices"],
+        "coverage": "90% market share coverage"
+      },
+      "costPerDay": 15
+    },
+    {
+      "name": "server_infrastructure",
+      "capacity": 10,
+      "description": "Cloud server instances for development, staging, and production",
+      "specifications": {
+        "provider": "AWS/GCP/Azure",
+        "instances": "Variable based on load",
+        "storage": "Scalable block storage"
+      },
+      "costPerDay": 150
+    }
+  ],
+  "software": [
+    {
+      "name": "development_tools",
+      "licenses": 20,
+      "description": "Integrated development environments and code editors",
+      "tools": ["JetBrains Suite", "VS Code Pro", "Sublime Text"],
+      "costPerMonth": 2000
+    },
+    {
+      "name": "design_tools",
+      "licenses": 5,
+      "description": "Design and prototyping software",
+      "tools": ["Adobe Creative Suite", "Figma Enterprise", "Sketch"],
+      "costPerMonth": 1200
+    },
+    {
+      "name": "project_management",
+      "licenses": 30,
+      "description": "Project management and collaboration tools",
+      "tools": ["Jira", "Confluence", "Slack Enterprise", "Notion"],
+      "costPerMonth": 800
+    },
+    {
+      "name": "analytics_tools",
+      "licenses": 10,
+      "description": "Analytics and monitoring software",
+      "tools": ["Google Analytics 360", "Mixpanel", "DataDog", "New Relic"],
+      "costPerMonth": 1500
+    }
+  ],
+  "workflows": [
+    {
+      "name": "agile_development",
+      "description": "2-week sprint cycles with daily standups and retrospectives",
+      "cadence": "biweekly",
+      "ceremonies": ["daily_standups", "sprint_planning", "retrospectives", "demos"]
+    },
+    {
+      "name": "code_review",
+      "description": "Mandatory peer code reviews for all changes",
+      "requirements": ["minimum_2_reviewers", "automated_testing", "documentation_updates"]
+    },
+    {
+      "name": "continuous_integration",
+      "description": "Automated testing and deployment pipeline",
+      "stages": ["unit_tests", "integration_tests", "security_scans", "performance_tests"]
+    }
+  ],
+  "constraints": {
+    "workingHours": {
+      "start": "09:00",
+      "end": "18:00",
+      "timezone": "UTC-5"
+    },
+    "holidays": ["new_year", "memorial_day", "independence_day", "labor_day", "thanksgiving", "christmas"],
+    "maxConcurrentProjects": 3,
+    "maxOvertimeHours": 10
+  },
+  "capabilities": [
+    "Web application development",
+    "Mobile application development",
+    "API design and implementation",
+    "Database design and optimization",
+    "Cloud infrastructure management",
+    "User experience research and design",
+    "Digital marketing campaigns",
+    "Performance optimization",
+    "Security audits and compliance",
+    "Technical documentation"
+  ]
+}

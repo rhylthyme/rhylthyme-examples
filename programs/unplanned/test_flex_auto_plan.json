@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "flex-test-kitchen",
   "name": "Flex Steps and Auto-Planning Test",
   "description": "Test program demonstrating flexible steps and auto-planning strategies",

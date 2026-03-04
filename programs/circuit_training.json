@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "full-body-circuit",
+  "name": "Full Body Circuit Training (40 min)",
+  "description": "Circuit training with upper body, lower body, and core stations — 3 circuits with 5 stations each",
+  "environmentType": "fitness",
+  "resourceConstraints": [
+    { "task": "weight-station", "maxConcurrent": 1, "description": "Weights and resistance equipment" },
+    { "task": "cardio-station", "maxConcurrent": 1, "description": "Space for cardio exercises" },
+    { "task": "core-station", "maxConcurrent": 1, "description": "Mat for core work" }
+  ],
+  "tracks": [
+    {
+      "trackId": "circuit-workout",
+      "name": "Circuit Training",
+      "steps": [
+        {
+          "stepId": "dynamic-warmup",
+          "name": "Dynamic Warm-up",
+          "task": "cardio-station",
+          "description": "Arm swings, leg swings, torso twists, light jogging",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "programStart" }
+        }
+      ]
+    },
+    {
+      "trackId": "circuit-1",
+      "name": "Circuit 1: Upper Body Focus",
+      "steps": [
+        {
+          "stepId": "push-ups",
+          "name": "Push-ups Station",
+          "task": "core-station",
+          "description": "Push-ups for 45 seconds, focus on form",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "dynamic-warmup" }
+        },
+        {
+          "stepId": "dumbbell-rows",
+          "name": "Dumbbell Rows Station",
+          "task": "weight-station",
+          "description": "Bent-over rows for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "push-ups", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "jumping-jacks",
+          "name": "Jumping Jacks Station",
+          "task": "cardio-station",
+          "description": "Jumping jacks for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "dumbbell-rows", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "shoulder-press",
+          "name": "Shoulder Press Station",
+          "task": "weight-station",
+          "description": "Overhead press for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "jumping-jacks", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "plank",
+          "name": "Plank Station",
+          "task": "core-station",
+          "description": "Hold plank position for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "shoulder-press", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "rest-1",
+          "name": "Rest Period",
+          "task": "cardio-station",
+          "description": "Active recovery - light walking, water break",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "afterStep", "stepId": "plank" }
+        }
+      ]
+    },
+    {
+      "trackId": "circuit-2",
+      "name": "Circuit 2: Lower Body Focus",
+      "steps": [
+        {
+          "stepId": "squats",
+          "name": "Squats Station",
+          "task": "weight-station",
+          "description": "Bodyweight or weighted squats for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "rest-1" }
+        },
+        {
+          "stepId": "lunges",
+          "name": "Lunges Station",
+          "task": "cardio-station",
+          "description": "Alternating lunges for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "squats", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "deadlifts",
+          "name": "Deadlifts Station",
+          "task": "weight-station",
+          "description": "Romanian deadlifts for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "lunges", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "calf-raises",
+          "name": "Calf Raises Station",
+          "task": "cardio-station",
+          "description": "Calf raises for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "deadlifts", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "wall-sit",
+          "name": "Wall Sit Station",
+          "task": "core-station",
+          "description": "Hold wall sit position for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "calf-raises", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "rest-2",
+          "name": "Rest Period",
+          "task": "cardio-station",
+          "description": "Active recovery - light stretching, water break",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "afterStep", "stepId": "wall-sit" }
+        }
+      ]
+    },
+    {
+      "trackId": "circuit-3",
+      "name": "Circuit 3: Full Body & Cardio",
+      "steps": [
+        {
+          "stepId": "burpees",
+          "name": "Burpees Station",
+          "task": "cardio-station",
+          "description": "Burpees for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "rest-2" }
+        },
+        {
+          "stepId": "russian-twists",
+          "name": "Russian Twists Station",
+          "task": "core-station",
+          "description": "Russian twists with or without weight for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "burpees", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "kettlebell-swings",
+          "name": "Kettlebell Swings Station",
+          "task": "weight-station",
+          "description": "Kettlebell swings for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "russian-twists", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "bicycle-crunches",
+          "name": "Bicycle Crunches Station",
+          "task": "core-station",
+          "description": "Bicycle crunches for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "kettlebell-swings", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "box-jumps",
+          "name": "Box Jumps Station",
+          "task": "cardio-station",
+          "description": "Box jumps or step-ups for 45 seconds",
+          "duration": { "type": "fixed", "seconds": 45 },
+          "startTrigger": { "type": "afterStep", "stepId": "bicycle-crunches", "offsetSeconds": 15 }
+        },
+        {
+          "stepId": "cool-down",
+          "name": "Cool-down & Stretch",
+          "task": "core-station",
+          "description": "Full body stretching routine, focus on worked muscle groups",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "box-jumps" }
+        }
+      ]
+    }
+  ]
+}

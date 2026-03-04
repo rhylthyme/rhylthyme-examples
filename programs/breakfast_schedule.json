@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "breakfast-schedule",
   "name": "Breakfast Schedule",
   "description": "Coordinated breakfast preparation schedule for scrambled eggs, bacon, and toast",

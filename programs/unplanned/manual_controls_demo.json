@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "manual_controls_demo",
   "name": "Manual Controls Demo",
   "description": "Demo program showing manual start and stop controls",
@@ -57,6 +58,7 @@
           "task": "watching",
           "duration": {
             "type": "indefinite",
+            "defaultSeconds": 120,
             "triggerName": "stop-watching"
           },
           "trigger": {

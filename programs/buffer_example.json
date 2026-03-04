@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "buffer-example",
   "name": "Buffer Example Program",
   "description": "Demonstrates pre-buffer and post-buffer functionality for setup and cleanup phases",

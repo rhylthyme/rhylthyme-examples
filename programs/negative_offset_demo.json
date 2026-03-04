@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "0.1.0",
+  "programId": "negative-offset-demo",
+  "name": "Negative Offset Demo",
+  "description": "Demonstrates negative offsetSeconds: Step B runs indefinitely until Step A is started, which caps Step B at 20 minutes remaining. A secondary example shows a prep step that starts 5 minutes before the main cooking step finishes.",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "main-cooking",
+      "name": "Main Cooking",
+      "description": "A slow-cooking step that runs indefinitely until the finishing step is started",
+      "steps": [
+        {
+          "stepId": "prep-ingredients",
+          "name": "Prep Ingredients",
+          "description": "Chop vegetables, measure spices, and prepare all ingredients",
+          "task": "prep-work",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "slow-braise",
+          "name": "Slow Braise",
+          "description": "Braise the meat low and slow — run indefinitely until the finishing sauce step is started, which will cap the remaining time at 20 minutes",
+          "task": "stovetop",
+          "duration": { "type": "indefinite", "defaultSeconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "prep-ingredients" }
+        },
+        {
+          "stepId": "rest-and-serve",
+          "name": "Rest and Serve",
+          "description": "Let the meat rest, then plate and serve",
+          "task": "prep-work",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "slow-braise" }
+        }
+      ]
+    },
+    {
+      "trackId": "finishing",
+      "name": "Finishing Sauce",
+      "description": "The finishing sauce that, when started, caps the braise at 20 more minutes",
+      "steps": [
+        {
+          "stepId": "make-finishing-sauce",
+          "name": "Make Finishing Sauce",
+          "description": "Starting this step signals that the braise has 20 minutes left. Prepare the reduction sauce during that time.",
+          "task": "stovetop",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "slow-braise",
+            "offsetSeconds": -1200
+          }
+        },
+        {
+          "stepId": "combine-and-glaze",
+          "name": "Combine and Glaze",
+          "description": "Combine the sauce with the braised meat and glaze under the broiler",
+          "task": "oven",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "make-finishing-sauce" }
+        }
+      ]
+    },
+    {
+      "trackId": "sides",
+      "name": "Side Dishes",
+      "description": "Prepare side dishes in parallel",
+      "steps": [
+        {
+          "stepId": "cook-rice",
+          "name": "Cook Rice",
+          "description": "Start rice in the rice cooker",
+          "task": "rice-cooker",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "steam-vegetables",
+          "name": "Steam Vegetables",
+          "description": "Steam fresh vegetables",
+          "task": "stovetop",
+          "duration": { "type": "fixed", "seconds": 480 },
+          "startTrigger": { "type": "afterStep", "stepId": "cook-rice" }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    { "task": "prep-work", "maxConcurrent": 2, "description": "Counter space for prep" },
+    { "task": "stovetop", "maxConcurrent": 4, "description": "Stovetop burners" },
+    { "task": "oven", "maxConcurrent": 1, "description": "Single oven" },
+    { "task": "rice-cooker", "maxConcurrent": 1, "description": "Rice cooker" }
+  ]
+}

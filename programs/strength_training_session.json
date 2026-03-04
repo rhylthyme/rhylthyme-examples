@@ -1,0 +1,190 @@
+{
+  "schemaVersion": "0.1.0",
+  "programId": "upper-body-strength",
+  "name": "Upper Body Strength Session",
+  "description": "Push/pull upper body workout with compound and isolation movements",
+  "version": "1.0.0",
+  "environmentType": "general",
+  "startTrigger": {
+    "type": "manual"
+  },
+  "meta": {
+    "workoutType": "strength",
+    "muscleGroups": ["chest", "back", "shoulders", "biceps", "triceps"],
+    "difficulty": "intermediate",
+    "exercises": [
+      {
+        "name": "Bench Press",
+        "sets": 4,
+        "reps": "6-8",
+        "weight": {"value": 185, "unit": "lbs"},
+        "rpe": 8,
+        "restSeconds": 180
+      },
+      {
+        "name": "Barbell Row",
+        "sets": 4,
+        "reps": "8-10",
+        "weight": {"value": 155, "unit": "lbs"},
+        "rpe": 7,
+        "restSeconds": 150
+      },
+      {
+        "name": "Overhead Press",
+        "sets": 3,
+        "reps": "8-10",
+        "weight": {"value": 115, "unit": "lbs"},
+        "rpe": 8,
+        "restSeconds": 120
+      },
+      {
+        "name": "Weighted Pull-ups",
+        "sets": 3,
+        "reps": "6-8",
+        "weight": {"value": 25, "unit": "lbs", "note": "added weight"},
+        "rpe": 8,
+        "restSeconds": 150
+      },
+      {
+        "name": "Dumbbell Curls",
+        "sets": 3,
+        "reps": "10-12",
+        "weight": {"value": 35, "unit": "lbs"},
+        "rpe": 7,
+        "restSeconds": 90
+      },
+      {
+        "name": "Tricep Dips",
+        "sets": 3,
+        "reps": "10-12",
+        "weight": {"value": 0, "unit": "lbs", "note": "bodyweight"},
+        "rpe": 7,
+        "restSeconds": 90
+      }
+    ],
+    "warmupNotes": "5 min light cardio, arm circles, band pull-aparts",
+    "totalVolume": {"estimated": true, "unit": "lbs"}
+  },
+  "tracks": [
+    {
+      "trackId": "warmup",
+      "name": "Warm-up",
+      "steps": [
+        {
+          "stepId": "general-warmup",
+          "name": "General Warm-up",
+          "description": "5 minutes light cardio: rowing or bike",
+          "task": "cardio-area",
+          "startTrigger": {"type": "programStart"},
+          "duration": {"type": "fixed", "seconds": 300}
+        },
+        {
+          "stepId": "mobility",
+          "name": "Mobility & Activation",
+          "description": "Arm circles, band pull-aparts, rotator cuff work",
+          "task": "stretching-area",
+          "startTrigger": {"type": "afterStep", "stepId": "general-warmup"},
+          "duration": {"type": "fixed", "seconds": 300}
+        }
+      ]
+    },
+    {
+      "trackId": "push-compound",
+      "name": "Push: Compound",
+      "steps": [
+        {
+          "stepId": "bench-warmup",
+          "name": "Bench Press Warm-up Sets",
+          "description": "2 warm-up sets: bar x10, 135 x5",
+          "task": "bench-rack",
+          "startTrigger": {"type": "afterStep", "stepId": "mobility"},
+          "duration": {"type": "fixed", "seconds": 300}
+        },
+        {
+          "stepId": "bench-working",
+          "name": "Bench Press Working Sets",
+          "description": "4 sets x 6-8 reps @ 185 lbs, RPE 8. Rest 3 min between sets",
+          "task": "bench-rack",
+          "startTrigger": {"type": "afterStep", "stepId": "bench-warmup"},
+          "duration": {"type": "fixed", "seconds": 900}
+        },
+        {
+          "stepId": "ohp-working",
+          "name": "Overhead Press",
+          "description": "3 sets x 8-10 reps @ 115 lbs, RPE 8. Rest 2 min between sets",
+          "task": "squat-rack",
+          "startTrigger": {"type": "afterStep", "stepId": "bench-working"},
+          "duration": {"type": "fixed", "seconds": 660}
+        }
+      ]
+    },
+    {
+      "trackId": "pull-compound",
+      "name": "Pull: Compound",
+      "steps": [
+        {
+          "stepId": "row-working",
+          "name": "Barbell Row",
+          "description": "4 sets x 8-10 reps @ 155 lbs, RPE 7. Rest 2.5 min between sets",
+          "task": "free-weights",
+          "startTrigger": {"type": "afterStep", "stepId": "ohp-working"},
+          "duration": {"type": "fixed", "seconds": 780}
+        },
+        {
+          "stepId": "pullup-working",
+          "name": "Weighted Pull-ups",
+          "description": "3 sets x 6-8 reps @ BW+25 lbs, RPE 8. Rest 2.5 min between sets",
+          "task": "pullup-bar",
+          "startTrigger": {"type": "afterStep", "stepId": "row-working"},
+          "duration": {"type": "fixed", "seconds": 600}
+        }
+      ]
+    },
+    {
+      "trackId": "isolation",
+      "name": "Isolation & Accessories",
+      "steps": [
+        {
+          "stepId": "curls",
+          "name": "Dumbbell Curls",
+          "description": "3 sets x 10-12 reps @ 35 lbs, RPE 7. Rest 90s between sets",
+          "task": "dumbbells",
+          "startTrigger": {"type": "afterStep", "stepId": "pullup-working"},
+          "duration": {"type": "fixed", "seconds": 450}
+        },
+        {
+          "stepId": "dips",
+          "name": "Tricep Dips",
+          "description": "3 sets x 10-12 reps bodyweight, RPE 7. Rest 90s between sets",
+          "task": "dip-station",
+          "startTrigger": {"type": "afterStep", "stepId": "curls"},
+          "duration": {"type": "fixed", "seconds": 450}
+        }
+      ]
+    },
+    {
+      "trackId": "cooldown",
+      "name": "Cool-down",
+      "steps": [
+        {
+          "stepId": "stretching",
+          "name": "Cool-down Stretches",
+          "description": "Chest doorway stretch, lat stretch, shoulder cross-body stretch. Hold 30s each side",
+          "task": "stretching-area",
+          "startTrigger": {"type": "afterStep", "stepId": "dips"},
+          "duration": {"type": "fixed", "seconds": 300}
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {"task": "bench-rack", "maxConcurrent": 1, "description": "Bench press station"},
+    {"task": "squat-rack", "maxConcurrent": 1, "description": "Squat/press rack"},
+    {"task": "pullup-bar", "maxConcurrent": 1, "description": "Pull-up bar"},
+    {"task": "free-weights", "maxConcurrent": 1, "description": "Barbell area"},
+    {"task": "dumbbells", "maxConcurrent": 1, "description": "Dumbbell rack"},
+    {"task": "dip-station", "maxConcurrent": 1, "description": "Dip station"},
+    {"task": "cardio-area", "maxConcurrent": 1, "description": "Cardio equipment"},
+    {"task": "stretching-area", "maxConcurrent": 1, "description": "Open floor space"}
+  ]
+}

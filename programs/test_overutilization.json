@@ -1,4 +1,5 @@
 {
+  "schemaVersion": "0.1.0",
   "programId": "home-kitchen-overutilization",
   "name": "Home Kitchen Resource Overutilization Test",
   "description": "Test home kitchen resource conflicts with multiple simultaneous cooking tasks",
