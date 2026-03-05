@@ -38,7 +38,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -e ./rhylthyme-spec
         pip install -e ./rhylthyme-cli-runner
-        pip install pytest pyyaml
+        pip install pytest pyyaml setuptools
 
     - name: Run tests
       run: |
