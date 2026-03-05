@@ -9,24 +9,38 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8, 3.9, '3.10']
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
+    - name: Checkout rhylthyme-examples
+      uses: actions/checkout@v4
       with:
-        python-version: ${{ matrix.python-version }}
+        path: rhylthyme-examples
+
+    - name: Checkout rhylthyme-spec
+      uses: actions/checkout@v4
+      with:
+        repository: rhylthyme/rhylthyme-spec
+        path: rhylthyme-spec
+
+    - name: Checkout rhylthyme-cli-runner
+      uses: actions/checkout@v4
+      with:
+        repository: rhylthyme/rhylthyme-cli-runner
+        path: rhylthyme-cli-runner
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install rhylthyme-schema rhylthyme-cli
-    - name: Validate examples
+        pip install -e ./rhylthyme-spec
+        pip install -e ./rhylthyme-cli-runner
+        pip install pytest pyyaml
+
+    - name: Run tests
       run: |
-        for file in programs/*.json environments/*.json; do
-          if [ -f "$file" ]; then
-            python -m rhylthyme.schema.validate_program "$file" || exit 1
-          fi
-        done 
+        cd rhylthyme-examples
+        pytest tests/ -v

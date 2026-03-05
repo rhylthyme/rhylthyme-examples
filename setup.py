@@ -19,7 +19,7 @@ def read_readme():
 
 setup(
     name="rhylthyme-examples",
-    version="0.1.0-alpha",
+    version="0.1.0",
     description="Example programs and environments for Rhylthyme real-time scheduling system",
     long_description=read_readme(),
     long_description_content_type="text/markdown",
@@ -28,11 +28,9 @@ setup(
     url="https://github.com/rhylthyme/rhylthyme-examples",
     # No packages to install - this is just for testing
     packages=[],
-    install_requires=[
-        # Core dependencies needed to validate examples
-        "rhylthyme-cli-runner>=0.1.0-alpha",
-        "rhylthyme-spec>=0.1.0-alpha",
-    ],
+    # rhylthyme-cli-runner and rhylthyme-spec are required but not on PyPI.
+    # Install from source: pip install -e ../rhylthyme-spec -e ../rhylthyme-cli-runner
+    install_requires=[],
     extras_require={
         "dev": [
             # Testing framework
