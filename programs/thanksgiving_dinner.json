@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "thanksgiving-dinner-complete",
+  "name": "Complete Thanksgiving Dinner",
+  "description": "Full Thanksgiving feast for 8 people: Turkey, stuffing, mashed potatoes, green bean casserole, cranberry sauce, and pumpkin pie — all timed to finish together at 6:00 PM",
+  "environmentType": "kitchen",
+  "resourceConstraints": [
+    { "task": "oven", "maxConcurrent": 1, "description": "Main oven for turkey and sides" },
+    { "task": "stovetop-burner", "maxConcurrent": 4, "description": "4 burners available" },
+    { "task": "prep-counter", "maxConcurrent": 2, "description": "Limited counter space for prep work" }
+  ],
+  "actors": 2,
+  "tracks": [
+    {
+      "trackId": "turkey",
+      "name": "Roast Turkey (15 lbs)",
+      "steps": [
+        {
+          "stepId": "turkey-prep",
+          "name": "Prep Turkey",
+          "task": "prep-counter",
+          "description": "Remove from fridge, pat dry, season inside and out, stuff cavity with aromatics",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "programStart" }        },
+        {
+          "stepId": "turkey-roast",
+          "name": "Roast Turkey",
+          "task": "oven",
+          "description": "Roast at 325°F, basting every 45 minutes until internal temp reaches 165°F",
+          "duration": { "type": "fixed", "seconds": 10800 },
+          "startTrigger": { "type": "afterStep", "stepId": "turkey-prep" }        },
+        {
+          "stepId": "turkey-rest",
+          "name": "Rest Turkey",
+          "task": "prep-counter",
+          "description": "Let turkey rest before carving to retain juices",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "turkey-roast" }
+        }
+      ]
+    },
+    {
+      "trackId": "stuffing",
+      "name": "Traditional Stuffing",
+      "steps": [
+        {
+          "stepId": "bread-prep",
+          "name": "Prepare Bread",
+          "task": "prep-counter",
+          "description": "Cube day-old bread, toast in oven until golden",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 3600 }        },
+        {
+          "stepId": "saute-vegetables",
+          "name": "Sauté Vegetables",
+          "task": "stovetop-burner",
+          "description": "Sauté onions, celery, garlic until soft",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "bread-prep" }        },
+        {
+          "stepId": "mix-stuffing",
+          "name": "Mix Stuffing",
+          "task": "prep-counter",
+          "description": "Combine bread, vegetables, herbs, and broth",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "saute-vegetables" }        },
+        {
+          "stepId": "bake-stuffing",
+          "name": "Bake Stuffing",
+          "task": "oven",
+          "description": "Bake covered at 350°F for 30 minutes, then uncovered for 15 minutes",
+          "duration": { "type": "fixed", "seconds": 2700 },
+          "startTrigger": { "type": "afterStep", "stepId": "turkey-roast" }        }
+      ]
+    },
+    {
+      "trackId": "mashed-potatoes",
+      "name": "Creamy Mashed Potatoes",
+      "steps": [
+        {
+          "stepId": "peel-potatoes",
+          "name": "Peel & Quarter Potatoes",
+          "task": "prep-counter",
+          "description": "Peel 4 lbs Yukon potatoes, quarter for even cooking",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 7200 }        },
+        {
+          "stepId": "boil-potatoes",
+          "name": "Boil Potatoes",
+          "task": "stovetop-burner",
+          "description": "Boil in salted water until fork tender, about 20 minutes",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "peel-potatoes" }        },
+        {
+          "stepId": "mash-potatoes",
+          "name": "Mash Potatoes",
+          "task": "prep-counter",
+          "description": "Drain, mash with butter, cream, salt, and pepper until smooth",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "boil-potatoes" }        },
+        {
+          "stepId": "keep-warm",
+          "name": "Keep Warm",
+          "task": "stovetop-burner",
+          "description": "Keep warm on low heat, stirring occasionally",
+          "duration": { "type": "variable", "minSeconds": 600, "maxSeconds": 1800, "defaultSeconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "mash-potatoes" }
+        }
+      ]
+    },
+    {
+      "trackId": "green-beans",
+      "name": "Green Bean Casserole",
+      "steps": [
+        {
+          "stepId": "blanch-beans",
+          "name": "Blanch Green Beans",
+          "task": "stovetop-burner",
+          "description": "Blanch 2 lbs fresh green beans until crisp-tender",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 8400 }        },
+        {
+          "stepId": "make-sauce",
+          "name": "Make Mushroom Sauce",
+          "task": "stovetop-burner",
+          "description": "Sauté mushrooms, make cream sauce",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "blanch-beans" }        },
+        {
+          "stepId": "assemble-casserole",
+          "name": "Assemble Casserole",
+          "task": "prep-counter",
+          "description": "Combine beans and sauce, top with fried onions",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "make-sauce" }        },
+        {
+          "stepId": "bake-casserole",
+          "name": "Bake Casserole",
+          "task": "oven",
+          "description": "Bake at 350°F until bubbly and golden",
+          "duration": { "type": "fixed", "seconds": 1500 },
+          "startTrigger": { "type": "afterStep", "stepId": "bake-stuffing" }        }
+      ]
+    },
+    {
+      "trackId": "cranberry-sauce",
+      "name": "Fresh Cranberry Sauce",
+      "steps": [
+        {
+          "stepId": "cook-cranberries",
+          "name": "Cook Cranberries",
+          "task": "stovetop-burner",
+          "description": "Cook fresh cranberries with sugar and orange zest until popped",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 10800 }        },
+        {
+          "stepId": "cool-sauce",
+          "name": "Cool Sauce",
+          "task": "prep-counter",
+          "description": "Let cranberry sauce cool and thicken at room temperature",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "cook-cranberries" }
+        }
+      ]
+    },
+    {
+      "trackId": "gravy",
+      "name": "Turkey Gravy",
+      "steps": [
+        {
+          "stepId": "make-roux",
+          "name": "Make Roux",
+          "task": "stovetop-burner",
+          "description": "Make roux with turkey drippings and flour",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "turkey-roast" }        },
+        {
+          "stepId": "add-stock",
+          "name": "Add Stock & Season",
+          "task": "stovetop-burner",
+          "description": "Gradually add turkey stock, season, simmer until smooth",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "make-roux" }        }
+      ]
+    }
+  ]
+}

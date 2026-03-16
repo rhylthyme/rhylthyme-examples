@@ -1,0 +1,436 @@
+{
+  "schemaVersion": "0.1.0-alpha",
+  "programId": "wedding-and-reception",
+  "name": "Wedding Ceremony & Reception",
+  "description": "A traditional wedding day from getting ready through the sparkler send-off — ceremony, cocktail hour, dinner, toasts, and dancing",
+  "environmentType": "events",
+  "resourceConstraints": [
+    { "task": "ceremony-venue", "maxConcurrent": 1, "description": "Ceremony space (chapel, garden, etc.)" },
+    { "task": "reception-venue", "maxConcurrent": 1, "description": "Reception ballroom/tent" },
+    { "task": "photographer", "maxConcurrent": 1, "description": "Lead photographer" },
+    { "task": "dj", "maxConcurrent": 1, "description": "DJ or band" },
+    { "task": "catering", "maxConcurrent": 2, "description": "Catering staff teams" },
+    { "task": "bridal-suite", "maxConcurrent": 1, "description": "Bridal getting-ready room" },
+    { "task": "groom-suite", "maxConcurrent": 1, "description": "Groom getting-ready room" }
+  ],
+  "actors": 4,
+  "tracks": [
+    {
+      "trackId": "bride-prep",
+      "name": "Bride Preparation",
+      "steps": [
+        {
+          "stepId": "bride-hair-makeup",
+          "name": "Hair & Makeup",
+          "task": "bridal-suite",
+          "description": "Bride and bridesmaids hair styling and makeup application",
+          "duration": { "type": "fixed", "seconds": 7200 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "bride-dress",
+          "name": "Bride Gets Dressed",
+          "task": "bridal-suite",
+          "description": "Bride puts on wedding dress with help from bridesmaids and mother",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "bride-hair-makeup" }
+        }
+      ]
+    },
+    {
+      "trackId": "groom-prep",
+      "name": "Groom Preparation",
+      "steps": [
+        {
+          "stepId": "groom-getting-ready",
+          "name": "Groom Gets Ready",
+          "task": "groom-suite",
+          "description": "Groom and groomsmen suit up, boutonnieres, final preparations",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 3600 }
+        }
+      ]
+    },
+    {
+      "trackId": "photography",
+      "name": "Photography",
+      "steps": [
+        {
+          "stepId": "getting-ready-photos",
+          "name": "Getting Ready Photos",
+          "task": "photographer",
+          "description": "Candid shots of bride and groom preparing separately — detail shots of dress, rings, shoes, bouquet",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "programStartOffset", "offsetSeconds": 3600 }
+        },
+        {
+          "stepId": "first-look",
+          "name": "First Look",
+          "task": "photographer",
+          "description": "Couple sees each other for the first time — private, emotional reveal moment",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "bride-dress" },
+              { "type": "afterStep", "stepId": "groom-getting-ready" }
+            ]
+          }
+        },
+        {
+          "stepId": "couple-portraits",
+          "name": "Couple Portraits",
+          "task": "photographer",
+          "description": "Formal and romantic portraits of the couple at scenic locations around the venue",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "first-look" }
+        },
+        {
+          "stepId": "wedding-party-photos",
+          "name": "Wedding Party Photos",
+          "task": "photographer",
+          "description": "Group photos with bridesmaids, groomsmen, and full wedding party",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "couple-portraits" }
+        },
+        {
+          "stepId": "family-formals",
+          "name": "Family Formal Photos",
+          "task": "photographer",
+          "description": "Formal portraits with immediate family, parents, grandparents, and extended family groups",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "wedding-party-photos" }
+        }
+      ]
+    },
+    {
+      "trackId": "ceremony-setup",
+      "name": "Ceremony Setup",
+      "steps": [
+        {
+          "stepId": "ceremony-venue-setup",
+          "name": "Ceremony Venue Setup",
+          "task": "ceremony-venue",
+          "description": "Set up chairs, aisle runner, arch/chuppah, floral arrangements, programs on seats",
+          "duration": { "type": "fixed", "seconds": 5400 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "musician-setup",
+          "name": "Ceremony Musician Setup",
+          "task": "ceremony-venue",
+          "description": "String quartet or musician sound check and setup",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "ceremony-venue-setup" }
+        }
+      ]
+    },
+    {
+      "trackId": "ceremony",
+      "name": "Wedding Ceremony",
+      "steps": [
+        {
+          "stepId": "guest-seating",
+          "name": "Guest Seating",
+          "task": "ceremony-venue",
+          "description": "Ushers seat guests — family to reserved front rows, friends choose a side or open seating",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "musician-setup" },
+              { "type": "afterStep", "stepId": "family-formals" }
+            ]
+          }
+        },
+        {
+          "stepId": "processional",
+          "name": "Processional",
+          "task": "ceremony-venue",
+          "description": "Officiant, groom, and groomsmen take positions; bridesmaids walk the aisle; flower girl and ring bearer; bride's entrance with escort",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "guest-seating" }
+        },
+        {
+          "stepId": "opening-remarks",
+          "name": "Welcome & Opening Remarks",
+          "task": "ceremony-venue",
+          "description": "Officiant welcomes guests, shares words about marriage and the couple",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "processional" }
+        },
+        {
+          "stepId": "readings",
+          "name": "Readings & Prayers",
+          "task": "ceremony-venue",
+          "description": "Selected friends or family members share readings — poems, scripture, or personal selections",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "opening-remarks" }
+        },
+        {
+          "stepId": "vows",
+          "name": "Exchange of Vows",
+          "task": "ceremony-venue",
+          "description": "Couple exchanges wedding vows — traditional or personally written promises to each other",
+          "duration": { "type": "fixed", "seconds": 480 },
+          "startTrigger": { "type": "afterStep", "stepId": "readings" }
+        },
+        {
+          "stepId": "ring-exchange",
+          "name": "Ring Exchange",
+          "task": "ceremony-venue",
+          "description": "Exchange of wedding rings with the traditional 'with this ring' declaration",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "vows" }
+        },
+        {
+          "stepId": "unity-ceremony",
+          "name": "Unity Ceremony",
+          "task": "ceremony-venue",
+          "description": "Sand pouring, candle lighting, handfasting, or other symbolic unity ritual",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "ring-exchange" }
+        },
+        {
+          "stepId": "the-kiss",
+          "name": "The Kiss & Pronouncement",
+          "task": "ceremony-venue",
+          "description": "Officiant pronounces the couple married — You may now kiss!",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "afterStep", "stepId": "unity-ceremony" }
+        },
+        {
+          "stepId": "recessional",
+          "name": "Recessional",
+          "task": "ceremony-venue",
+          "description": "Newlyweds walk back up the aisle together, followed by wedding party — guests cheer, toss petals or blow bubbles",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "the-kiss" }
+        }
+      ]
+    },
+    {
+      "trackId": "cocktail-hour",
+      "name": "Cocktail Hour",
+      "steps": [
+        {
+          "stepId": "cocktail-setup",
+          "name": "Cocktail Area Setup",
+          "task": "catering",
+          "description": "Set up bar stations, hors d'oeuvres displays, and lounge furniture",
+          "duration": { "type": "fixed", "seconds": 1800 },
+          "startTrigger": { "type": "afterStep", "stepId": "guest-seating" }
+        },
+        {
+          "stepId": "cocktail-hour",
+          "name": "Cocktail Hour",
+          "task": "catering",
+          "description": "Guests enjoy signature cocktails, passed hors d'oeuvres, and mingle while couple takes photos",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "recessional" }
+        }
+      ]
+    },
+    {
+      "trackId": "reception-setup",
+      "name": "Reception Room Setup",
+      "steps": [
+        {
+          "stepId": "reception-flip",
+          "name": "Reception Room Flip",
+          "task": "reception-venue",
+          "description": "Transform ceremony space or prepare reception room — set tables, centerpieces, place cards, linens, lighting",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "recessional" }
+        },
+        {
+          "stepId": "cake-display-setup",
+          "name": "Cake & Dessert Display Setup",
+          "task": "reception-venue",
+          "description": "Position wedding cake, set up dessert table, arrange cake topper and serving pieces",
+          "duration": { "type": "fixed", "seconds": 1200 },
+          "startTrigger": { "type": "afterStep", "stepId": "reception-flip" }
+        }
+      ]
+    },
+    {
+      "trackId": "dj-setup-track",
+      "name": "DJ/Band Setup",
+      "steps": [
+        {
+          "stepId": "dj-setup",
+          "name": "DJ/Band Setup & Sound Check",
+          "task": "dj",
+          "description": "Set up speakers, lighting, microphones, test equipment, prepare playlists",
+          "duration": { "type": "fixed", "seconds": 2700 },
+          "startTrigger": { "type": "afterStep", "stepId": "recessional" }
+        }
+      ]
+    },
+    {
+      "trackId": "reception",
+      "name": "Reception Events",
+      "steps": [
+        {
+          "stepId": "grand-entrance",
+          "name": "Grand Entrance & Introductions",
+          "task": "dj",
+          "description": "DJ announces wedding party one by one, then the newlyweds make their grand entrance to cheers and applause",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "cocktail-hour" },
+              { "type": "afterStep", "stepId": "cake-display-setup" },
+              { "type": "afterStep", "stepId": "dj-setup" }
+            ]
+          }
+        },
+        {
+          "stepId": "first-dance",
+          "name": "First Dance",
+          "task": "dj",
+          "description": "The newlyweds share their first dance as a married couple",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "grand-entrance" }
+        },
+        {
+          "stepId": "welcome-toast",
+          "name": "Welcome Toast & Blessing",
+          "task": "dj",
+          "description": "Father of the bride or host gives welcome speech, blessing or grace before dinner",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "first-dance" }
+        },
+        {
+          "stepId": "dinner-service",
+          "name": "Dinner Service",
+          "task": "catering",
+          "description": "Plated dinner or buffet service — salad course, main course, and sides served to all guests",
+          "duration": { "type": "fixed", "seconds": 4200 },
+          "startTrigger": { "type": "afterStep", "stepId": "welcome-toast" }
+        },
+        {
+          "stepId": "parent-dances",
+          "name": "Parent Dances",
+          "task": "dj",
+          "description": "Father-daughter dance followed by mother-son dance — guests watch from their seats",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              { "type": "afterStep", "stepId": "dinner-service" },
+              { "type": "afterStep", "stepId": "best-man-toast" }
+            ]
+          }
+        },
+        {
+          "stepId": "cake-cutting",
+          "name": "Cake Cutting",
+          "task": "dj",
+          "description": "Couple cuts the wedding cake together — traditional first bite feeding each other",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "parent-dances" }
+        },
+        {
+          "stepId": "bouquet-toss",
+          "name": "Bouquet Toss",
+          "task": "dj",
+          "description": "Bride tosses her bouquet to unmarried guests gathered on the dance floor",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "cake-cutting" }
+        },
+        {
+          "stepId": "garter-toss",
+          "name": "Garter Toss",
+          "task": "dj",
+          "description": "Groom removes and tosses the garter to unmarried guests",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "bouquet-toss" }
+        },
+        {
+          "stepId": "open-dancing",
+          "name": "Open Dancing",
+          "task": "dj",
+          "description": "Dance floor opens to all guests — DJ plays mix of crowd favorites, requests, and era-spanning hits",
+          "duration": { "type": "fixed", "seconds": 5400 },
+          "startTrigger": { "type": "afterStep", "stepId": "garter-toss" }
+        },
+        {
+          "stepId": "last-dance",
+          "name": "Last Dance",
+          "task": "dj",
+          "description": "Final slow dance for the couple as DJ invites all guests to join for the last song of the evening",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "open-dancing" }
+        },
+        {
+          "stepId": "send-off",
+          "name": "Sparkler Send-Off",
+          "task": "reception-venue",
+          "description": "Guests line up with sparklers forming a tunnel — couple runs through to their getaway car amid cheers and sparkles",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "last-dance" }
+        }
+      ]
+    },
+    {
+      "trackId": "toasts",
+      "name": "Toasts & Speeches",
+      "steps": [
+        {
+          "stepId": "maid-of-honor-toast",
+          "name": "Maid of Honor Toast",
+          "task": "dj",
+          "description": "Maid of honor gives heartfelt and often humorous speech about the bride and couple",
+          "duration": { "type": "fixed", "seconds": 420 },
+          "startTrigger": { "type": "afterStep", "stepId": "welcome-toast", "offsetSeconds": 1200 }
+        },
+        {
+          "stepId": "best-man-toast",
+          "name": "Best Man Toast",
+          "task": "dj",
+          "description": "Best man delivers his speech — stories, well-wishes, and a toast to the couple",
+          "duration": { "type": "fixed", "seconds": 420 },
+          "startTrigger": { "type": "afterStep", "stepId": "maid-of-honor-toast" }
+        }
+      ]
+    },
+    {
+      "trackId": "dance-traditions",
+      "name": "Dance Floor Traditions",
+      "steps": [
+        {
+          "stepId": "anniversary-dance",
+          "name": "Anniversary Dance",
+          "task": "dj",
+          "description": "All married couples join the floor — couples sit as their anniversary year is called until the longest-married couple remains",
+          "duration": { "type": "fixed", "seconds": 420 },
+          "startTrigger": { "type": "afterStep", "stepId": "garter-toss", "offsetSeconds": 1800 }
+        }
+      ]
+    },
+    {
+      "trackId": "dessert-service",
+      "name": "Dessert & Late Night",
+      "steps": [
+        {
+          "stepId": "dessert-service",
+          "name": "Dessert & Coffee Service",
+          "task": "catering",
+          "description": "Serve wedding cake slices, dessert table opens — mini pastries, cookies, coffee and tea station",
+          "duration": { "type": "fixed", "seconds": 2400 },
+          "startTrigger": { "type": "afterStep", "stepId": "cake-cutting" }
+        },
+        {
+          "stepId": "late-night-snacks",
+          "name": "Late Night Snack Station",
+          "task": "catering",
+          "description": "Pizza, sliders, or comfort food station opens for dancing guests needing fuel",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "startTrigger": { "type": "afterStep", "stepId": "dessert-service" }
+        }
+      ]
+    }
+  ]
+}

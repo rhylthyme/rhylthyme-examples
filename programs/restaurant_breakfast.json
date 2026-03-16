@@ -1,0 +1,140 @@
+{
+  "programId": "restaurant-breakfast",
+  "name": "Restaurant Breakfast Service",
+  "description": "Professional restaurant breakfast service workflow with coordinated cooking and plating",
+  "environmentType": "kitchen",
+  "actors": 2,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "scrambled-eggs",
+      "name": "Scrambled Eggs",
+      "description": "Multiple orders of scrambled eggs",
+      "batch_size": 3,
+      "steps": [
+        {
+          "stepId": "eggs-crack-whisk",
+          "name": "Crack and Whisk Eggs",
+          "description": "Crack eggs into a bowl and whisk with salt and pepper",
+          "task": "prep-work",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          }
+        },
+        {
+          "stepId": "eggs-heat-pan",
+          "name": "Heat Pan",
+          "description": "Place pan on stove and heat to medium",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "eggs-crack-whisk"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 60,
+            "maxSeconds": 120,
+            "defaultSeconds": 90,
+            "triggerName": "pan-ready"
+          },
+          "task": "stove-burner"
+        },
+        {
+          "stepId": "eggs-cook",
+          "name": "Cook Eggs",
+          "description": "Pour eggs into pan and cook until done",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "eggs-heat-pan"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 120,
+            "maxSeconds": 180,
+            "defaultSeconds": 150,
+            "triggerName": "eggs-done"
+          },
+          "task": "stove-burner"
+        }
+      ]
+    },
+    {
+      "trackId": "bacon",
+      "name": "Bacon",
+      "description": "Multiple orders of bacon",
+      "batch_size": 2,
+      "steps": [
+        {
+          "stepId": "bacon-prep",
+          "name": "Prepare Bacon",
+          "description": "Place bacon strips in cold pan",
+          "task": "prep-work",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          }
+        },
+        {
+          "stepId": "bacon-cook",
+          "name": "Cook Bacon",
+          "description": "Cook bacon, flipping occasionally until crispy",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bacon-prep"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 480,
+            "maxSeconds": 720,
+            "defaultSeconds": 600,
+            "triggerName": "bacon-done"
+          },
+          "task": "stove-burner"
+        }
+      ]
+    },
+    {
+      "trackId": "toast",
+      "name": "Toast",
+      "description": "Multiple orders of toast",
+      "batch_size": 4,
+      "steps": [
+        {
+          "stepId": "toast-cook",
+          "name": "Make Toast",
+          "description": "Place bread in toaster and toast until golden brown",
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 120
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 210
+          },
+          "task": "toaster"
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove-burner",
+      "maxConcurrent": 4,
+      "description": "Maximum number of stove burners that can be used simultaneously"
+    },
+    {
+      "task": "toaster",
+      "maxConcurrent": 2,
+      "description": "Maximum number of toasters that can be used simultaneously"
+    }
+  ],
+  "version": "1.0.0"
+}

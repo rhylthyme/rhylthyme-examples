@@ -41,7 +41,7 @@ def schema_file():
         import pkg_resources
 
         schema_path = pkg_resources.resource_filename(
-            "rhylthyme_spec", "schemas/program_schema_0.1.0-alpha.json"
+            "rhylthyme_spec", "schemas/program_schema_0.2.0-alpha.json"
         )
         if not os.path.exists(schema_path):
             # Try alternative location
@@ -51,7 +51,7 @@ def schema_file():
                 / "src"
                 / "rhylthyme_spec"
                 / "schemas"
-                / "program_schema_0.1.0-alpha.json"
+                / "program_schema_0.2.0-alpha.json"
             )
             if not schema_path.exists():
                 pytest.skip("Schema file not found")
@@ -65,7 +65,7 @@ def schema_file():
             / "src"
             / "rhylthyme_spec"
             / "schemas"
-            / "program_schema_0.1.0-alpha.json"
+            / "program_schema_0.2.0-alpha.json"
         )
         if not schema_path.exists():
             pytest.skip("Schema file not found")

@@ -4,7 +4,7 @@ import yaml
 from glob import glob
 from copy import deepcopy
 
-SCHEMA_PATH = '../rhylthyme-spec/schemas/program_schema_0.1.0-alpha.json'
+SCHEMA_PATH = '../rhylthyme-spec/schemas/program_schema_0.2.0-alpha.json'
 EXAMPLES_DIR = '../rhylthyme-examples/programs/'
 
 # Helper: load JSON or YAML

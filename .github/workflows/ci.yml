@@ -35,7 +35,8 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip setuptools
+        python -m pip install --upgrade pip
+        pip install setuptools
         pip install -e ./rhylthyme-spec
         pip install -e ./rhylthyme-cli-runner
         pip install pytest pyyaml

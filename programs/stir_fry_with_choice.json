@@ -1,0 +1,159 @@
+{
+  "schemaVersion": "0.1.0-alpha",
+  "programId": "stir-fry-with-choice",
+  "name": "Stir Fry with Protein Choice",
+  "description": "A veggie stir fry where you choose your protein — chicken, tofu, or shrimp",
+  "environmentType": "kitchen",
+  "actors": 1,
+  "resourceConstraints": [
+    { "task": "stovetop", "maxConcurrent": 2, "description": "Stovetop burners" },
+    { "task": "prep", "maxConcurrent": 1, "description": "Cutting board / prep area" }
+  ],
+  "tracks": [
+    {
+      "trackId": "rice",
+      "name": "Rice",
+      "steps": [
+        {
+          "stepId": "rinse-rice",
+          "name": "Rinse Rice",
+          "task": "prep",
+          "description": "Rinse jasmine rice until water runs clear",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "cook-rice",
+          "name": "Cook Rice",
+          "task": "stovetop",
+          "description": "Bring to boil, then simmer covered for 15 minutes",
+          "duration": { "type": "fixed", "seconds": 1080 },
+          "startTrigger": { "type": "afterStep", "stepId": "rinse-rice" }
+        }
+      ]
+    },
+    {
+      "trackId": "veggies",
+      "name": "Vegetables",
+      "steps": [
+        {
+          "stepId": "prep-veggies",
+          "name": "Chop Vegetables",
+          "task": "prep",
+          "description": "Dice bell peppers, slice mushrooms, chop broccoli, mince garlic and ginger",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "rinse-rice" }
+        },
+        {
+          "stepId": "stir-fry-veggies",
+          "name": "Stir Fry Vegetables",
+          "task": "stovetop",
+          "description": "High heat wok — cook veggies until crisp-tender, 4 minutes",
+          "duration": { "type": "fixed", "seconds": 240 },
+          "startTrigger": { "type": "afterStep", "stepId": "cook-protein" }
+        }
+      ]
+    },
+    {
+      "trackId": "protein",
+      "name": "Protein",
+      "steps": [
+        {
+          "stepId": "choose-protein",
+          "name": "Choose Your Protein",
+          "task": "prep",
+          "description": "Pick which protein to use for the stir fry",
+          "duration": { "type": "fixed", "seconds": 30 },
+          "startTrigger": { "type": "afterStep", "stepId": "prep-veggies" },
+          "choice": {
+            "prompt": "Which protein would you like?",
+            "options": [
+              { "choiceId": "chicken", "label": "Chicken" },
+              { "choiceId": "tofu", "label": "Tofu" },
+              { "choiceId": "shrimp", "label": "Shrimp" }
+            ]
+          }
+        },
+        {
+          "stepId": "prep-chicken",
+          "name": "Slice Chicken",
+          "task": "prep",
+          "description": "Slice chicken breast into thin strips, season with soy sauce and cornstarch",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "choose-protein", "choiceId": "chicken" }
+        },
+        {
+          "stepId": "prep-tofu",
+          "name": "Press & Cube Tofu",
+          "task": "prep",
+          "description": "Press extra-firm tofu, cut into cubes, toss with cornstarch",
+          "duration": { "type": "fixed", "seconds": 420 },
+          "startTrigger": { "type": "afterStep", "stepId": "choose-protein", "choiceId": "tofu" }
+        },
+        {
+          "stepId": "prep-shrimp",
+          "name": "Peel & Devein Shrimp",
+          "task": "prep",
+          "description": "Peel, devein, and pat dry the shrimp",
+          "duration": { "type": "fixed", "seconds": 360 },
+          "startTrigger": { "type": "afterStep", "stepId": "choose-protein", "choiceId": "shrimp" }
+        },
+        {
+          "stepId": "cook-protein",
+          "name": "Cook Protein",
+          "task": "stovetop",
+          "description": "Sear the chosen protein in hot wok until golden and cooked through",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": {
+            "logic": "any",
+            "triggers": [
+              { "type": "afterStep", "stepId": "prep-chicken" },
+              { "type": "afterStep", "stepId": "prep-tofu" },
+              { "type": "afterStep", "stepId": "prep-shrimp" }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "sauce",
+      "name": "Sauce",
+      "steps": [
+        {
+          "stepId": "make-sauce",
+          "name": "Mix Stir Fry Sauce",
+          "task": "prep",
+          "description": "Whisk together soy sauce, oyster sauce, sesame oil, rice vinegar, and a touch of brown sugar",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "startTrigger": { "type": "afterStep", "stepId": "prep-veggies" }
+        },
+        {
+          "stepId": "add-sauce",
+          "name": "Add Sauce & Toss",
+          "task": "stovetop",
+          "description": "Pour sauce over veggies, toss everything together, cook 1 minute until glossy",
+          "duration": { "type": "fixed", "seconds": 60 },
+          "startTrigger": { "type": "afterStep", "stepId": "stir-fry-veggies" }
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "ingredients": [
+      { "name": "jasmine rice", "measure": "1.5 cups" },
+      { "name": "bell peppers", "measure": "2, diced" },
+      { "name": "mushrooms", "measure": "8 oz, sliced" },
+      { "name": "broccoli", "measure": "2 cups, chopped" },
+      { "name": "garlic", "measure": "4 cloves, minced" },
+      { "name": "ginger", "measure": "1 inch, minced" },
+      { "name": "chicken breast OR extra-firm tofu OR shrimp", "measure": "1 lb" },
+      { "name": "soy sauce", "measure": "3 tbsp" },
+      { "name": "oyster sauce", "measure": "2 tbsp" },
+      { "name": "sesame oil", "measure": "1 tbsp" },
+      { "name": "rice vinegar", "measure": "1 tbsp" },
+      { "name": "brown sugar", "measure": "1 tsp" },
+      { "name": "cornstarch", "measure": "1 tbsp" }
+    ],
+    "serves": "Serves 4"
+  }
+}
