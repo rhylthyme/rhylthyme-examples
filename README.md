@@ -23,6 +23,43 @@ This repository contains working examples of Rhylthyme programs and environments
    rhylthyme run programs/breakfast_schedule.json
    ```
 
+## Importable source files
+
+The directories below hold input files in their *native* formats — they
+are NOT Rhylthyme program JSON. Each one is meant to be fed through the
+matching importer (CLI, web upload, or MCP) to **produce** a Rhylthyme
+program. Use these to try the importers end-to-end.
+
+| Directory | Format | Importer | Try it on the web |
+|---|---|---|---|
+| [`opentrons/`](opentrons/) | Opentrons Protocol API v2 `.py` | `rhylthyme-import-opentrons <file.py>` | [kitchen.rhylthyme.com](https://kitchen.rhylthyme.com/) → sidebar → **Upload Program** → drop the `.py` |
+| [`cooklang/`](cooklang/) | CookLang `.cook` recipe | `rhylthyme-import-cooklang <file.cook>` | same drop zone — accepts `.cook` |
+
+### Opentrons protocols (`opentrons/`)
+
+Five sample protocols covering the importer's full hardware surface.
+Same files double as the importer's golden-fixture test inputs, so they
+stay in sync with the code.
+
+| File | What it exercises |
+|---|---|
+| `trivial.py` | Four-command protocol — `pickup_tip → aspirate → dispense → drop_tip` on one OT-2 single-channel. Best for a smoke test. |
+| `pcr_setup.py` | `mix(repetitions=...)`, `protocol.delay()`, `protocol.pause()`, dedicated `Protocol` track for protocol-level steps. |
+| `serial_dilution.py` | Two-mount protocol: 8-channel `distribute` + per-column transfers on the left, single-channel `transfer` on the right. Shows helper-method expansion. |
+| `elisa.py` | Four module families on one program: heater-shaker, magnetic, temperature, absorbance. Each gets its own track + `maxConcurrent: 1` constraint. |
+| `cell_culture_passage.py` | Flex 96-channel pipette (shared gantry constraint), Flex 1-channel on the right mount, and `gripper.move_labware(use_gripper=True)`. |
+
+Full feature matrix + troubleshooting:
+[docs.rhylthyme.com/development/opentrons](https://docs.rhylthyme.com/development/opentrons/).
+
+### CookLang recipes (`cooklang/`)
+
+| File | What it is |
+|---|---|
+| `easy_pancakes.cook` | A CookLang recipe with timed steps (`~{15%minutes}`) and explicit ingredients. Drops into the web upload modal or `rhylthyme-import-cooklang`. |
+
+---
+
 ## Program Examples
 
 ### 🍳 Kitchen & Food Service
