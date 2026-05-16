@@ -67,7 +67,7 @@
           "stepId": "production_deployment",
           "name": "Production Environment Deployment",
           "duration": {
-            "type": "manual",
+            "type": "indefinite",
             "defaultSeconds": 14400
           },
           "startTrigger": {
@@ -198,7 +198,7 @@
           "stepId": "beta_program",
           "name": "Private Beta Program Launch",
           "duration": {
-            "type": "manual",
+            "type": "indefinite",
             "defaultSeconds": 345600
           },
           "startTrigger": {
@@ -211,7 +211,7 @@
           "stepId": "launch_announcement",
           "name": "Public Launch Announcement",
           "duration": {
-            "type": "manual",
+            "type": "indefinite",
             "defaultSeconds": 3600
           },
           "startTrigger": {
@@ -223,7 +223,8 @@
           "stepId": "social_media_campaign",
           "name": "Social Media Launch Campaign",
           "duration": {
-            "type": "indefinite"
+            "type": "indefinite",
+            "defaultSeconds": 86400
           },
           "startTrigger": {
             "type": "afterStep",
@@ -293,7 +294,7 @@
           "stepId": "go_live_checklist",
           "name": "Final Go-Live Checklist Review",
           "duration": {
-            "type": "manual",
+            "type": "indefinite",
             "defaultSeconds": 7200
           },
           "startTrigger": {
@@ -370,71 +371,32 @@
   ],
   "resourceConstraints": [
     {
-      "name": "senior_engineer",
-      "capacity": 2,
+      "task": "senior_engineer",
+      "maxConcurrent": 2,
       "description": "Senior software engineers for code review and deployment"
     },
     {
-      "name": "designer",
-      "capacity": 1,
+      "task": "designer",
+      "maxConcurrent": 1,
       "description": "Lead designer for UI/UX work"
     },
     {
-      "name": "marketing_manager",
-      "capacity": 1,
+      "task": "marketing_manager",
+      "maxConcurrent": 1,
       "description": "Marketing manager for campaigns and outreach"
     },
     {
-      "name": "devops_engineer",
-      "capacity": 1,
+      "task": "devops_engineer",
+      "maxConcurrent": 1,
       "description": "DevOps engineer for infrastructure and deployment"
     },
     {
-      "name": "legal_counsel",
-      "capacity": 1,
+      "task": "legal_counsel",
+      "maxConcurrent": 1,
       "description": "Legal counsel for compliance and agreements"
     }
   ],
-  "actors": [
-    {
-      "actorId": "engineering_lead",
-      "name": "Engineering Lead",
-      "tasks": ["code_review", "testing", "optimization", "deployment", "monitoring"]
-    },
-    {
-      "actorId": "design_lead",
-      "name": "Design Lead",
-      "tasks": ["design", "user_testing", "documentation"]
-    },
-    {
-      "actorId": "marketing_director",
-      "name": "Marketing Director",
-      "tasks": ["content_creation", "outreach", "press", "beta_management", "announcement", "social_media"]
-    },
-    {
-      "actorId": "devops_lead",
-      "name": "DevOps Lead",
-      "tasks": ["infrastructure", "backup_setup", "analytics", "monitoring"]
-    },
-    {
-      "actorId": "support_manager",
-      "name": "Support Manager",
-      "tasks": ["training", "checklist_review"]
-    },
-    {
-      "actorId": "business_lead",
-      "name": "Business Lead",
-      "tasks": ["strategy", "partnerships", "financial_setup"]
-    },
-    {
-      "actorId": "legal_counsel",
-      "name": "Legal Counsel",
-      "tasks": ["legal_review", "partnerships"]
-    }
-  ],
-  "duration": {
-    "type": "calculated"
-  },
+  "actors": 7,
   "targetDuration": {
     "type": "flexible",
     "seconds": 1814400

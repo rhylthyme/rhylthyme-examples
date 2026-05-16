@@ -76,13 +76,13 @@ def test_validate_all_json_programs(programs_dir, schema_file):
 
     # Schema errors cause test failure
     if schema_failures:
-        print("\n❌ SCHEMA ERRORS (FATAL):")
-        print("-" * 40)
-        error_msg = "Schema validation failures:\n"
+        error_msg = "\n❌ SCHEMA ERRORS (FATAL):\n"
+        error_msg += "-" * 40 + "\n"
         for filename, errors in schema_failures:
             error_msg += f"\n{filename}:\n"
             for error in errors:
                 error_msg += f"  - {error}\n"
+        print(error_msg)
         pytest.fail(error_msg)
     else:
         print("\n✅ All JSON programs passed schema validation")
@@ -158,13 +158,13 @@ def test_validate_all_yaml_programs(programs_dir, schema_file):
 
     # Schema errors cause test failure
     if schema_failures:
-        print("\n❌ SCHEMA ERRORS (FATAL):")
-        print("-" * 40)
-        error_msg = "Schema validation failures:\n"
+        error_msg = "\n❌ SCHEMA ERRORS (FATAL):\n"
+        error_msg += "-" * 40 + "\n"
         for filename, errors in schema_failures:
             error_msg += f"\n{filename}:\n"
             for error in errors:
                 error_msg += f"  - {error}\n"
+        print(error_msg)
         pytest.fail(error_msg)
     else:
         print("\n✅ All YAML programs that parsed successfully passed schema validation")
