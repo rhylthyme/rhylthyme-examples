@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "airport-landings-taxi-gate",
+  "name": "Four arrivals, two taxiway slots",
+  "description": "Four aircraft land five minutes apart on one runway, taxi in (instances: \"each\") and dock at a gate (instances: \"each\"). The apron between the runway and the gates holds two aircraft, expressed as replicates.maxInFlight: 2 on the landing: an aircraft is in flight, in the scheduling sense, from touchdown until it has finished at the gate, so the third landing is held until the first aircraft is clear. Baggage handling waits for every arrival (instances: \"all\").",
+  "environmentType": "logistics",
+  "tracks": [
+    {
+      "trackId": "arrivals",
+      "name": "Arrivals",
+      "steps": [
+        {
+          "stepId": "land",
+          "name": "Land on runway",
+          "task": "runway",
+          "duration": { "type": "fixed", "seconds": 120 },
+          "replicates": { "count": 4, "mode": "stagger", "delay": 300, "maxInFlight": 2 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "taxi",
+          "name": "Taxi to gate",
+          "task": "taxiway",
+          "duration": { "type": "fixed", "seconds": 480 },
+          "startTrigger": { "type": "afterStep", "stepId": "land", "instances": "each" }
+        },
+        {
+          "stepId": "dock",
+          "name": "Dock and deplane",
+          "task": "gate",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "taxi", "instances": "each" }
+        },
+        {
+          "stepId": "baggage",
+          "name": "Clear the baggage hall",
+          "task": "ground-crew",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "dock", "instances": "all" }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    { "task": "runway", "maxConcurrent": 1, "description": "Single runway" },
+    { "task": "taxiway", "maxConcurrent": 2, "description": "Two taxiway slots" },
+    { "task": "gate", "maxConcurrent": 2, "description": "Two gates" },
+    { "task": "ground-crew", "maxConcurrent": 1, "description": "One baggage crew" }
+  ],
+  "metadata": {
+    "expectedTimings": {
+      "land-r1": { "start": 0, "end": 120 },
+      "land-r2": { "start": 300, "end": 420 },
+      "land-r3": { "start": 1200, "end": 1320 },
+      "land-r4": { "start": 1500, "end": 1620 },
+      "taxi-r1": { "start": 120, "end": 600 },
+      "taxi-r2": { "start": 420, "end": 900 },
+      "taxi-r3": { "start": 1320, "end": 1800 },
+      "taxi-r4": { "start": 1620, "end": 2100 },
+      "dock-r1": { "start": 600, "end": 1200 },
+      "dock-r2": { "start": 900, "end": 1500 },
+      "dock-r3": { "start": 1800, "end": 2400 },
+      "dock-r4": { "start": 2100, "end": 2700 },
+      "baggage": { "start": 2700, "end": 3600 }
+    },
+    "expectedTimingsNote": "Seconds from program start, computed by hand. The stagger delay of 300 s is a minimum gap, not a fixed slot: land-r1 and land-r2 take it (0 and 300), but land-r3's staggered slot at 600 is overridden by the in-flight gate, which holds it until dock-r1 ends at 1200; land-r4's slot at 900 is likewise held until dock-r2 ends at 1500. Each arrival is land 120 s, taxi 480 s, dock 600 s, so the chain for arrival i runs 1200 s from touchdown. dock-r4 ends at 2700 and the baggage hall closes the program at 3600 s (60 min). Two aircraft are on the taxiway at a time and two gates are in use at a time, matching the declared maxConcurrent values."
+  }
+}

@@ -1,0 +1,33 @@
+Sandwich ELISA on Two Plates, One Washer
+
+Two 96-well plates are run half an hour apart through a sandwich ELISA for a secreted cytokine. There is one automated plate washer, one 37 °C plate incubator that holds two plates, one plate reader and one operator. The washer is the bottleneck: no two plates can be in it at once, and every incubation is bracketed by a wash.
+
+Day 1
+1. Coat plate 1 with 100 µL per well of capture antibody in carbonate buffer, seal it and leave it in the cold room at 4 °C overnight. Take it out when you are ready to start, not before.
+2. Coat plate 2 the same way half an hour later, so the two plates stay half an hour apart all day.
+
+Day 2, reagents
+3. Fifteen hours into the coat, make up the seven-point standard curve in assay diluent; 30 minutes.
+4. Dilute the samples 1:4 into assay diluent and lay out the plate map; 30 minutes.
+
+Day 2, plate 1
+5. Wash the plate four times with 300 µL of wash buffer; 5 minutes on the washer.
+6. Block with 200 µL per well of assay diluent for 1 hour at 37 °C.
+7. Wash four times; 5 minutes on the washer.
+8. Add 100 µL of standards and samples and incubate for 2 hours at 37 °C. Nothing goes on the plate until the dilutions are laid out.
+9. Wash four times; 5 minutes on the washer.
+10. Add 100 µL of biotinylated detection antibody and incubate for 1 hour at 37 °C.
+11. Wash four times; 5 minutes on the washer.
+12. Add 100 µL of TMB substrate, develop in the dark for exactly 15 minutes and stop with 50 µL of 2 N sulfuric acid.
+13. Read the absorbance at 450 nm with a 570 nm reference; 5 minutes on the reader.
+
+Day 2, plate 2
+14. Wash plate 2 four times as soon as the washer is free; 5 minutes.
+15. Block plate 2 with 200 µL of assay diluent for 1 hour at 37 °C.
+16. Wash plate 2 again once plate 1 is off the washer; 5 minutes.
+17. Add the standards and samples to plate 2 and incubate for 2 hours at 37 °C.
+18. Wash plate 2; 5 minutes.
+19. Add the detection antibody to plate 2 and incubate for 1 hour at 37 °C.
+20. Wash plate 2 a final time; 5 minutes.
+21. Develop plate 2 with TMB for exactly 15 minutes and stop it.
+22. Read plate 2 at 450 nm; 5 minutes.

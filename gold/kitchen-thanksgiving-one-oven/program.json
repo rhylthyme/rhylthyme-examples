@@ -1,0 +1,562 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "gold-kitchen-thanksgiving-one-oven",
+  "name": "Thanksgiving for Eight with One Oven",
+  "description": "Turkey, gravy, stuffing, green bean casserole, mashed potatoes and rolls, sequenced through a single oven so everything reaches the table together at six.",
+  "environmentType": "kitchen",
+  "actors": 2,
+  "resourceConstraints": [
+    {
+      "task": "oven",
+      "maxConcurrent": 1,
+      "description": "One oven; the roast and every baked side take turns"
+    },
+    {
+      "task": "burner",
+      "maxConcurrent": 4,
+      "description": "Four stovetop burners"
+    },
+    {
+      "task": "counter",
+      "maxConcurrent": 2,
+      "description": "Two working surfaces for prep, resting and carving"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "oven-prep",
+      "name": "Oven",
+      "steps": [
+        {
+          "stepId": "preheat-oven",
+          "name": "Preheat oven to 325°F",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 2400
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Heat the oven to 325°F; give it 20 minutes to come up",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "turkey",
+      "name": "Turkey",
+      "steps": [
+        {
+          "stepId": "temper-turkey",
+          "name": "Take turkey out of the refrigerator",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Take the turkey out of the refrigerator 40 minutes before you season it",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "season-turkey",
+          "name": "Dry, butter and season the turkey",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "temper-turkey"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Pat the bird dry, rub it all over with softened butter, salt and pepper",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "roast-turkey",
+          "name": "Roast turkey",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 10800
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "season-turkey"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "preheat-oven"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Roast the turkey for 3 hours",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "rest-turkey",
+          "name": "Rest turkey under foil",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "roast-turkey"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "let it rest, loosely tented with foil, for 40 minutes before carving",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "carve-turkey",
+          "name": "Carve turkey",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "rest-turkey"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Carving takes about 15 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "gravy",
+      "name": "Gravy",
+      "steps": [
+        {
+          "stepId": "make-roux",
+          "name": "Make roux from drippings",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "roast-turkey"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "pour the pan drippings into a saucepan, whisk in flour and cook for 3 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "simmer-gravy",
+          "name": "Simmer gravy",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "make-roux"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "simmer the gravy for 10 minutes until it coats a spoon",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "hold-gravy",
+          "name": "Keep gravy warm",
+          "task": "burner",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 600,
+            "maxSeconds": 3600,
+            "defaultSeconds": 3000
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "simmer-gravy"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Keep it warm over the lowest flame until dinner",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "stuffing",
+      "name": "Stuffing",
+      "steps": [
+        {
+          "stepId": "cube-bread",
+          "name": "Cube day-old bread",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Cut a loaf of day-old bread into cubes and spread them on a sheet pan",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "cook-vegetables",
+          "name": "Cook onion and celery",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "roast-turkey",
+            "event": "start",
+            "offsetSeconds": 9600
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "melt butter in a skillet and cook diced onion and celery for 10 minutes until soft",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "assemble-stuffing",
+          "name": "Assemble stuffing",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cook-vegetables"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Toss the bread with the vegetables, sage and two cups of stock and turn it into a buttered dish",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "bake-stuffing",
+          "name": "Bake stuffing",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2100
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "roast-turkey"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Bake the stuffing at 375°F for 35 minutes the moment the turkey is out",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "casserole",
+      "name": "Green bean casserole",
+      "steps": [
+        {
+          "stepId": "blanch-beans",
+          "name": "Blanch green beans",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "roast-turkey",
+            "offsetSeconds": 600
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "trim two pounds of green beans and blanch them for 4 minutes in salted boiling water",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "cook-mushrooms",
+          "name": "Cook mushrooms",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "blanch-beans"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "cook sliced mushrooms in butter for 8 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "simmer-sauce",
+          "name": "Simmer mushroom sauce",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cook-mushrooms"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "add cream and simmer for 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "assemble-casserole",
+          "name": "Assemble casserole",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "simmer-sauce"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Combine the beans and sauce in a baking dish and scatter fried onions on top",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "bake-casserole",
+          "name": "Bake casserole",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-stuffing"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Bake the casserole for 20 minutes as soon as the stuffing comes out",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "potatoes",
+      "name": "Mashed potatoes",
+      "steps": [
+        {
+          "stepId": "peel-potatoes",
+          "name": "Peel and quarter potatoes",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "roast-turkey"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "peel and quarter four pounds of potatoes, about 15 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "boil-potatoes",
+          "name": "Boil potatoes",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "peel-potatoes"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "boil for 20 minutes until a knife slides in easily",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "mash-potatoes",
+          "name": "Mash potatoes",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "boil-potatoes"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "mash with warm cream and a stick of butter; give it 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "hold-potatoes",
+          "name": "Hold potatoes on back burner",
+          "task": "burner",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 2700,
+            "defaultSeconds": 1080
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mash-potatoes"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Hold the potatoes covered on the back burner until everything else is ready",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "rolls",
+      "name": "Dinner rolls",
+      "steps": [
+        {
+          "stepId": "warm-rolls",
+          "name": "Warm rolls",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-casserole"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "slide them into the oven for 8 minutes right after the casserole comes out",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "table",
+      "name": "Serve",
+      "steps": [
+        {
+          "stepId": "serve",
+          "name": "Carry everything to the table",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "warm-rolls"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "carve-turkey"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "hold-potatoes"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "hold-gravy"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Carry everything to the table together",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Partner Upper-Body Superset Session",
+  "environmentType": "fitness",
+  "domain": "fitness",
+  "servesOrScale": "2 lifters",
+  "constraints": [
+    "one bench and barbell",
+    "one pair of dumbbells",
+    "one pull-up bar",
+    "two ergs",
+    "about 25 minutes"
+  ],
+  "notes": "One track per partner. Round 2 steps reuse the round 1 sentence as their span (occurrence 1) because the text describes the pattern once and says 'Do 2 rounds'. Rests carry no task."
+}

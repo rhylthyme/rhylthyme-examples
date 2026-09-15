@@ -1,0 +1,466 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "gold-kitchen-griddle-breakfast-for-six",
+  "name": "Breakfast for Six on One Griddle",
+  "description": "Bacon, pancakes, scrambled eggs, toast and coffee for six from a single griddle, a two-slice toaster and an oven holding the plates warm.",
+  "environmentType": "kitchen",
+  "actors": 1,
+  "resourceConstraints": [
+    {
+      "task": "griddle",
+      "maxConcurrent": 1,
+      "description": "One electric griddle: every hot item queues on it"
+    },
+    {
+      "task": "toaster",
+      "maxConcurrent": 1,
+      "description": "Two-slice toaster"
+    },
+    {
+      "task": "grinder",
+      "maxConcurrent": 1,
+      "description": "Burr grinder"
+    },
+    {
+      "task": "coffee-maker",
+      "maxConcurrent": 1,
+      "description": "Drip coffee maker"
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1,
+      "description": "Oven on its lowest setting, holding plates and cooked food"
+    },
+    {
+      "task": "counter",
+      "maxConcurrent": 2,
+      "description": "Counter and table space for mixing, buttering and laying up"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "prep",
+      "name": "Prep",
+      "steps": [
+        {
+          "stepId": "mix-batter",
+          "name": "Mix the pancake batter",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Whisk the dry pancake ingredients together, then beat in the buttermilk and eggs; 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "rest-batter",
+          "name": "Rest the batter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix-batter"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Let the batter stand for 20 minutes while the griddle does its first job",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "crack-eggs",
+          "name": "Crack and season the eggs",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "rest-batter"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Crack a dozen eggs into a jug and season them; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "set-table",
+          "name": "Set the table",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "crack-eggs"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Set the table and lay out six places; 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "warm-plates",
+          "name": "Warm the plates",
+          "task": "oven",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 600,
+            "maxSeconds": 3600,
+            "defaultSeconds": 840
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "set-table"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Put six plates in the oven at its lowest setting and leave them there until you call everyone",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "griddle",
+      "name": "Griddle",
+      "steps": [
+        {
+          "stepId": "heat-griddle",
+          "name": "Heat the griddle to 375°F",
+          "task": "griddle",
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Heat the griddle to 375°F; 8 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "cook-bacon",
+          "name": "Cook the bacon",
+          "task": "griddle",
+          "duration": {
+            "type": "fixed",
+            "seconds": 840
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "heat-griddle"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Lay the bacon out and cook it for 14 minutes, turning once",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "scrape-griddle",
+          "name": "Scrape and wipe the griddle",
+          "task": "griddle",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cook-bacon"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Scrape the griddle and wipe off the fat; 3 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "pancakes-pass-1",
+          "name": "Pancakes, first pass",
+          "task": "griddle",
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "scrape-griddle"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "rest-batter"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "the first pass takes 6 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "pancakes-pass-2",
+          "name": "Pancakes, second pass",
+          "task": "griddle",
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pancakes-pass-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "the second another 6",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "pancakes-pass-3",
+          "name": "Pancakes, third pass",
+          "task": "griddle",
+          "duration": {
+            "type": "fixed",
+            "seconds": 360
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pancakes-pass-2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "and the third 6 more",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "drop-griddle-heat",
+          "name": "Drop the griddle to 300°F",
+          "task": "griddle",
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pancakes-pass-3"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Drop the griddle to 300°F and give it 4 minutes to settle",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "scramble-eggs",
+          "name": "Scramble the eggs",
+          "task": "griddle",
+          "duration": {
+            "type": "fixed",
+            "seconds": 420
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "drop-griddle-heat"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "crack-eggs"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "scramble the eggs slowly for 7 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "toast",
+      "name": "Toast",
+      "steps": [
+        {
+          "stepId": "toast-batch-1",
+          "name": "First batch of toast",
+          "task": "toaster",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "pancakes-pass-3",
+            "event": "start"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Start the first batch of toast when the last pancake pass goes on; 3 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "toast-batch-2",
+          "name": "Second batch of toast",
+          "task": "toaster",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "toast-batch-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Run a second batch straight after; 3 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "butter-toast",
+          "name": "Butter the toast",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "toast-batch-2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Butter all of it; 4 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "coffee",
+      "name": "Coffee",
+      "steps": [
+        {
+          "stepId": "grind-beans",
+          "name": "Grind the beans",
+          "task": "grinder",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cook-bacon",
+            "event": "start",
+            "offsetSeconds": 600
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Grind the beans; 2 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "brew-coffee",
+          "name": "Brew the pot",
+          "task": "coffee-maker",
+          "duration": {
+            "type": "fixed",
+            "seconds": 540
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "grind-beans"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Brew a full pot; 9 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "serve",
+      "name": "Serve",
+      "steps": [
+        {
+          "stepId": "serve-breakfast",
+          "name": "Call everyone and serve",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "scramble-eggs"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "butter-toast"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "brew-coffee"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Call everyone when the eggs, the toast and the coffee are all ready, and carry the warm plates through; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

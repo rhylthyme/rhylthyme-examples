@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://rhylthyme.com/schemas/gold-context.schema.json",
+  "title": "Gold program context",
+  "description": "What the author knew besides the source text when building a gold program: the environment, the deadline and the resource limits. These fill the slots of the T1/T3 prompt turns when the same source is given to a model.",
+  "type": "object",
+  "required": ["environmentType", "constraints", "domain"],
+  "additionalProperties": false,
+  "properties": {
+    "environmentType": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Value used for program.environmentType (kitchen, laboratory, event, fitness, ...)."
+    },
+    "deadline": {
+      "type": "string",
+      "description": "When everything must be ready: a wall-clock time (HH:MM), an ISO-8601 timestamp, or a short phrase. Omit when the source states none."
+    },
+    "constraints": {
+      "type": "array",
+      "description": "Resource limits as a prompt would state them, one per entry (e.g. \"one oven\", \"four burners\", \"two cooks\").",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["kitchen", "laboratory", "event", "fitness", "other"],
+      "description": "Gold-set category used for per-domain reporting."
+    },
+    "title": { "type": "string", "description": "Human-readable title of the source." },
+    "servesOrScale": { "type": "string", "description": "How many people, samples or participants the source is written for." },
+    "notes": { "type": "string", "description": "Authoring notes: judgement calls, why a step was marked inferred, etc." }
+  }
+}

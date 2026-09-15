@@ -1,0 +1,15 @@
+{
+  "title": "Wedding Reception Run Sheet — Ashgrove Barn",
+  "environmentType": "event",
+  "domain": "event",
+  "deadline": "band's last set",
+  "servesOrScale": "90 guests, three courses",
+  "constraints": [
+    "one kitchen pass",
+    "one bar",
+    "one microphone",
+    "two servers on the floor",
+    "one dance floor"
+  ],
+  "notes": "Program start is the moment the ceremony breaks. Two manual gates: the planner calls the room (seat-guests) and the MC cues the speeches. The canape window is the only variable duration before dinner and carries the photography slack. Clearing is anchored to when a course went out, not to when serving finished, so both clear steps use afterStepWithBuffer with event 'start'. Dancing is indefinite: the run sheet ends it on the band's last set, not on a clock."
+}

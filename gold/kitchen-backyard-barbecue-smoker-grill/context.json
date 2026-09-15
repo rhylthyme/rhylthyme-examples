@@ -1,0 +1,14 @@
+{
+  "title": "Backyard Barbecue: Smoker and Grill",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "servesOrScale": "a shoulder, sausages and sides for about twelve",
+  "constraints": [
+    "one offset smoker",
+    "one kettle grill",
+    "one side burner",
+    "one cooler for holding",
+    "two cooks"
+  ],
+  "notes": "An eleven-hour cook whose whole second half is anchored on the moment the pork goes into the cooler (event=start on a variable rest). The wrapped smoke and the cooler hold are both variable; the beans are indefinite (they tick over until service); service is a manual gate on the cooks' call, placed after the table is laid so it resolves against that step."
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Colony PCR Screen with a Diagnostic Gel",
+  "environmentType": "laboratory",
+  "domain": "laboratory",
+  "servesOrScale": "eight clones, one gel",
+  "constraints": [
+    "one thermocycler",
+    "one microcentrifuge",
+    "one microwave",
+    "one gel rig",
+    "one transilluminator",
+    "one operator"
+  ],
+  "notes": "The whole point of the protocol is that the gel is cast inside the cycling window: melt-agarose is anchored twenty-five minutes into the run with afterStep event=start plus an offset, and the ladder ten minutes into the set. Loading is a compound 'all' join on the products, the rig and the ladder, which is the dependency the text only implies."
+}

@@ -34,6 +34,7 @@ program. Use these to try the importers end-to-end.
 |---|---|---|---|
 | [`opentrons/`](opentrons/) | Opentrons Protocol API v2 `.py` | `rhylthyme-import-opentrons <file.py>` | [kitchen.rhylthyme.com](https://kitchen.rhylthyme.com/) → sidebar → **Upload Program** → drop the `.py` |
 | [`cooklang/`](cooklang/) | CookLang `.cook` recipe | `rhylthyme-import-cooklang <file.cook>` | same drop zone — accepts `.cook` |
+| [`gold/`](gold/) | Plain-text source + `context.json` + expert `program.json` | `rhylthyme eval-prompts --score-only --gold gold --predicted <dir>` scores a model's programs against them | n/a (evaluation set, see [`gold/README.md`](gold/README.md)) |
 
 ### Opentrons protocols (`opentrons/`)
 
@@ -57,6 +58,16 @@ Full feature matrix + troubleshooting:
 | File | What it is |
 |---|---|
 | `easy_pancakes.cook` | A CookLang recipe with timed steps (`~{15%minutes}`) and explicit ingredients. Drops into the web upload modal or `rhylthyme-import-cooklang`. |
+
+### Gold set (`gold/`)
+
+Six expert-authored programs (three kitchen including Thanksgiving with one
+oven, one laboratory protocol, one event run-of-show, one partner workout),
+each paired with the text it was extracted from and a `context.json`. Every
+step carries `metadata.sourceSpan = {quote, occurrence}` pointing into
+`source.txt`, so an agent-authored program can be scored by span match,
+not just by name. Layout, span format and authoring rules:
+[`gold/README.md`](gold/README.md). Tests: `tests/test_gold.py`.
 
 ---
 
@@ -131,6 +142,37 @@ Full feature matrix + troubleshooting:
 - **`comprehensive_example.json`** - Comprehensive feature demonstration
 - **`comprehensive_manual_demo.json`** - Manual control demonstration
 - **`manual_controls_demo.json`** - Manual step controls
+
+#### Per-instance triggers and in-flight limits (schema 0.3.0-alpha)
+- **`cookies_three_trays.json`** - Three trays bake serially in one oven; each cools as it comes out (`instances: "each"`), boxing waits for all (`instances: "all"`), and `maxInFlight: 2` holds the third bake until a rack slot is free (74 min, PRD §7)
+- **`compound_each_pairing.json`** - Two samples lysed and digested on staggered schedules; a compound `"each"` trigger pairs instance *i* of both, then a barrier pools them. Carries `metadata.expectedTimings` asserted by the parity tests
+- **`pcr_twelve_samples.json`** - Twelve samples through a rotor that holds six (`maxInFlight: 6` over a three-step per-sample chain), pooled into two parallel thermocycler runs (`thermocycler maxConcurrent: 2`)
+- **`airport_landings_taxi_gate.json`** - Four staggered landings, per-aircraft taxi and gate chain, and an apron that holds two (`maxInFlight: 2`), showing that a stagger delay is a minimum gap the gate may push out
+
+Each of these carries `metadata.expectedTimings` (and a
+`expectedTimingsNote` explaining the hand computation) which both toolchains
+must reproduce exactly.
+
+## Negative Examples (`invalid/`)
+
+`invalid/` holds programs that are **deliberately wrong**, one file per
+validator code, named after the code they provoke
+(`invalid/E_EACH_COUNT_MISMATCH.json`, `invalid/W_UNBARRIERED_CHAIN.json`, …).
+They are schema-valid JSON so that the only finding is the one they exist
+for, and each declares it in `metadata`:
+
+```json
+"metadata": {"expectedFinding": {"code": "E_EACH_WITH_REPLICATES", "severity": "error"}}
+```
+
+Both Python validators (`tests/test_invalid_examples.py`) and the JS
+validator (`rhylthyme-server/mcp-api/schedule.test.js`) must emit exactly
+that code with a fix hint. Error findings make the program invalid;
+`warning` and `info` findings leave it valid. `I_IMPLICIT_BARRIER` is
+info-level and emitted by the JS validator only. The `programs/` test
+globs do not descend into `invalid/`, so these files never count as
+working examples. To add a code: write `invalid/<CODE>.json` with
+`expectedFinding`, and make sure both validators emit it.
 
 ## Environment Examples
 
@@ -323,7 +365,7 @@ To add new examples:
 
 ## Schema Reference
 
-All examples conform to the [Rhylthyme Schema](https://github.com/rhylthyme/rhylthyme-spec) version 0.1.0.
+All examples conform to the [Rhylthyme Schema](https://github.com/rhylthyme/rhylthyme-spec); programs using per-instance triggers declare `"schemaVersion": "0.3.0-alpha"`, the rest `0.1.0` / `0.2.0-alpha`.
 
 ## Related Repositories
 

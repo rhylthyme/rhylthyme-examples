@@ -1,0 +1,15 @@
+{
+  "title": "Streaking Three Cultures onto Selective Media",
+  "environmentType": "laboratory",
+  "domain": "laboratory",
+  "servesOrScale": "three isolates, one purity plate",
+  "constraints": [
+    "one loop station at the burner",
+    "one 37 °C incubator shelf holding two plates",
+    "one staining rack",
+    "one microscope",
+    "one technician",
+    "a supervisor signs off the readings"
+  ],
+  "notes": "Shelf space is the whole constraint: plates 1 and 2 take the two positions overnight and share one span, and plate 3 is held on the bench until plate 1 comes out, which is a cross-track afterStep the text states in words. The purity plate is a manual gate on the supervisor's sign-off, placed after the colony pick in the same track so it resolves from that step."
+}

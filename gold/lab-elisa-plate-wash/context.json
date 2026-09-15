@@ -1,0 +1,13 @@
+{
+  "title": "Sandwich ELISA on Two Plates, One Washer",
+  "environmentType": "laboratory",
+  "domain": "laboratory",
+  "servesOrScale": "two 96-well plates, staggered 30 minutes",
+  "constraints": [
+    "one plate washer",
+    "one 37 °C incubator holding two plates",
+    "one plate reader",
+    "one operator"
+  ],
+  "notes": "The overnight coat is indefinite: the text says to take the plate out when you are ready, so the end is an operator decision, not a clock. Plate 2 is a programStartOffset of 30 minutes and every plate-2 wash that could collide is a compound 'all' on the matching plate-1 wash. Development is fixed at exactly 15 minutes because the acid stop is what defines the step. Three plate-1 washes share the identical sentence and are told apart by occurrence."
+}

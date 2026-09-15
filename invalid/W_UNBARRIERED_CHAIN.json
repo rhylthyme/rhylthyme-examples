@@ -1,0 +1,97 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "invalid-unbarriered-chain",
+  "name": "each chain with no barrier",
+  "description": "Each tray cools per instance (instances: \"each\") but nothing waits for every tray: `wipe` runs later and references nothing in the chain. The program is valid; expected finding: W_UNBARRIERED_CHAIN (warning). Add a step with instances: \"all\" if the wipe-down should wait for all trays.",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "cookies",
+      "name": "Cookies",
+      "steps": [
+        {
+          "stepId": "mix",
+          "name": "Mix dough",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "bake",
+          "name": "Bake tray",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 720
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix"
+          },
+          "replicates": {
+            "count": 3,
+            "mode": "serial"
+          }
+        },
+        {
+          "stepId": "cool",
+          "name": "Cool on rack",
+          "task": "rack",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake",
+            "instances": "each"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "cleanup",
+      "name": "Cleanup",
+      "steps": [
+        {
+          "stepId": "wipe",
+          "name": "Wipe counters",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 3600
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "prep",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "rack",
+      "maxConcurrent": 3
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "W_UNBARRIERED_CHAIN",
+      "severity": "warning"
+    }
+  }
+}

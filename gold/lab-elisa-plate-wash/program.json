@@ -1,0 +1,503 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "gold-lab-elisa-plate-wash",
+  "name": "Sandwich ELISA on Two Plates, One Washer",
+  "description": "Two staggered 96-well ELISA plates queueing for a single automated plate washer, from an indefinite overnight coat through blocking, sample and detection incubations to a fifteen-minute TMB development and the reader.",
+  "environmentType": "laboratory",
+  "actors": 1,
+  "resourceConstraints": [
+    {
+      "task": "cold-room",
+      "maxConcurrent": 2,
+      "description": "4 °C cold room; both plates coat overnight"
+    },
+    {
+      "task": "plate-washer",
+      "maxConcurrent": 1,
+      "description": "One automated plate washer: one plate at a time"
+    },
+    {
+      "task": "incubator",
+      "maxConcurrent": 2,
+      "description": "37 °C plate incubator holding two plates"
+    },
+    {
+      "task": "bench",
+      "maxConcurrent": 2,
+      "description": "Bench space for dilutions and the TMB development"
+    },
+    {
+      "task": "plate-reader",
+      "maxConcurrent": 1,
+      "description": "One absorbance plate reader"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "reagents",
+      "name": "Standards and samples",
+      "steps": [
+        {
+          "stepId": "make-standards",
+          "name": "Make up the standard curve",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "coat-plate-1",
+            "event": "start",
+            "offsetSeconds": 54000
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Fifteen hours into the coat, make up the seven-point standard curve in assay diluent; 30 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "dilute-samples",
+          "name": "Dilute samples and lay out the plate map",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "make-standards"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Dilute the samples 1:4 into assay diluent and lay out the plate map; 30 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "plate-1",
+      "name": "Plate 1",
+      "steps": [
+        {
+          "stepId": "coat-plate-1",
+          "name": "Coat plate 1 overnight at 4 °C",
+          "task": "cold-room",
+          "duration": {
+            "type": "indefinite",
+            "defaultSeconds": 57600,
+            "triggerName": "Plate 1 taken out of the cold room"
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Coat plate 1 with 100 µL per well of capture antibody in carbonate buffer, seal it and leave it in the cold room at 4 °C overnight",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "wash-1-coat",
+          "name": "Wash plate 1 after the coat",
+          "task": "plate-washer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "coat-plate-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Wash the plate four times with 300 µL of wash buffer; 5 minutes on the washer",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "block-1",
+          "name": "Block plate 1",
+          "task": "incubator",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-1-coat"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Block with 200 µL per well of assay diluent for 1 hour at 37 °C",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "wash-1-block",
+          "name": "Wash plate 1 after blocking",
+          "task": "plate-washer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "block-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Wash four times; 5 minutes on the washer",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "samples-1",
+          "name": "Incubate standards and samples on plate 1",
+          "task": "incubator",
+          "duration": {
+            "type": "fixed",
+            "seconds": 7200
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "wash-1-block"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "dilute-samples"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Add 100 µL of standards and samples and incubate for 2 hours at 37 °C",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "wash-1-samples",
+          "name": "Wash plate 1 after the samples",
+          "task": "plate-washer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "samples-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Wash four times; 5 minutes on the washer",
+              "occurrence": 2
+            }
+          }
+        },
+        {
+          "stepId": "detection-1",
+          "name": "Incubate detection antibody on plate 1",
+          "task": "incubator",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-1-samples"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Add 100 µL of biotinylated detection antibody and incubate for 1 hour at 37 °C",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "wash-1-detection",
+          "name": "Wash plate 1 after the detection antibody",
+          "task": "plate-washer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "detection-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Wash four times; 5 minutes on the washer",
+              "occurrence": 3
+            }
+          }
+        },
+        {
+          "stepId": "develop-1",
+          "name": "Develop plate 1 for exactly 15 minutes and stop",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-1-detection"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Add 100 µL of TMB substrate, develop in the dark for exactly 15 minutes and stop with 50 µL of 2 N sulfuric acid",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "read-1",
+          "name": "Read plate 1 at 450 nm",
+          "task": "plate-reader",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "develop-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Read the absorbance at 450 nm with a 570 nm reference; 5 minutes on the reader",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "plate-2",
+      "name": "Plate 2",
+      "steps": [
+        {
+          "stepId": "coat-plate-2",
+          "name": "Coat plate 2 overnight, half an hour behind",
+          "task": "cold-room",
+          "duration": {
+            "type": "indefinite",
+            "defaultSeconds": 57600,
+            "triggerName": "Plate 2 taken out of the cold room"
+          },
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 1800
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Coat plate 2 the same way half an hour later",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "wash-2-coat",
+          "name": "Wash plate 2 after the coat",
+          "task": "plate-washer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "coat-plate-2"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "wash-1-coat"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Wash plate 2 four times as soon as the washer is free; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "block-2",
+          "name": "Block plate 2",
+          "task": "incubator",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-2-coat"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Block plate 2 with 200 µL of assay diluent for 1 hour at 37 °C",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "wash-2-block",
+          "name": "Wash plate 2 after blocking",
+          "task": "plate-washer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "block-2"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "wash-1-block"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Wash plate 2 again once plate 1 is off the washer; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "samples-2",
+          "name": "Incubate standards and samples on plate 2",
+          "task": "incubator",
+          "duration": {
+            "type": "fixed",
+            "seconds": 7200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-2-block"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Add the standards and samples to plate 2 and incubate for 2 hours at 37 °C",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "wash-2-samples",
+          "name": "Wash plate 2 after the samples",
+          "task": "plate-washer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "samples-2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Wash plate 2; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "detection-2",
+          "name": "Incubate detection antibody on plate 2",
+          "task": "incubator",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-2-samples"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Add the detection antibody to plate 2 and incubate for 1 hour at 37 °C",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "wash-2-detection",
+          "name": "Wash plate 2 after the detection antibody",
+          "task": "plate-washer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "detection-2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Wash plate 2 a final time; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "develop-2",
+          "name": "Develop plate 2 for exactly 15 minutes and stop",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-2-detection"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Develop plate 2 with TMB for exactly 15 minutes and stop it",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "read-2",
+          "name": "Read plate 2 at 450 nm",
+          "task": "plate-reader",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "develop-2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Read plate 2 at 450 nm; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

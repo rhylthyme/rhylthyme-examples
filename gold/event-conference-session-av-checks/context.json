@@ -1,0 +1,15 @@
+{
+  "title": "Session Chair's Sheet — Room 2B",
+  "environmentType": "event",
+  "domain": "event",
+  "deadline": "coffee break at 10:30",
+  "servesOrScale": "one room, three speakers",
+  "constraints": [
+    "one projector",
+    "one lapel microphone pack",
+    "one AV desk",
+    "one lectern",
+    "one foyer for catering"
+  ],
+  "notes": "Each talk is gated on the chair calling the speaker, so all three are manual triggers placed after the changeover that really precedes them. Slide loads are separate steps because they contend with the talks for the single projector; the third load is anchored to the start of coffee service (event 'start') rather than its end. Q&A is variable everywhere; the third is given a wider range because the chair absorbs overrun there."
+}

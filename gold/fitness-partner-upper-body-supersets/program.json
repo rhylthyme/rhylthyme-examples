@@ -1,0 +1,663 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "gold-fitness-partner-upper-body-supersets",
+  "name": "Partner Upper-Body Superset Session",
+  "description": "Two lifters alternate through two supersets on one bench, one pair of dumbbells and one pull-up bar, with timed rests; equipment hand-offs are cross-track triggers.",
+  "environmentType": "fitness",
+  "actors": 2,
+  "resourceConstraints": [
+    {
+      "task": "erg",
+      "maxConcurrent": 2,
+      "description": "Two rowing ergs"
+    },
+    {
+      "task": "floor",
+      "maxConcurrent": 2,
+      "description": "Open floor for mobility and stretching"
+    },
+    {
+      "task": "bench",
+      "maxConcurrent": 1,
+      "description": "One flat bench with barbell"
+    },
+    {
+      "task": "dumbbells",
+      "maxConcurrent": 1,
+      "description": "One pair of dumbbells"
+    },
+    {
+      "task": "pull-up-bar",
+      "maxConcurrent": 1,
+      "description": "One pull-up bar"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "partner-a",
+      "name": "Partner A",
+      "steps": [
+        {
+          "stepId": "a-warmup-row",
+          "name": "A: easy rowing",
+          "task": "erg",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "5 minutes of easy rowing on the ergs",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-mobility",
+          "name": "A: arm circles and band pull-aparts",
+          "task": "floor",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "a-warmup-row"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "3 minutes of arm circles and band pull-aparts",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-bench-1",
+          "name": "A: bench press, round 1",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 40
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "a-mobility"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "does a set of 8 bench presses, which takes about 40 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-row-1",
+          "name": "A: dumbbell row, round 1",
+          "task": "dumbbells",
+          "duration": {
+            "type": "fixed",
+            "seconds": 40
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "a-bench-1"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "b-row-1"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "A goes to the rows once B has finished with the dumbbells",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-rest-a1",
+          "name": "A: rest 90 s",
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "a-row-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "rest 90 seconds before the next round",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-bench-2",
+          "name": "A: bench press, round 2",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 40
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "a-rest-a1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "does a set of 8 bench presses, which takes about 40 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-row-2",
+          "name": "A: dumbbell row, round 2",
+          "task": "dumbbells",
+          "duration": {
+            "type": "fixed",
+            "seconds": 40
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "a-bench-2"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "b-row-2"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "A goes to the rows once B has finished with the dumbbells",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-rest-a2",
+          "name": "A: rest 90 s",
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "a-row-2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "rest 90 seconds before the next round",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-press-1",
+          "name": "A: overhead press, round 1",
+          "task": "dumbbells",
+          "duration": {
+            "type": "fixed",
+            "seconds": 45
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "a-rest-a2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Partner A does 8 strict overhead presses with the dumbbells, about 45 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-pullups-1",
+          "name": "A: pull-ups, round 1",
+          "task": "pull-up-bar",
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "a-press-1"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "b-pullups-1"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "A moves to the pull-up bar",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-rest-b1",
+          "name": "A: rest 2 min",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "a-pullups-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Rest 2 minutes between rounds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-press-2",
+          "name": "A: overhead press, round 2",
+          "task": "dumbbells",
+          "duration": {
+            "type": "fixed",
+            "seconds": 45
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "a-rest-b1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Partner A does 8 strict overhead presses with the dumbbells, about 45 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-pullups-2",
+          "name": "A: pull-ups, round 2",
+          "task": "pull-up-bar",
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "a-press-2"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "b-pullups-2"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "A moves to the pull-up bar",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "a-cooldown",
+          "name": "A: stretching",
+          "task": "floor",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "a-pullups-2"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "b-press-2"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Finish together with 5 minutes of stretching",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "partner-b",
+      "name": "Partner B",
+      "steps": [
+        {
+          "stepId": "b-warmup-row",
+          "name": "B: easy rowing",
+          "task": "erg",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "5 minutes of easy rowing on the ergs",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-mobility",
+          "name": "B: arm circles and band pull-aparts",
+          "task": "floor",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "b-warmup-row"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "3 minutes of arm circles and band pull-aparts",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-row-1",
+          "name": "B: dumbbell row, round 1",
+          "task": "dumbbells",
+          "duration": {
+            "type": "fixed",
+            "seconds": 40
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "b-mobility"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Partner B starts on the dumbbell row at the same time, 8 per side, also about 40 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-bench-1",
+          "name": "B: bench press, round 1",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 40
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "b-row-1"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "a-bench-1"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "B takes the bench as soon as A racks the bar",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-rest-a1",
+          "name": "B: rest 90 s",
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "b-bench-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "rest 90 seconds before the next round",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-row-2",
+          "name": "B: dumbbell row, round 2",
+          "task": "dumbbells",
+          "duration": {
+            "type": "fixed",
+            "seconds": 40
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "b-rest-a1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Partner B starts on the dumbbell row at the same time, 8 per side, also about 40 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-bench-2",
+          "name": "B: bench press, round 2",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 40
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "b-row-2"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "a-bench-2"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "B takes the bench as soon as A racks the bar",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-rest-a2",
+          "name": "B: rest 90 s",
+          "duration": {
+            "type": "fixed",
+            "seconds": 90
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "b-bench-2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "rest 90 seconds before the next round",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-pullups-1",
+          "name": "B: pull-ups, round 1",
+          "task": "pull-up-bar",
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "b-rest-a2"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Partner B does a set of pull-ups, 6 to 10 reps, about 30 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-press-1",
+          "name": "B: overhead press, round 1",
+          "task": "dumbbells",
+          "duration": {
+            "type": "fixed",
+            "seconds": 45
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "b-pullups-1"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "a-press-1"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "B takes the dumbbells when A sets them down",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-rest-b1",
+          "name": "B: rest 2 min",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "b-press-1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Rest 2 minutes between rounds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-pullups-2",
+          "name": "B: pull-ups, round 2",
+          "task": "pull-up-bar",
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "b-rest-b1"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Partner B does a set of pull-ups, 6 to 10 reps, about 30 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-press-2",
+          "name": "B: overhead press, round 2",
+          "task": "dumbbells",
+          "duration": {
+            "type": "fixed",
+            "seconds": 45
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "b-pullups-2"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "a-press-2"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "B takes the dumbbells when A sets them down",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "b-cooldown",
+          "name": "B: stretching",
+          "task": "floor",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "b-press-2"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "a-pullups-2"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Finish together with 5 minutes of stretching",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

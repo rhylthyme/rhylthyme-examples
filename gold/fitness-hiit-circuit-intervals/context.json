@@ -1,0 +1,14 @@
+{
+  "title": "HIIT Circuit Card — three athletes, four stations",
+  "environmentType": "fitness",
+  "domain": "fitness",
+  "servesOrScale": "3 athletes, 4 rounds",
+  "constraints": [
+    "one rower",
+    "one kettlebell",
+    "one box",
+    "one sled",
+    "three athletes on the floor"
+  ],
+  "notes": "Each athlete is a track and each station is a maxConcurrent 1 resource, so the rotation is expressed as cross-track compound triggers: an athlete starts a station when their own rest is done AND the athlete ahead of them has left it. The four round lines in the source give each of the twelve work steps a distinct span; the rest rule and the warm-up are stated once and shared by the steps that realise them."
+}

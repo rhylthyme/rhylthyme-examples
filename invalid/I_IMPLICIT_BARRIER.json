@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "invalid-implicit-barrier",
+  "name": "implicit barrier in a 0.3.0 program",
+  "description": "`box` references the replicated chain step `cool` without `instances`, which is an implicit instances: \"all\" barrier. The program is valid; the JS validator reports I_IMPLICIT_BARRIER (info) so an author can make the barrier explicit. The Python validators emit nothing (PRD open question 5).",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "cookies",
+      "name": "Cookies",
+      "steps": [
+        {
+          "stepId": "mix",
+          "name": "Mix dough",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "bake",
+          "name": "Bake tray",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 720
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix"
+          },
+          "replicates": {
+            "count": 3,
+            "mode": "serial"
+          }
+        },
+        {
+          "stepId": "cool",
+          "name": "Cool on rack",
+          "task": "rack",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake",
+            "instances": "each"
+          }
+        },
+        {
+          "stepId": "box",
+          "name": "Box cookies",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cool"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "prep",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "rack",
+      "maxConcurrent": 3
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "I_IMPLICIT_BARRIER",
+      "severity": "info"
+    }
+  }
+}

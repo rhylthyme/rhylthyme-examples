@@ -1,0 +1,452 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "gold-event-conference-session-av-checks",
+  "name": "Session Chair's Sheet — Room 2B",
+  "description": "A three-talk conference session in one room: AV line check, a projector and a single lapel pack passed between speakers, chair-called speaker gates, variable question time, and a coffee break set in parallel.",
+  "environmentType": "event",
+  "actors": 4,
+  "resourceConstraints": [
+    {
+      "task": "av-desk",
+      "maxConcurrent": 1,
+      "description": "One AV desk at the back of the room"
+    },
+    {
+      "task": "projector",
+      "maxConcurrent": 1,
+      "description": "One projector: slide loads and talks contend for it"
+    },
+    {
+      "task": "mic-pack",
+      "maxConcurrent": 1,
+      "description": "One lapel microphone pack, passed between speakers"
+    },
+    {
+      "task": "lectern",
+      "maxConcurrent": 1,
+      "description": "The lectern: chair and question time"
+    },
+    {
+      "task": "foyer",
+      "maxConcurrent": 1,
+      "description": "Foyer used for coffee service"
+    },
+    {
+      "task": "catering",
+      "maxConcurrent": 1,
+      "description": "Service corridor and the coffee station"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "av",
+      "name": "AV",
+      "steps": [
+        {
+          "stepId": "line-check",
+          "name": "Line check at the AV desk",
+          "task": "av-desk",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Line check at the AV desk: laptop, HDMI, house sound, record feed. 30 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "projector-test",
+          "name": "Test the projector",
+          "task": "projector",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "line-check"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Test the projector once the desk is up: resolution, keystone, the cue slide. 15 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "mic-check",
+          "name": "Check the lapel pack",
+          "task": "mic-pack",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "projector-test"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Check the lapel pack after the projector: battery, gain, a walk to the back row. 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "strike-av",
+          "name": "Strike the AV desk",
+          "task": "av-desk",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "chair-closes"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Strike the AV desk when the chair closes; 20 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "slides",
+      "name": "Slides",
+      "steps": [
+        {
+          "stepId": "load-deck-one",
+          "name": "Load the first deck",
+          "task": "projector",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mic-check"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Load the first deck once the lapel pack is checked; 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "load-deck-two",
+          "name": "Load the second deck",
+          "task": "projector",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "qa-one"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Load the second deck as soon as the first talk's questions are over; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "load-deck-three",
+          "name": "Load the third deck",
+          "task": "projector",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "serve-coffee",
+            "event": "start"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Load the third deck while the coffee is going out; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "session",
+      "name": "Session",
+      "steps": [
+        {
+          "stepId": "chair-opens",
+          "name": "Chair opens the session",
+          "task": "lectern",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "load-deck-one"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Chair opens the room, housekeeping and fire exits; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "talk-one",
+          "name": "First talk",
+          "task": "projector",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "manual",
+            "triggerName": "Chair calls the first speaker"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "First talk when the chair calls the first speaker: 30 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "qa-one",
+          "name": "Questions after the first talk",
+          "task": "lectern",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 600,
+            "defaultSeconds": 420
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "talk-one"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Questions after the first talk: five to ten minutes, seven is the plan",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "changeover-one",
+          "name": "Changeover to the second speaker",
+          "task": "mic-pack",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "load-deck-two"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Changeover to the second speaker: unclip the pack, clip it on, 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "talk-two",
+          "name": "Second talk",
+          "task": "projector",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "manual",
+            "triggerName": "Chair calls the second speaker"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Second talk when the chair calls the second speaker: 30 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "qa-two",
+          "name": "Questions after the second talk",
+          "task": "lectern",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 600,
+            "defaultSeconds": 420
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "talk-two"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Questions after the second talk: five to ten minutes, seven is the plan",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "changeover-two",
+          "name": "Changeover to the third speaker",
+          "task": "mic-pack",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "clear-foyer"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Changeover to the third speaker once the coffee is cleared from the foyer; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "talk-three",
+          "name": "Third talk",
+          "task": "projector",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "manual",
+            "triggerName": "Chair calls the third speaker"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Third talk when the chair calls the third speaker: 30 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "qa-three",
+          "name": "Questions after the third talk",
+          "task": "lectern",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 300,
+            "maxSeconds": 900,
+            "defaultSeconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "talk-three"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Questions after the third talk: five to fifteen minutes, ten is the plan",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "chair-closes",
+          "name": "Chair closes the session",
+          "task": "lectern",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "qa-three"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Chair closes the session; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "catering",
+      "name": "Catering",
+      "steps": [
+        {
+          "stepId": "set-coffee",
+          "name": "Set the coffee station",
+          "task": "catering",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 5400
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Set the coffee station in the service corridor from ninety minutes in; 30 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "serve-coffee",
+          "name": "Coffee out to the foyer",
+          "task": "foyer",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "qa-two"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Coffee goes out to the foyer when the second talk's questions end; 20 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "clear-foyer",
+          "name": "Clear the foyer",
+          "task": "catering",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "serve-coffee"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Clear the foyer; 10 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

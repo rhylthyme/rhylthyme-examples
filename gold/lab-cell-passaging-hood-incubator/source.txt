@@ -1,0 +1,31 @@
+Passaging Two Flasks of Adherent HEK293 Cells
+
+Two T75 flasks at about 90 % confluence are split 1:6 into four new flasks. The room has one biosafety cabinet, one 37 °C water bath, one CO₂ incubator, one benchtop centrifuge and one microscope with a haemocytometer. Only one flask can be open in the cabinet at a time, so the two flasks queue for it while the centrifuge and the microscope stay free. Work with pre-warmed medium, PBS and trypsin-EDTA throughout; nothing cold touches the cells. One operator.
+
+Preparation
+1. Wipe down the cabinet, lay out pipettes and tubes, and let the blower run; 10 minutes.
+2. Check both flasks on the microscope for confluence and contamination; 10 minutes.
+
+Flask A
+3. Aspirate the spent medium and rinse the monolayer with 5 mL of PBS; 4 minutes in the cabinet.
+4. Add 2 mL of trypsin-EDTA, rock the flask and return it to the incubator for 5 minutes.
+5. Knock the flask, check detachment and neutralise with 8 mL of medium; 5 minutes in the cabinet.
+6. Transfer the suspension to a 15 mL tube and spin at 300 × g for 5 minutes.
+7. Aspirate the supernatant and resuspend the pellet in 10 mL of fresh medium; 4 minutes.
+8. Count the cells on the haemocytometer; 6 minutes.
+9. Seed two new T75 flasks at 1:6 and label them; 6 minutes in the cabinet.
+10. Return the new flasks to the incubator and leave them to settle overnight, at least 16 hours.
+
+Flask B
+11. Start flask B the moment flask A leaves the cabinet: aspirate and rinse with 5 mL of PBS; 4 minutes.
+12. Trypsinise flask B in the incubator for 5 minutes.
+13. Neutralise flask B as soon as flask A is out of the cabinet again; 5 minutes.
+14. Spin flask B at 300 × g for 5 minutes once the centrifuge is free.
+15. Resuspend the flask B pellet in 10 mL of fresh medium; 4 minutes.
+16. Count flask B on the haemocytometer once flask A has been counted; 6 minutes.
+17. Seed two more T75 flasks at 1:6 and label them; 6 minutes.
+18. Return them to the incubator to settle overnight alongside the first pair.
+
+Finishing
+19. Wipe the cabinet down, discard the waste and switch the blower to standby; 10 minutes.
+20. Write the passage number, the split ratio and the counts into the culture log; 5 minutes.

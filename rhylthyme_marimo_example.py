@@ -14,8 +14,8 @@ def _(mo):
 def _():
     import json
 
-    from rhylthyme_web.rhylthyme import load_program_file
-    from rhylthyme_web.web.web_visualizer import (
+    from rhylthyme_server.rhylthyme import load_program_file
+    from rhylthyme_server.web.web_visualizer import (
         extract_step_dependencies,
         generate_dag_html,
     )

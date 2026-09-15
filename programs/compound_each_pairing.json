@@ -1,0 +1,161 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "compound-each-pairing",
+  "name": "Two samples, paired per instance",
+  "description": "Two samples are lysed and digested on staggered schedules. `combine` waits for ITS OWN sample's lysate and digest with a compound instances: \"each\" trigger (instance i pairs with instance i of both upstream steps); `pool` waits for both combines (instances: \"all\"). Per-instance triggers from program schema 0.3.0-alpha; metadata.expectedTimings is the hand-computed schedule asserted by the parity tests.",
+  "environmentType": "laboratory",
+  "tracks": [
+    {
+      "trackId": "lysis",
+      "name": "Lysis",
+      "steps": [
+        {
+          "stepId": "thaw",
+          "name": "Thaw samples",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "lyse",
+          "name": "Lyse sample",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "thaw"
+          },
+          "replicates": {
+            "count": 2,
+            "mode": "stagger",
+            "delay": 300
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "digestion",
+      "name": "Digestion",
+      "steps": [
+        {
+          "stepId": "digest",
+          "name": "Digest sample",
+          "task": "incubator",
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "thaw"
+          },
+          "replicates": {
+            "count": 2,
+            "mode": "stagger",
+            "delay": 900
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "assembly",
+      "name": "Assembly",
+      "steps": [
+        {
+          "stepId": "combine",
+          "name": "Combine lysate and digest",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "lyse",
+                "instances": "each"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "digest",
+                "instances": "each"
+              }
+            ]
+          }
+        },
+        {
+          "stepId": "pool",
+          "name": "Pool samples",
+          "task": "bench",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "combine",
+            "instances": "all"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "bench",
+      "maxConcurrent": 3,
+      "description": "Bench work"
+    },
+    {
+      "task": "incubator",
+      "maxConcurrent": 2,
+      "description": "Incubator slots"
+    }
+  ],
+  "metadata": {
+    "expectedTimings": {
+      "thaw": {
+        "start": 0,
+        "end": 300
+      },
+      "lyse-r1": {
+        "start": 300,
+        "end": 900
+      },
+      "lyse-r2": {
+        "start": 600,
+        "end": 1200
+      },
+      "digest-r1": {
+        "start": 300,
+        "end": 780
+      },
+      "digest-r2": {
+        "start": 1200,
+        "end": 1680
+      },
+      "combine-r1": {
+        "start": 900,
+        "end": 1020
+      },
+      "combine-r2": {
+        "start": 1680,
+        "end": 1800
+      },
+      "pool": {
+        "start": 1800,
+        "end": 1980
+      }
+    }
+  }
+}

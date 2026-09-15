@@ -1,0 +1,34 @@
+Western Blot: SDS-PAGE, Wet Transfer and Overnight Primary
+
+One 10-well precast gel is run, wet-transferred to PVDF and probed overnight. The bench has one gel tank, one wet transfer tank, one orbital rocker that takes a single tray, a heat block, a microcentrifuge, a cold room and one chemiluminescence imager. The transfer tank and the rocker are the two things nothing else can share, so the blot moves through them one stage at a time.
+
+Sample preparation
+1. Thaw the lysates on ice and normalise them to 2 mg/mL; 15 minutes.
+2. Add 4× Laemmli buffer and denature at 95 °C for 5 minutes in the heat block.
+3. Spin the tubes for 2 minutes in the microcentrifuge to collect condensate.
+
+Gel
+4. Assemble the tank, seat the precast gel and fill with running buffer; 10 minutes.
+5. Load 20 µg per lane and 5 µL of protein ladder; 10 minutes. Nothing is loaded until the denatured samples have been spun down.
+6. Run at 120 V for 75 minutes, until the dye front reaches the foot of the gel.
+
+Transfer preparation
+7. Put a litre of transfer buffer in the cold room an hour before you need it.
+8. One hour into the run, wet a PVDF membrane in methanol for 30 seconds and equilibrate it in transfer buffer; 5 minutes.
+9. Soak the fibre pads and filter paper in cold transfer buffer; 10 minutes.
+
+Blot
+10. Five minutes after the run ends, prise the gel out of the cassette and build the transfer sandwich with no bubbles; 10 minutes.
+11. Transfer at 100 V for 60 minutes with an ice pack in the tank.
+12. Stain the membrane with Ponceau S, photograph it and rinse it off; 10 minutes.
+13. Block in 5 % milk on the rocker for 1 hour at room temperature.
+14. Probe with primary antibody overnight in the cold room; 12 to 18 hours.
+15. Wash three times for 10 minutes each on the rocker.
+16. Probe with HRP-conjugated secondary on the rocker for 1 hour.
+17. Wash three times for 10 minutes each on the rocker.
+
+Detection
+18. Fifty minutes into the secondary, mix the ECL substrate; 5 minutes.
+19. Drain the membrane, apply the substrate and let it work for 5 minutes.
+20. Image the blot; 10 minutes of exposures.
+21. Quantify the bands against the loading control; 15 minutes.

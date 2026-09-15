@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "invalid-each-count-mismatch",
+  "name": "compound each over unequal counts",
+  "description": "`plate` pairs instance i of `sauce` (2 instances) with instance i of `pasta` (3 instances); the counts must match. Expected finding: E_EACH_COUNT_MISMATCH (error).",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "sauce",
+      "name": "Sauce",
+      "steps": [
+        {
+          "stepId": "sauce",
+          "name": "Reduce sauce",
+          "task": "stove",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "replicates": {
+            "count": 2,
+            "mode": "parallel"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "pasta",
+      "name": "Pasta",
+      "steps": [
+        {
+          "stepId": "pasta",
+          "name": "Boil pasta",
+          "task": "stove",
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "replicates": {
+            "count": 3,
+            "mode": "parallel"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "plating",
+      "name": "Plating",
+      "steps": [
+        {
+          "stepId": "plate",
+          "name": "Plate a portion",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "sauce",
+                "instances": "each"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "pasta",
+                "instances": "each"
+              }
+            ]
+          }
+        },
+        {
+          "stepId": "serve",
+          "name": "Serve",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "plate",
+            "instances": "all"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove",
+      "maxConcurrent": 5
+    },
+    {
+      "task": "prep",
+      "maxConcurrent": 3
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "E_EACH_COUNT_MISMATCH",
+      "severity": "error"
+    }
+  }
+}

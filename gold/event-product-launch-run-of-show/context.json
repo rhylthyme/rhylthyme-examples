@@ -1,0 +1,16 @@
+{
+  "title": "Product Launch Evening: Run of Show",
+  "environmentType": "event",
+  "domain": "event",
+  "deadline": "21:00",
+  "servesOrScale": "200 guests",
+  "constraints": [
+    "one stage",
+    "one projector",
+    "crew call 17:00",
+    "doors 18:00",
+    "program over by 20:00",
+    "venue resets at 21:00"
+  ],
+  "notes": "Program start is crew call (17:00). Three manual gates: doors-open, ceo-keynote and host-close; the planner positions each after its in-track predecessor. Durations that the text bounds (Q&A) are variable."
+}

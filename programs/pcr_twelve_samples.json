@@ -1,0 +1,109 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "pcr-twelve-samples",
+  "name": "Twelve samples, one rotor",
+  "description": "Twelve samples are aliquoted into a centrifuge rotor that holds six, spun, and unloaded; each sample is its own per-instance chain (instances: \"each\"). replicates.maxInFlight: 6 keeps at most six samples between going into the rotor and coming back out, so sample 7 waits for sample 1 to be unloaded. Plating waits for every sample (instances: \"all\") and then two thermocycler runs go in parallel, exactly filling thermocycler maxConcurrent: 2. Contrast the two limits: maxInFlight bounds a chain across time, maxConcurrent bounds one task at one instant.",
+  "environmentType": "laboratory",
+  "tracks": [
+    {
+      "trackId": "samples",
+      "name": "Samples",
+      "steps": [
+        {
+          "stepId": "master_mix",
+          "name": "Prepare master mix",
+          "task": "bench",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "aliquot",
+          "name": "Aliquot sample into rotor",
+          "task": "rotor",
+          "duration": { "type": "fixed", "seconds": 60 },
+          "replicates": { "count": 12, "mode": "serial", "maxInFlight": 6 },
+          "startTrigger": { "type": "afterStep", "stepId": "master_mix" }
+        },
+        {
+          "stepId": "spin",
+          "name": "Spin down sample",
+          "task": "rotor",
+          "duration": { "type": "fixed", "seconds": 600 },
+          "startTrigger": { "type": "afterStep", "stepId": "aliquot", "instances": "each" }
+        },
+        {
+          "stepId": "unload",
+          "name": "Unload tube from rotor",
+          "task": "bench",
+          "duration": { "type": "fixed", "seconds": 60 },
+          "startTrigger": { "type": "afterStep", "stepId": "spin", "instances": "each" }
+        },
+        {
+          "stepId": "pcr",
+          "name": "Thermocycler run",
+          "task": "thermocycler",
+          "duration": { "type": "fixed", "seconds": 3600 },
+          "replicates": { "count": 2, "mode": "parallel" },
+          "startTrigger": { "type": "afterStep", "stepId": "unload", "instances": "all" }
+        },
+        {
+          "stepId": "analysis",
+          "name": "Analyse amplification curves",
+          "task": "bench",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "pcr", "instances": "all" }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    { "task": "bench", "maxConcurrent": 1, "description": "One technician at the bench" },
+    { "task": "rotor", "maxConcurrent": 6, "description": "Centrifuge rotor holds six tubes" },
+    { "task": "thermocycler", "maxConcurrent": 2, "description": "Two thermocyclers" }
+  ],
+  "metadata": {
+    "expectedTimings": {
+      "master_mix": { "start": 0, "end": 600 },
+      "aliquot-r1": { "start": 600, "end": 660 },
+      "aliquot-r2": { "start": 660, "end": 720 },
+      "aliquot-r3": { "start": 720, "end": 780 },
+      "aliquot-r4": { "start": 780, "end": 840 },
+      "aliquot-r5": { "start": 840, "end": 900 },
+      "aliquot-r6": { "start": 900, "end": 960 },
+      "aliquot-r7": { "start": 1320, "end": 1380 },
+      "aliquot-r8": { "start": 1380, "end": 1440 },
+      "aliquot-r9": { "start": 1440, "end": 1500 },
+      "aliquot-r10": { "start": 1500, "end": 1560 },
+      "aliquot-r11": { "start": 1560, "end": 1620 },
+      "aliquot-r12": { "start": 1620, "end": 1680 },
+      "spin-r1": { "start": 660, "end": 1260 },
+      "spin-r2": { "start": 720, "end": 1320 },
+      "spin-r3": { "start": 780, "end": 1380 },
+      "spin-r4": { "start": 840, "end": 1440 },
+      "spin-r5": { "start": 900, "end": 1500 },
+      "spin-r6": { "start": 960, "end": 1560 },
+      "spin-r7": { "start": 1380, "end": 1980 },
+      "spin-r8": { "start": 1440, "end": 2040 },
+      "spin-r9": { "start": 1500, "end": 2100 },
+      "spin-r10": { "start": 1560, "end": 2160 },
+      "spin-r11": { "start": 1620, "end": 2220 },
+      "spin-r12": { "start": 1680, "end": 2280 },
+      "unload-r1": { "start": 1260, "end": 1320 },
+      "unload-r2": { "start": 1320, "end": 1380 },
+      "unload-r3": { "start": 1380, "end": 1440 },
+      "unload-r4": { "start": 1440, "end": 1500 },
+      "unload-r5": { "start": 1500, "end": 1560 },
+      "unload-r6": { "start": 1560, "end": 1620 },
+      "unload-r7": { "start": 1980, "end": 2040 },
+      "unload-r8": { "start": 2040, "end": 2100 },
+      "unload-r9": { "start": 2100, "end": 2160 },
+      "unload-r10": { "start": 2160, "end": 2220 },
+      "unload-r11": { "start": 2220, "end": 2280 },
+      "unload-r12": { "start": 2280, "end": 2340 },
+      "pcr-r1": { "start": 2340, "end": 5940 },
+      "pcr-r2": { "start": 2340, "end": 5940 },
+      "analysis": { "start": 5940, "end": 6840 }
+    },
+    "expectedTimingsNote": "Seconds from program start, computed by hand. Samples 1-6 are aliquoted back to back from 600 s (60 s each), each spinning for 600 s and taking 60 s to unload, so sample i (i <= 6) leaves the rotor at 1260 + 60(i-1). aliquot-r7 is ready at 960, when aliquot-r6 ends, but maxInFlight: 6 holds it until unload-r1 ends at 1320: the rotor is full. From there the pipeline is paced by the rotor, one slot freed every 60 s, so aliquot-r(6+j) starts at 1260 + 60j and unload-r12 ends at 2340. The two parallel thermocycler runs then take 2340-5940 and analysis closes the program at 6840 s (114 min). Both declared limits are respected: at most six rotor tasks overlap (six spins, or five spins plus one aliquot) and exactly two thermocycler runs."
+  }
+}

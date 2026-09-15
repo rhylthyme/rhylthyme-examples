@@ -1,0 +1,12 @@
+{
+  "title": "Weeknight Chicken and Broccoli Stir-Fry with Rice",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "servesOrScale": "2 people",
+  "constraints": [
+    "two burners",
+    "one cook",
+    "about 35 minutes"
+  ],
+  "notes": "No wall-clock deadline in the source. The wok work is anchored to the rice coming off the heat so both finish together; the marinade sits on its own track because it is a passive wait that overlaps active prep."
+}

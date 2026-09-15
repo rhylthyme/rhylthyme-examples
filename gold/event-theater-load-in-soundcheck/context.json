@@ -1,0 +1,16 @@
+{
+  "title": "Load-In Schedule — The Lyric",
+  "environmentType": "event",
+  "domain": "event",
+  "deadline": "doors",
+  "servesOrScale": "one-nighter, touring band, house crew of eight",
+  "constraints": [
+    "one loading dock",
+    "one stage",
+    "one lighting desk",
+    "one PA",
+    "one monitor world",
+    "one green room"
+  ],
+  "notes": "stage-sweep is inferred: every house does a sweep and safety walk between backline going up and the band arriving, and no load-in sheet ever writes it down, so it carries inferred: true with a null span. Soundcheck is the compound 'all' join across PA, monitors and the swept stage. Doors is the house manager's manual gate, placed after the house clean, which is what it really waits for. The show is indefinite."
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Breakfast for Six on One Griddle",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "deadline": "09:00",
+  "servesOrScale": "6 people",
+  "constraints": [
+    "one griddle",
+    "one two-slice toaster",
+    "one coffee maker",
+    "one oven on its lowest setting",
+    "one cook"
+  ],
+  "notes": "The griddle is a strict queue: bacon, scrape, three pancake passes, a temperature drop, then the eggs. The three passes are three steps because the source names three durations. The warm oven is a holding resource with a variable duration that runs until the call. Serve is the compound all-trigger the text spells out (eggs, toast, coffee)."
+}

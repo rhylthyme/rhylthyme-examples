@@ -1,0 +1,545 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "gold-kitchen-country-loaf-bread-bake",
+  "name": "Country Loaf: Two Boules, One Dutch Oven",
+  "description": "A two-day sourdough bake for one baker: levain, autolyse, a folded bulk ferment, an overnight retard, and two boules baked in sequence in the same dutch oven.",
+  "environmentType": "kitchen",
+  "actors": 1,
+  "resourceConstraints": [
+    {
+      "task": "oven",
+      "maxConcurrent": 1,
+      "description": "One oven holding one dutch oven: the loaves bake in sequence"
+    },
+    {
+      "task": "counter",
+      "maxConcurrent": 2,
+      "description": "Bench space for weighing, mixing, folding and shaping"
+    },
+    {
+      "task": "refrigerator",
+      "maxConcurrent": 1,
+      "description": "One refrigerator for the overnight retard"
+    },
+    {
+      "task": "rack",
+      "maxConcurrent": 2,
+      "description": "A cooling rack wide enough for both loaves"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "levain",
+      "name": "Levain",
+      "steps": [
+        {
+          "stepId": "mix-levain",
+          "name": "Mix the levain",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Mix 50 g of ripe starter with 100 g of flour and 100 g of water in a jar; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "ripen-levain",
+          "name": "Ripen the levain",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 14400,
+            "maxSeconds": 21600,
+            "defaultSeconds": 18000
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix-levain"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Leave the jar at room temperature until it domes and smells sweet, 4 to 6 hours",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "dough",
+      "name": "Dough",
+      "steps": [
+        {
+          "stepId": "weigh-ingredients",
+          "name": "Weigh flour, water and salt",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Weigh the flour, water and salt for the whole bake first thing; 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "mix-flour-water",
+          "name": "Whisk flour into water",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 1800
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "At half past eight, whisk 900 g of flour into 680 g of water; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "autolyse",
+          "name": "Autolyse",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix-flour-water"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Let it autolyse for 1 hour",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "mix-dough",
+          "name": "Add levain and salt, mix by hand",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "ripen-levain"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "autolyse"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "squeeze it into the autolysed dough with 20 g of salt and work it by hand for 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "bulk-ferment",
+          "name": "Bulk ferment",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 10800,
+            "maxSeconds": 18000,
+            "defaultSeconds": 14400
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix-dough"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Bulk ferment at 24°C until the dough has risen by half, 3 to 5 hours",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "divide-preshape",
+          "name": "Divide and preshape",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bulk-ferment"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Tip the dough out, cut it in two and preshape each piece into a loose round; 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "bench-rest",
+          "name": "Bench rest",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1500
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "divide-preshape"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Let the rounds rest on the bench for 25 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "shape-boules",
+          "name": "Shape both boules",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bench-rest"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Shape both boules tightly and settle them into floured bannetons; 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "retard",
+          "name": "Retard in the refrigerator",
+          "task": "refrigerator",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 36000,
+            "maxSeconds": 50400,
+            "defaultSeconds": 43200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "shape-boules"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Retard them in the refrigerator, 10 to 14 hours",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "folds",
+      "name": "Folds",
+      "steps": [
+        {
+          "stepId": "fold-1",
+          "name": "First fold",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix-dough",
+            "offsetSeconds": 1800
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Fold the dough in the bowl half an hour after mixing",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "fold-2",
+          "name": "Second fold",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "fold-1",
+            "offsetSeconds": 1800
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "again half an hour later",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "fold-3",
+          "name": "Third fold",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "fold-2",
+            "offsetSeconds": 1800
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "a third time after another half hour",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "bake",
+      "name": "Bake",
+      "steps": [
+        {
+          "stepId": "heat-dutch-oven",
+          "name": "Heat oven and dutch oven to 250°C",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "retard",
+            "event": "start",
+            "offsetSeconds": 40500
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Three quarters of an hour before the dough comes out, put the dutch oven in the oven and heat both to 250°C",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "score-load-first",
+          "name": "Score and load the first loaf",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "retard"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "heat-dutch-oven"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Score the first loaf and lower it in; 3 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "bake-first-covered",
+          "name": "Bake the first loaf covered",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "score-load-first"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Bake the first loaf covered for 20 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "bake-first-uncovered",
+          "name": "Bake the first loaf uncovered",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-first-covered"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "then uncover it and bake for another 20 minutes until the crust is dark",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "reheat-dutch-oven",
+          "name": "Re-heat the empty dutch oven",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-first-uncovered"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Re-heat the empty dutch oven for 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "score-load-second",
+          "name": "Score and load the second loaf",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "reheat-dutch-oven"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Score the second loaf and lower it in; 3 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "bake-second-covered",
+          "name": "Bake the second loaf covered",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "score-load-second"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Bake the second loaf covered for 20 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "bake-second-uncovered",
+          "name": "Bake the second loaf uncovered",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-second-covered"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "then uncover it for a final 20 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "cool-second",
+          "name": "Cool the second loaf",
+          "task": "rack",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 3600,
+            "maxSeconds": 7200,
+            "defaultSeconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-second-uncovered"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Cool the second loaf on the rack beside the first",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "first-loaf",
+      "name": "First loaf cooling",
+      "steps": [
+        {
+          "stepId": "cool-first",
+          "name": "Cool the first loaf",
+          "task": "rack",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 3600,
+            "maxSeconds": 7200,
+            "defaultSeconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake-first-uncovered"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Cool it on a rack for at least an hour before cutting",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

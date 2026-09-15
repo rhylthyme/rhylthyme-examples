@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "invalid-inflight-no-chain",
+  "name": "in-flight limit with nothing to hold",
+  "description": "`bake` is serial, so its instances already cannot overlap, and it has no instances: \"each\" descendants for the limit to reach through: nothing is ever held back. Expected finding: E_INFLIGHT_NO_CHAIN (error).",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "cookies",
+      "name": "Cookies",
+      "steps": [
+        {
+          "stepId": "mix",
+          "name": "Mix dough",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "bake",
+          "name": "Bake tray",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 720
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix"
+          },
+          "replicates": {
+            "count": 3,
+            "mode": "serial",
+            "maxInFlight": 2
+          }
+        },
+        {
+          "stepId": "box",
+          "name": "Box cookies",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake",
+            "instances": "all"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "prep",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "E_INFLIGHT_NO_CHAIN",
+      "severity": "error"
+    }
+  }
+}

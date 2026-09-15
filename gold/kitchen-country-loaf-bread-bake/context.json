@@ -1,0 +1,14 @@
+{
+  "title": "Country Loaf: Two Boules, One Dutch Oven",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "servesOrScale": "one batch, two 900 g boules",
+  "constraints": [
+    "one oven",
+    "one dutch oven",
+    "one refrigerator",
+    "one baker",
+    "the two loaves bake one after the other"
+  ],
+  "notes": "Fermentation dominates: the levain ripen, the bulk ferment and the overnight retard are all variable, and their defaults set the clock. The dutch oven is heated from a point inside the retard (event=start plus an offset) so it is at temperature the moment the dough comes out. The second loaf waits for the first to leave the oven and for a ten-minute re-heat; the two loaves only share the cooling rack."
+}

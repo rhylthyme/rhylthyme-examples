@@ -1,0 +1,14 @@
+{
+  "title": "Weekday Lentil Soup and Salad for Four",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "deadline": "12:30",
+  "servesOrScale": "4 people",
+  "constraints": [
+    "one cook",
+    "two burners",
+    "one toaster oven",
+    "one stick blender"
+  ],
+  "notes": "A small program whose interest is the anchoring: everything that is not the soup hangs off the moment the soup starts simmering (event=start), the salad is dressed on an afterStepWithBuffer five minutes into the reheated soup, and the simmer itself is variable (25 to 40 minutes) so the default sets the clock."
+}

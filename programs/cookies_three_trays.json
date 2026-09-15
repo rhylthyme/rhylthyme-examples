@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "cookies-three-trays",
+  "name": "Three trays, one oven",
+  "description": "Three trays of cookies bake one after another in a single oven, onto a rack that holds two. Each tray starts cooling the moment it comes out (instances: \"each\"); the rack cap is replicates.maxInFlight: 2, so the third bake waits for the first tray to leave the rack rather than stranding a hot tray; boxing waits for every tray (instances: \"all\"). Per-instance triggers and in-flight limits from program schema 0.3.0-alpha.",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "cookies",
+      "name": "Cookies",
+      "steps": [
+        {
+          "stepId": "mix",
+          "name": "Mix dough",
+          "task": "prep",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "programStart" }
+        },
+        {
+          "stepId": "bake",
+          "name": "Bake tray",
+          "task": "oven",
+          "duration": { "type": "fixed", "seconds": 720 },
+          "replicates": { "count": 3, "mode": "serial", "maxInFlight": 2 },
+          "startTrigger": { "type": "afterStep", "stepId": "mix" }
+        },
+        {
+          "stepId": "cool",
+          "name": "Cool on rack",
+          "task": "rack",
+          "duration": { "type": "fixed", "seconds": 900 },
+          "startTrigger": { "type": "afterStep", "stepId": "bake", "instances": "each" }
+        },
+        {
+          "stepId": "box",
+          "name": "Box cookies",
+          "task": "prep",
+          "duration": { "type": "fixed", "seconds": 300 },
+          "startTrigger": { "type": "afterStep", "stepId": "cool", "instances": "all" }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    { "task": "prep", "maxConcurrent": 1, "description": "One cook" },
+    { "task": "oven", "maxConcurrent": 1, "description": "Single oven" },
+    { "task": "rack", "maxConcurrent": 2, "description": "Cooling rack holds two trays" }
+  ],
+  "metadata": {
+    "expectedTimings": {
+      "mix": { "start": 0, "end": 900 },
+      "bake-r1": { "start": 900, "end": 1620 },
+      "bake-r2": { "start": 1620, "end": 2340 },
+      "cool-r1": { "start": 1620, "end": 2520 },
+      "cool-r2": { "start": 2340, "end": 3240 },
+      "bake-r3": { "start": 2520, "end": 3240 },
+      "cool-r3": { "start": 3240, "end": 4140 },
+      "box": { "start": 4140, "end": 4440 }
+    },
+    "expectedTimingsNote": "PRD prd-per-instance-triggers-barriers \u00a77, in seconds. bake-r3 would be ready at 2340 (when bake-r2 ends) but maxInFlight: 2 holds it until cool-r1 frees a rack slot at 2520, so the critical chain is mix -> bake-r1 -> cool-r1 -> (in flight) bake-r3 -> cool-r3 -> box and the makespan is 4440 s (74 min). rack maxConcurrent: 2 alone would NOT give this schedule: it would let bake-r3 run 2340-3060 and then make cool-r3 wait for a rack slot, leaving a hot tray with nowhere to go."
+  }
+}

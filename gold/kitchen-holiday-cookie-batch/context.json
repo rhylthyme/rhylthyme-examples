@@ -1,0 +1,13 @@
+{
+  "title": "Holiday Cookie Batch: Three Doughs, One Oven",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "servesOrScale": "three doughs, roughly a hundred cookies",
+  "constraints": [
+    "one stand mixer",
+    "one oven",
+    "two sheet pans that must cool between batches",
+    "one baker"
+  ],
+  "notes": "The oven is a queue and so are the pans: each bake waits on the previous bake AND on a cooled pan, which is why the gingerbread bake carries a three-way compound trigger. temper-sugar-dough is inferred: the text says to roll dough that has been in the refrigerator for an hour but never says to let it come back to room temperature, so the step borrows the rolling sentence as its span."
+}

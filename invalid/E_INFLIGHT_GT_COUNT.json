@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "invalid-inflight-gt-count",
+  "name": "more trays in flight than trays",
+  "description": "`bake` has three instances but asks for five in flight, so the limit can never bind. Expected finding: E_INFLIGHT_GT_COUNT (error).",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "cookies",
+      "name": "Cookies",
+      "steps": [
+        {
+          "stepId": "mix",
+          "name": "Mix dough",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "bake",
+          "name": "Bake tray",
+          "task": "oven",
+          "duration": {
+            "type": "fixed",
+            "seconds": 720
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix"
+          },
+          "replicates": {
+            "count": 3,
+            "mode": "serial",
+            "maxInFlight": 5
+          }
+        },
+        {
+          "stepId": "cool",
+          "name": "Cool on rack",
+          "task": "rack",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "bake",
+            "instances": "each"
+          }
+        },
+        {
+          "stepId": "box",
+          "name": "Box cookies",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cool",
+            "instances": "all"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "prep",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "rack",
+      "maxConcurrent": 3
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "E_INFLIGHT_GT_COUNT",
+      "severity": "error"
+    }
+  }
+}

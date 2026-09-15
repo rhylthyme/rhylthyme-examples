@@ -1,0 +1,14 @@
+{
+  "title": "Three-Course Dinner for Six: Two Burners, One Oven",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "deadline": "19:30",
+  "servesOrScale": "6 people, three courses",
+  "constraints": [
+    "one oven",
+    "two burners",
+    "one cook",
+    "courses go out in order"
+  ],
+  "notes": "The oven is booked twice: the braise, then the tart the moment the ribs come out. The soup is deliberately started two hours into the braise so the warm hold is short. Service is a manual gate (guests seated), the main course is indefinite, and the tart is an afterStepWithBuffer on it."
+}

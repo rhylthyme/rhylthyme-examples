@@ -1,0 +1,14 @@
+{
+  "title": "Practice Plan — Thursday AM, three lanes",
+  "environmentType": "fitness",
+  "domain": "fitness",
+  "deadline": "150 minutes of pool time",
+  "servesOrScale": "one squad of twelve, three lanes, one coach",
+  "constraints": [
+    "three lanes",
+    "one set of starting blocks",
+    "one coach on deck",
+    "two and a half hours of pool time"
+  ],
+  "notes": "The three lanes are three tracks against a single lane resource of maxConcurrent 3, so the warm-up, kick and cooldown resolve as genuine three-way parallelism while the sprint set serialises on the blocks. The main sets are variable with different defaults per lane; the sprint set opens on a compound 'all' across the three of them. The whiteboard talk is the coach's manual gate and is placed in the deck track after the warm-up watch, which is what it actually waits for."
+}

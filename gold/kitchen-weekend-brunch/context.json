@@ -1,0 +1,14 @@
+{
+  "title": "Saturday Brunch for Four",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "deadline": "10:00",
+  "servesOrScale": "4 people",
+  "constraints": [
+    "one oven",
+    "two burners",
+    "one cook",
+    "about 45 minutes"
+  ],
+  "notes": "preheat-oven is inferred (sourceSpan null): the text gives a baking temperature but never says to heat the oven. Batter rest is anchored to the bacon going in, as the text says."
+}

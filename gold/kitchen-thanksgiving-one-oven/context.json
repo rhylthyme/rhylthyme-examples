@@ -1,0 +1,14 @@
+{
+  "title": "Thanksgiving for Eight with One Oven",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "deadline": "18:00",
+  "servesOrScale": "8 people",
+  "constraints": [
+    "one oven",
+    "four burners",
+    "two cooks",
+    "all dishes finish together"
+  ],
+  "notes": "Program start is 40 minutes before seasoning (turkey out of the fridge). The oven is the bottleneck: preheat, roast, stuffing, casserole and rolls are chained on it. Holds use variable durations whose defaults land on the serve time."
+}

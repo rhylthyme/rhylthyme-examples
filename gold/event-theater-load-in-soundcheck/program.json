@@ -1,0 +1,478 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "gold-event-theater-load-in-soundcheck",
+  "name": "Load-In Schedule — The Lyric",
+  "description": "Crew call to strike for a one-night touring show: two trucks through a single loading dock, a lighting rig and a PA fought onto one stage, a soundcheck that waits on both audio departments, and doors on the house manager's call.",
+  "environmentType": "event",
+  "actors": 8,
+  "resourceConstraints": [
+    {
+      "task": "dock",
+      "maxConcurrent": 1,
+      "description": "One loading dock; one truck at a time"
+    },
+    {
+      "task": "stage",
+      "maxConcurrent": 1,
+      "description": "The stage: rigging, backline, soundcheck, show, strike"
+    },
+    {
+      "task": "lx-desk",
+      "maxConcurrent": 1,
+      "description": "One lighting desk: focus then cue build"
+    },
+    {
+      "task": "pa",
+      "maxConcurrent": 1,
+      "description": "House PA"
+    },
+    {
+      "task": "monitors",
+      "maxConcurrent": 1,
+      "description": "Monitor world"
+    },
+    {
+      "task": "green-room",
+      "maxConcurrent": 1,
+      "description": "Green room for band dinner"
+    },
+    {
+      "task": "house",
+      "maxConcurrent": 1,
+      "description": "Front of house and the auditorium"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "dock",
+      "name": "Dock",
+      "steps": [
+        {
+          "stepId": "lx-truck-in",
+          "name": "Lighting truck in",
+          "task": "dock",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Lighting truck in: bars, fixtures, cable, 60 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "backline-truck-in",
+          "name": "Backline truck in",
+          "task": "dock",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "lx-truck-in"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Backline truck in the moment the lighting truck is empty: 45 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "clear-dock",
+          "name": "Clear the dock",
+          "task": "dock",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "backline-truck-in"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Clear the dock and get the empties out; 15 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "lighting",
+      "name": "Lighting",
+      "steps": [
+        {
+          "stepId": "rig-lx",
+          "name": "Rig the lighting bars",
+          "task": "stage",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "lx-truck-in"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Rig the bars as soon as the lighting truck is off the dock: 45 minutes on stage",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "lx-focus",
+          "name": "Focus the rig",
+          "task": "lx-desk",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "rig-lx"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Focus from the desk once the rig is up: 60 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "lx-cue-build",
+          "name": "Build the cues",
+          "task": "lx-desk",
+          "duration": {
+            "type": "variable",
+            "minSeconds": 1800,
+            "maxSeconds": 5400,
+            "defaultSeconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "lx-focus"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Build the cues after focus: 30 minutes if the plot is clean, up to 90 if it is not",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "strike-lx",
+          "name": "Strike the rig",
+          "task": "stage",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "show"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Strike the rig when the show is down: 60 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "pa",
+      "name": "PA",
+      "steps": [
+        {
+          "stepId": "fly-pa",
+          "name": "Fly the PA",
+          "task": "pa",
+          "duration": {
+            "type": "fixed",
+            "seconds": 4500
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "lx-truck-in"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Fly the PA as soon as the lighting truck is off the dock: 75 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "ring-out-house",
+          "name": "Ring out the house",
+          "task": "pa",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "fly-pa"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Ring out the house: 20 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "monitors",
+      "name": "Monitors",
+      "steps": [
+        {
+          "stepId": "set-monitor-world",
+          "name": "Set monitor world",
+          "task": "monitors",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "backline-truck-in"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Set monitor world once the backline truck is off the dock: 45 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "ring-out-wedges",
+          "name": "Ring out the wedges",
+          "task": "monitors",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "set-monitor-world"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Ring out the wedges: 20 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "band",
+      "name": "Band",
+      "steps": [
+        {
+          "stepId": "backline-up",
+          "name": "Backline up",
+          "task": "stage",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "backline-truck-in"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Backline up as soon as the dock is clear of the second truck: 45 minutes on stage",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "stage-sweep",
+          "name": "Sweep the stage and walk it for safety",
+          "task": "stage",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "backline-up"
+          },
+          "metadata": {
+            "sourceSpan": null,
+            "inferred": true
+          }
+        },
+        {
+          "stepId": "soundcheck",
+          "name": "Soundcheck",
+          "task": "stage",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "ring-out-house"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "ring-out-wedges"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "stage-sweep"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Soundcheck when the house and the wedges are both rung out: 60 minutes, drums first",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "band-dinner",
+          "name": "Band dinner",
+          "task": "green-room",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "soundcheck"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Band dinner after soundcheck: 60 minutes in the green room",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "show",
+          "name": "Show",
+          "task": "stage",
+          "duration": {
+            "type": "indefinite",
+            "defaultSeconds": 7200,
+            "triggerName": "Show is down"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "doors"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Show on stage once the house is in, and it runs as long as it runs",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "backline-out",
+          "name": "Backline out",
+          "task": "dock",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStepWithBuffer",
+            "stepId": "show",
+            "bufferSeconds": 900
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Backline out fifteen minutes after the show is down: 45 minutes on the dock",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "house",
+      "name": "House",
+      "steps": [
+        {
+          "stepId": "set-front-of-house",
+          "name": "Set front of house",
+          "task": "house",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "programStartOffset",
+            "offsetSeconds": 7200
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Set front of house from two hours in: 60 minutes, merch, bars, ushers",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "clean-house",
+          "name": "Clean the house",
+          "task": "house",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "band-dinner",
+            "event": "start"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Clean the house after the band go to dinner; 30 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "doors",
+          "name": "Doors",
+          "task": "house",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "manual",
+            "triggerName": "House manager calls doors"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Doors when the house manager calls them; 30 minutes of walk-up",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

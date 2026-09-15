@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "invalid-instances-on-single",
+  "name": "instances on an unreplicated step",
+  "description": "`cool` says instances: \"each\" on `mix`, but `mix` has no replicates. Expected finding: E_INSTANCES_ON_SINGLE (error).",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "cookies",
+      "name": "Cookies",
+      "steps": [
+        {
+          "stepId": "mix",
+          "name": "Mix dough",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "cool",
+          "name": "Cool on rack",
+          "task": "rack",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix",
+            "instances": "each"
+          }
+        },
+        {
+          "stepId": "box",
+          "name": "Box cookies",
+          "task": "prep",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cool"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "prep",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "oven",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "rack",
+      "maxConcurrent": 3
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "E_INSTANCES_ON_SINGLE",
+      "severity": "error"
+    }
+  }
+}

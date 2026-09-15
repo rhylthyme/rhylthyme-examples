@@ -1,0 +1,348 @@
+{
+  "schemaVersion": "0.2.0",
+  "programId": "gold-kitchen-weeknight-stir-fry",
+  "name": "Weeknight Chicken and Broccoli Stir-Fry with Rice",
+  "description": "Rice and a quick wok stir-fry for two on two burners, timed so the stir-fry finishes as the rice is fluffed.",
+  "environmentType": "kitchen",
+  "actors": 1,
+  "resourceConstraints": [
+    {
+      "task": "burner",
+      "maxConcurrent": 2,
+      "description": "Two burners: one for the rice pot, one for the wok"
+    },
+    {
+      "task": "counter",
+      "maxConcurrent": 1,
+      "description": "One cutting board and prep area"
+    }
+  ],
+  "tracks": [
+    {
+      "trackId": "rice",
+      "name": "Rice",
+      "steps": [
+        {
+          "stepId": "rinse-rice",
+          "name": "Rinse rice",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Rinse one cup of jasmine rice until the water runs clear, about 2 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "boil-rice",
+          "name": "Bring rice to a boil",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "rinse-rice"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "bring to a boil over high heat, about 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "simmer-rice",
+          "name": "Simmer rice, covered",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "boil-rice"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Cover, turn the heat to low and simmer for 15 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "steam-rice",
+          "name": "Steam rice off the heat",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "simmer-rice"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "let it steam, lid on, for 10 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "fluff-rice",
+          "name": "Fluff rice",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "steam-rice"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Fluff with a fork just before serving; 1 minute",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "prep",
+      "name": "Prep",
+      "steps": [
+        {
+          "stepId": "slice-chicken",
+          "name": "Slice chicken thighs",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "boil-rice",
+            "event": "start"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "slice a pound of chicken thighs into thin strips, about 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "prep-vegetables",
+          "name": "Cut broccoli, mince garlic and ginger",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "slice-chicken"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "cut a head of broccoli into small florets and mince three cloves of garlic and a thumb of ginger; 5 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "mix-sauce",
+          "name": "Mix the sauce",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "prep-vegetables"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Stir together the sauce in a small bowl",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "marinade",
+      "name": "Marinade",
+      "steps": [
+        {
+          "stepId": "marinate-chicken",
+          "name": "Marinate chicken in soy and cornstarch",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "slice-chicken"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "let them sit for 10 minutes",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "wok",
+      "name": "Wok",
+      "steps": [
+        {
+          "stepId": "heat-wok",
+          "name": "Heat wok until smoking",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "steam-rice",
+            "event": "start"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "heat a wok over the highest flame until it smokes, about 3 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "fry-chicken",
+          "name": "Stir-fry chicken",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "heat-wok"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "marinate-chicken"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Add oil and the chicken and stir-fry for 4 minutes until browned",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "steam-broccoli",
+          "name": "Steam broccoli in the wok",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "fry-chicken"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Add the broccoli with a splash of water, cover, and steam for 3 minutes",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "cook-aromatics",
+          "name": "Cook garlic and ginger",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "steam-broccoli"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "add the garlic and ginger and cook for 30 seconds",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "finish-stir-fry",
+          "name": "Return chicken, add sauce, toss",
+          "task": "burner",
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cook-aromatics"
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "return the chicken, pour in the sauce and toss for 1 minute until glossy",
+              "occurrence": 1
+            }
+          }
+        },
+        {
+          "stepId": "serve",
+          "name": "Serve over rice",
+          "task": "counter",
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          },
+          "startTrigger": {
+            "logic": "all",
+            "triggers": [
+              {
+                "type": "afterStep",
+                "stepId": "finish-stir-fry"
+              },
+              {
+                "type": "afterStep",
+                "stepId": "fluff-rice"
+              }
+            ]
+          },
+          "metadata": {
+            "sourceSpan": {
+              "quote": "Serve immediately over the rice",
+              "occurrence": 1
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

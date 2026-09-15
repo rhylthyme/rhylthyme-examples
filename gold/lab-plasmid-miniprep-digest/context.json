@@ -1,0 +1,14 @@
+{
+  "title": "Plasmid Miniprep, Restriction Digest and Gel Check",
+  "environmentType": "laboratory",
+  "domain": "laboratory",
+  "servesOrScale": "one 5 mL culture, one digest",
+  "constraints": [
+    "one microcentrifuge",
+    "one 37 °C heat block",
+    "one 65 °C heat block",
+    "one gel rig",
+    "one operator"
+  ],
+  "notes": "warm-heat-block is inferred and borrows the incubation sentence as its span. Numbered steps 9-11 (gel) run in parallel with the miniprep; step 15 is anchored ten minutes into the digest as the text says."
+}

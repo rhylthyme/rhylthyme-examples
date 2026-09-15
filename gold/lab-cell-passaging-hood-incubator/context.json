@@ -1,0 +1,15 @@
+{
+  "title": "Passaging Two Flasks of Adherent HEK293 Cells",
+  "environmentType": "laboratory",
+  "domain": "laboratory",
+  "servesOrScale": "two T75 flasks split 1:6 into four",
+  "constraints": [
+    "one biosafety cabinet",
+    "one 37 °C water bath",
+    "one CO₂ incubator",
+    "one benchtop centrifuge",
+    "one microscope with haemocytometer",
+    "one operator"
+  ],
+  "notes": "warm-reagents is inferred: the text never makes warming a step, it only says to work with pre-warmed reagents, so the step borrows that sentence as its span and gates both flasks through a compound 'all'. The two flask tracks contend for the cabinet, the centrifuge and the microscope; each flask-B step that would collide is chained on the matching flask-A step rather than on its own predecessor alone."
+}

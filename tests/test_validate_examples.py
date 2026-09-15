@@ -18,7 +18,7 @@ from rhylthyme_cli_runner.validate_program import validate_program_file_structur
 @pytest.mark.validation
 @pytest.mark.integration
 @pytest.mark.slow
-def test_validate_all_json_programs(programs_dir, schema_file):
+def test_validate_all_json_programs(programs_dir, schema_file_for):
     """Test that all JSON program files validate successfully against the schema."""
     json_files = list(programs_dir.glob("*.json"))
 
@@ -37,7 +37,7 @@ def test_validate_all_json_programs(programs_dir, schema_file):
         print(f"Validating {filename}...")
 
         try:
-            result = validate_program_file_structured(str(filepath), schema_file)
+            result = validate_program_file_structured(str(filepath), schema_file_for(filepath))
 
             if result["schema_errors"]:
                 schema_failures.append((filename, result["schema_errors"]))
@@ -91,7 +91,7 @@ def test_validate_all_json_programs(programs_dir, schema_file):
 @pytest.mark.validation
 @pytest.mark.integration
 @pytest.mark.slow
-def test_validate_all_yaml_programs(programs_dir, schema_file):
+def test_validate_all_yaml_programs(programs_dir, schema_file_for):
     """Test that all YAML program files validate successfully against the schema."""
     yaml_files = list(programs_dir.glob("*.yaml")) + list(programs_dir.glob("*.yml"))
 
@@ -111,7 +111,7 @@ def test_validate_all_yaml_programs(programs_dir, schema_file):
         print(f"Validating {filename}...")
 
         try:
-            result = validate_program_file_structured(str(filepath), schema_file)
+            result = validate_program_file_structured(str(filepath), schema_file_for(filepath))
 
             if result["schema_errors"]:
                 schema_failures.append((filename, result["schema_errors"]))
@@ -172,12 +172,14 @@ def test_validate_all_yaml_programs(programs_dir, schema_file):
 
 @pytest.mark.validation
 @pytest.mark.unit
-def test_validate_specific_known_good_examples(programs_dir, schema_file):
+def test_validate_specific_known_good_examples(programs_dir, schema_file_for):
     """Test validation of specific known good example programs."""
     # List of examples that should always validate without errors
     known_good_examples = [
         "breakfast_schedule.json",
         "lab_experiment.json",
+        # schema 0.3.0-alpha: per-instance triggers (instances: "each"/"all")
+        "cookies_three_trays.json",
     ]
 
     for example_name in known_good_examples:
@@ -189,7 +191,7 @@ def test_validate_specific_known_good_examples(programs_dir, schema_file):
 
         print(f"Validating known good example: {example_name}")
 
-        result = validate_program_file_structured(str(filepath), schema_file)
+        result = validate_program_file_structured(str(filepath), schema_file_for(filepath))
 
         # These examples should have no schema errors
         assert not result[

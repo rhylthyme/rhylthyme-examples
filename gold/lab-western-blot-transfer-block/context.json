@@ -1,0 +1,15 @@
+{
+  "title": "Western Blot: SDS-PAGE, Wet Transfer and Overnight Primary",
+  "environmentType": "laboratory",
+  "domain": "laboratory",
+  "servesOrScale": "one 10-lane gel, one membrane",
+  "constraints": [
+    "one gel tank",
+    "one wet transfer tank",
+    "one orbital rocker, one tray at a time",
+    "one cold room",
+    "one chemiluminescence imager",
+    "one operator"
+  ],
+  "notes": "Step 10 is the afterStepWithBuffer: the sandwich is built five minutes after the run ends, not immediately, and it also waits on the soaked pads, so the trigger is a compound 'all' containing the buffered trigger. Membrane activation and the ECL mix are anchored inside longer steps with event=start plus an offset. The overnight primary is variable (12-18 h)."
+}

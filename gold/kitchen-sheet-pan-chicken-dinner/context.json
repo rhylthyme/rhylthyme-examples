@@ -1,0 +1,13 @@
+{
+  "title": "Sheet-Pan Chicken with Potatoes and Broccoli",
+  "environmentType": "kitchen",
+  "domain": "kitchen",
+  "servesOrScale": "4 people",
+  "constraints": [
+    "one oven",
+    "two sheet pans",
+    "one burner",
+    "one cook"
+  ],
+  "notes": "The staggered pans are modelled as a single oven queue: preheat, potatoes alone, chicken added, a mid-roast swap and a final roast. The swap is anchored twenty minutes into the chicken roast with event=start plus an offset, and the salad dressing is an afterStepWithBuffer five minutes into the rest."
+}

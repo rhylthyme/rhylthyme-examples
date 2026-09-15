@@ -1,0 +1,13 @@
+{
+  "title": "Erg Session — four rowers, two machines",
+  "environmentType": "fitness",
+  "domain": "fitness",
+  "servesOrScale": "4 rowers, 2 ergs, 3 pieces",
+  "constraints": [
+    "two ergs",
+    "four rowers",
+    "one coach",
+    "one rower on the coached drill at a time"
+  ],
+  "notes": "Every rower is a track and the two ergs are one resource of maxConcurrent 2, so the pair-swap falls out of the timeline rather than being asserted. The first pair's rest intervals are afterStepWithBuffer gaps (the machine is handed over during them) while the second pair's rests are implicit in waiting for the first pair to get off; the second pair's late entry is a programStartOffset. The drill serialises all four rowers one after another and the cooldown is a compound 'all' join."
+}
