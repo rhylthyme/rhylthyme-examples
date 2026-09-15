@@ -4,78 +4,118 @@
   "description": "Complete software development team environment with engineering, design, marketing, operations, and business resources for product launches and feature development",
   "version": "0.1.0-alpha",
   "environmentType": "software_development",
-  "resources": [
-    {
-      "name": "senior_engineer",
+  "resources": {
+    "senior_engineer": {
       "capacity": 3,
       "description": "Senior software engineers capable of architecture decisions, code reviews, and complex implementations",
-      "skills": ["backend", "frontend", "architecture", "code_review", "deployment"],
+      "skills": [
+        "backend",
+        "frontend",
+        "architecture",
+        "code_review",
+        "deployment"
+      ],
       "hourlyRate": 150
     },
-    {
-      "name": "junior_engineer",
+    "junior_engineer": {
       "capacity": 5,
       "description": "Junior to mid-level engineers for feature implementation and testing",
-      "skills": ["frontend", "backend", "testing", "bug_fixes"],
+      "skills": [
+        "frontend",
+        "backend",
+        "testing",
+        "bug_fixes"
+      ],
       "hourlyRate": 100
     },
-    {
-      "name": "designer",
+    "designer": {
       "capacity": 2,
       "description": "UX/UI designers for user experience design and interface creation",
-      "skills": ["ui_design", "ux_research", "prototyping", "user_testing"],
+      "skills": [
+        "ui_design",
+        "ux_research",
+        "prototyping",
+        "user_testing"
+      ],
       "hourlyRate": 120
     },
-    {
-      "name": "marketing_manager",
+    "marketing_manager": {
       "capacity": 2,
       "description": "Marketing professionals for campaigns, content, and growth initiatives",
-      "skills": ["content_creation", "social_media", "campaigns", "analytics"],
+      "skills": [
+        "content_creation",
+        "social_media",
+        "campaigns",
+        "analytics"
+      ],
       "hourlyRate": 110
     },
-    {
-      "name": "devops_engineer",
+    "devops_engineer": {
       "capacity": 2,
       "description": "DevOps engineers for infrastructure, deployment, and monitoring",
-      "skills": ["infrastructure", "deployment", "monitoring", "security"],
+      "skills": [
+        "infrastructure",
+        "deployment",
+        "monitoring",
+        "security"
+      ],
       "hourlyRate": 140
     },
-    {
-      "name": "product_manager",
+    "product_manager": {
       "capacity": 2,
       "description": "Product managers for strategy, roadmap, and stakeholder coordination",
-      "skills": ["strategy", "roadmap", "stakeholder_management", "analytics"],
+      "skills": [
+        "strategy",
+        "roadmap",
+        "stakeholder_management",
+        "analytics"
+      ],
       "hourlyRate": 130
     },
-    {
-      "name": "qa_engineer",
+    "qa_engineer": {
       "capacity": 3,
       "description": "Quality assurance engineers for testing and automation",
-      "skills": ["manual_testing", "automation", "performance_testing", "security_testing"],
+      "skills": [
+        "manual_testing",
+        "automation",
+        "performance_testing",
+        "security_testing"
+      ],
       "hourlyRate": 95
     },
-    {
-      "name": "legal_counsel",
+    "legal_counsel": {
       "capacity": 1,
       "description": "Legal counsel for compliance, contracts, and regulatory matters",
-      "skills": ["compliance", "contracts", "regulatory", "intellectual_property"],
+      "skills": [
+        "compliance",
+        "contracts",
+        "regulatory",
+        "intellectual_property"
+      ],
       "hourlyRate": 200
     },
-    {
-      "name": "business_analyst",
+    "business_analyst": {
       "capacity": 2,
       "description": "Business analysts for requirements gathering and process optimization",
-      "skills": ["requirements", "process_design", "stakeholder_interviews", "documentation"],
+      "skills": [
+        "requirements",
+        "process_design",
+        "stakeholder_interviews",
+        "documentation"
+      ],
       "hourlyRate": 105
     },
-    {
-      "name": "technical_writer",
+    "technical_writer": {
       "capacity": 1,
       "description": "Technical writer for documentation and user guides",
-      "skills": ["technical_writing", "api_documentation", "user_guides"],
+      "skills": [
+        "technical_writing",
+        "api_documentation",
+        "user_guides"
+      ],
       "hourlyRate": 85
     }
-  ],
+  },
   "equipment": [
     {
       "name": "development_workstation",
@@ -106,7 +146,12 @@
       "capacity": 50,
       "description": "Various mobile devices and tablets for cross-platform testing",
       "specifications": {
-        "types": ["iOS devices", "Android phones", "tablets", "older devices"],
+        "types": [
+          "iOS devices",
+          "Android phones",
+          "tablets",
+          "older devices"
+        ],
         "coverage": "90% market share coverage"
       },
       "costPerDay": 15
@@ -128,28 +173,46 @@
       "name": "development_tools",
       "licenses": 20,
       "description": "Integrated development environments and code editors",
-      "tools": ["JetBrains Suite", "VS Code Pro", "Sublime Text"],
+      "tools": [
+        "JetBrains Suite",
+        "VS Code Pro",
+        "Sublime Text"
+      ],
       "costPerMonth": 2000
     },
     {
       "name": "design_tools",
       "licenses": 5,
       "description": "Design and prototyping software",
-      "tools": ["Adobe Creative Suite", "Figma Enterprise", "Sketch"],
+      "tools": [
+        "Adobe Creative Suite",
+        "Figma Enterprise",
+        "Sketch"
+      ],
       "costPerMonth": 1200
     },
     {
       "name": "project_management",
       "licenses": 30,
       "description": "Project management and collaboration tools",
-      "tools": ["Jira", "Confluence", "Slack Enterprise", "Notion"],
+      "tools": [
+        "Jira",
+        "Confluence",
+        "Slack Enterprise",
+        "Notion"
+      ],
       "costPerMonth": 800
     },
     {
       "name": "analytics_tools",
       "licenses": 10,
       "description": "Analytics and monitoring software",
-      "tools": ["Google Analytics 360", "Mixpanel", "DataDog", "New Relic"],
+      "tools": [
+        "Google Analytics 360",
+        "Mixpanel",
+        "DataDog",
+        "New Relic"
+      ],
       "costPerMonth": 1500
     }
   ],
@@ -158,17 +221,31 @@
       "name": "agile_development",
       "description": "2-week sprint cycles with daily standups and retrospectives",
       "cadence": "biweekly",
-      "ceremonies": ["daily_standups", "sprint_planning", "retrospectives", "demos"]
+      "ceremonies": [
+        "daily_standups",
+        "sprint_planning",
+        "retrospectives",
+        "demos"
+      ]
     },
     {
       "name": "code_review",
       "description": "Mandatory peer code reviews for all changes",
-      "requirements": ["minimum_2_reviewers", "automated_testing", "documentation_updates"]
+      "requirements": [
+        "minimum_2_reviewers",
+        "automated_testing",
+        "documentation_updates"
+      ]
     },
     {
       "name": "continuous_integration",
       "description": "Automated testing and deployment pipeline",
-      "stages": ["unit_tests", "integration_tests", "security_scans", "performance_tests"]
+      "stages": [
+        "unit_tests",
+        "integration_tests",
+        "security_scans",
+        "performance_tests"
+      ]
     }
   ],
   "constraints": {
@@ -177,7 +254,14 @@
       "end": "18:00",
       "timezone": "UTC-5"
     },
-    "holidays": ["new_year", "memorial_day", "independence_day", "labor_day", "thanksgiving", "christmas"],
+    "holidays": [
+      "new_year",
+      "memorial_day",
+      "independence_day",
+      "labor_day",
+      "thanksgiving",
+      "christmas"
+    ],
     "maxConcurrentProjects": 3,
     "maxOvertimeHours": 10
   },
