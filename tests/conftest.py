@@ -57,11 +57,9 @@ SCHEMA_FILE_BY_VERSION = {
 def _locate_schema(schema_name):
     """Return the path to a schema file from rhylthyme-spec, or skip the test."""
     try:
-        import pkg_resources
+        from importlib import resources
 
-        schema_path = pkg_resources.resource_filename(
-            "rhylthyme_spec", f"schemas/{schema_name}"
-        )
+        schema_path = str(resources.files("rhylthyme_spec") / "schemas" / schema_name)
         if os.path.exists(schema_path):
             return schema_path
     except (ImportError, FileNotFoundError):

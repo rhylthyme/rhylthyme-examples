@@ -16,7 +16,10 @@ from pathlib import Path
 
 import pytest
 
-from rhylthyme import validate_program_structured
+try:  # the root `rhylthyme` package is a monorepo-only import
+    from rhylthyme import validate_program_structured
+except ImportError:  # pragma: no cover - CI checks out only spec + cli-runner
+    validate_program_structured = None
 from rhylthyme_cli_runner.validate_program import validate_program_file_structured
 
 INVALID_DIR = Path(__file__).resolve().parent.parent / "invalid"
@@ -89,6 +92,8 @@ def test_root_validator_emits_expected_code(path, schema_file_for):
     program, expected = _expected(path)
     with open(schema_file_for(path)) as fh:
         schema = json.load(fh)
+    if validate_program_structured is None:
+        pytest.skip("root rhylthyme package not installed")
     result = validate_program_structured(program, schema)
     assert not result["schema_errors"], f"{path.name}: schema errors {result['schema_errors']}"
     _check(result["findings"], result["is_valid"], expected, f"root/{path.name}")
