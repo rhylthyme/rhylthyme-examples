@@ -1,0 +1,395 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "sandwich-elisa",
+  "name": "Sandwich ELISA Protocol",
+  "description": "Two-day sandwich ELISA: coat a plate with capture antibody overnight, then block, add samples, detection antibody and avidin-HRP, develop with TMB and read at 450 nm. Reagent dilutions are scheduled inside the incubations. Adapted from the BioLegend Sandwich ELISA Protocol V.3 on protocols.io (CC BY 4.0); incubation times follow the source, hands-on times are estimates. The source also describes ABTS detection read at 405 nm.",
+  "version": "1.0.0",
+  "environmentType": "laboratory",
+  "actors": 1,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "plate",
+      "name": "Plate",
+      "description": "Everything that happens to the 96-well plate",
+      "steps": [
+        {
+          "stepId": "coat-plate",
+          "name": "Coat plate with capture antibody",
+          "description": "Dilute the capture antibody to 0.5-8 µg/mL in coating buffer and transfer 100 µL to each well of a high-affinity, protein-binding ELISA plate.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          }
+        },
+        {
+          "stepId": "coat-incubate",
+          "name": "Incubate overnight at 4°C",
+          "description": "Seal the plate to prevent evaporation and incubate at 4°C overnight.",
+          "task": "fridge-4c",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "coat-plate"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 57600,
+            "maxSeconds": 64800,
+            "defaultSeconds": 57600
+          }
+        },
+        {
+          "stepId": "wash-1",
+          "name": "Wash 3x",
+          "description": "Bring the plate to room temperature, flick off the capture antibody solution and wash 3 times with PBS/Tween.",
+          "task": "plate-washer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "coat-incubate"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "block-plate",
+          "name": "Add blocking buffer",
+          "description": "Block non-specific binding sites by adding 200 µL of blocking solution to each well.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-1"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "block-incubate",
+          "name": "Block for 1 hour",
+          "description": "Seal the plate and incubate at room temperature for 1 hour.",
+          "task": "rt-incubation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "block-plate"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          }
+        },
+        {
+          "stepId": "wash-2",
+          "name": "Wash 3x",
+          "description": "Wash 3 times with PBS/Tween. Firmly blot the plate against clean paper towels.",
+          "task": "plate-washer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "block-incubate"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "add-samples",
+          "name": "Add standards and samples",
+          "description": "Add 100 µL per well of the diluted standards and samples.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-2"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          }
+        },
+        {
+          "stepId": "sample-incubate",
+          "name": "Incubate samples",
+          "description": "Seal the plate and incubate at room temperature for 2 to 4 hours (or at 4°C overnight).",
+          "task": "rt-incubation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-samples"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 7200,
+            "maxSeconds": 14400,
+            "defaultSeconds": 7200
+          }
+        },
+        {
+          "stepId": "wash-3",
+          "name": "Wash 3x",
+          "description": "Wash 3 times with PBS/Tween, blotting on clean paper towels between washes.",
+          "task": "plate-washer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sample-incubate"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "add-detection",
+          "name": "Add detection antibody",
+          "description": "Add 100 µL of diluted biotin-labeled detection antibody to each well.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-3"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "detection-incubate",
+          "name": "Incubate detection antibody",
+          "description": "Seal the plate and incubate at room temperature for 1 hour.",
+          "task": "rt-incubation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-detection"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          }
+        },
+        {
+          "stepId": "wash-4",
+          "name": "Wash 3x",
+          "description": "Wash 3 times with PBS/Tween.",
+          "task": "plate-washer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "detection-incubate"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "add-hrp",
+          "name": "Add avidin-HRP",
+          "description": "Add 100 µL per well of diluted avidin-HRP conjugate.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-4"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "hrp-incubate",
+          "name": "Incubate avidin-HRP",
+          "description": "Seal the plate and incubate at room temperature for 30 minutes.",
+          "task": "rt-incubation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-hrp"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        },
+        {
+          "stepId": "wash-5",
+          "name": "Wash 5x",
+          "description": "Wash 5 times with PBS/Tween.",
+          "task": "plate-washer",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "hrp-incubate"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          }
+        },
+        {
+          "stepId": "mix-substrate",
+          "name": "Mix TMB substrate",
+          "description": "Mix 6 mL of TMB Reagent A with 6 mL of TMB Reagent B per plate, immediately before use.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "wash-5"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "add-substrate",
+          "name": "Add TMB substrate",
+          "description": "Transfer 100 µL of freshly mixed TMB substrate into each well.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mix-substrate"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        },
+        {
+          "stepId": "develop",
+          "name": "Develop in the dark",
+          "description": "Incubate at room temperature for colour development, 4 to 30 minutes.",
+          "task": "rt-incubation",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-substrate"
+          },
+          "duration": {
+            "type": "variable",
+            "minSeconds": 240,
+            "maxSeconds": 1800,
+            "defaultSeconds": 900
+          }
+        },
+        {
+          "stepId": "stop-reaction",
+          "name": "Add stop solution",
+          "description": "Stop the colour reaction by adding 100 µL of TMB stop solution to each well.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "develop"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          }
+        },
+        {
+          "stepId": "read-plate",
+          "name": "Read absorbance at 450 nm",
+          "description": "Read the optical density of each well with a microplate reader set to 450 nm.",
+          "task": "plate-reader",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "stop-reaction"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "reagent-prep",
+      "name": "Reagent prep",
+      "description": "Dilutions prepared while the plate incubates",
+      "steps": [
+        {
+          "stepId": "dilute-standards",
+          "name": "Dilute standards and samples",
+          "description": "Dilute standards and samples in blocking solution, in polypropylene tubes or a plate, while the plate blocks. Match the standard diluent to the sample matrix.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "block-plate"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          }
+        },
+        {
+          "stepId": "dilute-detection",
+          "name": "Dilute detection antibody",
+          "description": "Dilute the biotin-labeled detection antibody to 0.25-2 µg/mL in blocking solution while the samples incubate.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-samples"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          }
+        },
+        {
+          "stepId": "dilute-hrp",
+          "name": "Dilute avidin-HRP",
+          "description": "Dilute the avidin-HRP conjugate in blocking buffer (usually 1/500 to 1/2000) while the detection antibody incubates.",
+          "task": "bench",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "add-detection"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "bench",
+      "maxConcurrent": 1,
+      "description": "One person at the bench"
+    },
+    {
+      "task": "fridge-4c",
+      "maxConcurrent": 1,
+      "description": "Shelf space in the 4°C fridge"
+    },
+    {
+      "task": "plate-washer",
+      "maxConcurrent": 1,
+      "description": "One plate washer (or one manual wash station)"
+    },
+    {
+      "task": "rt-incubation",
+      "maxConcurrent": 4,
+      "description": "Room-temperature incubation space for sealed plates"
+    },
+    {
+      "task": "plate-reader",
+      "maxConcurrent": 1,
+      "description": "One plate reader"
+    }
+  ],
+  "metadata": {
+    "sourceProtocol": {
+      "platform": "protocols.io",
+      "protocolId": "98xh9xn",
+      "doi": "dx.doi.org/10.17504/protocols.io.98xh9xn",
+      "url": "https://www.protocols.io/view/sandwich-elisa-protocol-98xh9xn",
+      "authors": [
+        "Sam Li"
+      ],
+      "institution": "BioLegend",
+      "license": "CC BY 4.0"
+    }
+  }
+}
