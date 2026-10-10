@@ -1,0 +1,251 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "mouse-glucose-tolerance-test",
+  "name": "Mouse Glucose Tolerance Test (IPGTT)",
+  "description": "Intraperitoneal glucose tolerance test for a cohort of 10 mice: 5-hour fast, baseline glucose, 2 g/kg dextrose i.p., then tail-blood glucose at 15, 30, 60, 90 and 120 minutes. Mice are staggered one minute apart so one person can hit every timepoint for every mouse. Adapted from the Vanderbilt MMPC IP GTT protocol, which also lists readings at 5, 10, 20 and 45 minutes and plasma insulin samples.",
+  "version": "1.0.0",
+  "environmentType": "laboratory",
+  "actors": 1,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "fasting",
+      "name": "Fasting",
+      "description": "Weighing and the 5-hour fast",
+      "steps": [
+        {
+          "stepId": "weigh-mice",
+          "name": "Weigh mice and remove food",
+          "description": "Weigh each of the 10 mice, record body weight and move them to clean cages without food to start the fast.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          }
+        },
+        {
+          "stepId": "fast",
+          "name": "Fast for 5 hours",
+          "description": "Mice fast for 5 hours with free access to water.",
+          "task": "housing",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "weigh-mice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 18000
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "prep",
+      "name": "Prep",
+      "description": "Dose calculation and station setup during the fast",
+      "steps": [
+        {
+          "stepId": "calc-doses",
+          "name": "Calculate dextrose doses",
+          "description": "For a 2 g/kg dose of 20% dextrose, the volume in microlitres is 10 x body weight in grams. Fill in the record sheet for each mouse.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "weigh-mice"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          }
+        },
+        {
+          "stepId": "prep-station",
+          "name": "Set up the bleeding station",
+          "description": "Lay out the glucometer, test strips, clean scissors, gauze and labelled syringes of 20% dextrose.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "weigh-mice",
+            "offsetSeconds": 16800
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "cohort",
+      "name": "Cohort",
+      "description": "10 mice, one minute apart",
+      "steps": [
+        {
+          "stepId": "baseline-inject",
+          "name": "Baseline glucose, then inject dextrose",
+          "description": "Snip the tail tip, read baseline blood glucose (t = 0), then inject the calculated 20% dextrose dose intraperitoneally. Mice are done one minute apart so every later reading lands on time.",
+          "task": "handler",
+          "replicates": {
+            "count": 10,
+            "mode": "serial"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "fast"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 60
+          }
+        },
+        {
+          "stepId": "glucose-15",
+          "name": "15-minute glucose reading",
+          "description": "Restart bleeding from the same tail incision, read blood glucose 15 minutes after injection, then apply pressure to stop bleeding.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baseline-inject",
+            "instances": "each",
+            "offsetSeconds": 900
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          }
+        },
+        {
+          "stepId": "glucose-30",
+          "name": "30-minute glucose reading",
+          "description": "Restart bleeding from the same tail incision, read blood glucose 30 minutes after injection, then apply pressure to stop bleeding.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baseline-inject",
+            "instances": "each",
+            "offsetSeconds": 1800
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          }
+        },
+        {
+          "stepId": "glucose-60",
+          "name": "60-minute glucose reading",
+          "description": "Restart bleeding from the same tail incision, read blood glucose 60 minutes after injection, then apply pressure to stop bleeding.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baseline-inject",
+            "instances": "each",
+            "offsetSeconds": 3600
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          }
+        },
+        {
+          "stepId": "glucose-90",
+          "name": "90-minute glucose reading",
+          "description": "Restart bleeding from the same tail incision, read blood glucose 90 minutes after injection, then apply pressure to stop bleeding.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baseline-inject",
+            "instances": "each",
+            "offsetSeconds": 5400
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          }
+        },
+        {
+          "stepId": "glucose-120",
+          "name": "120-minute glucose reading",
+          "description": "Restart bleeding from the same tail incision, read blood glucose 120 minutes after injection, then apply pressure to stop bleeding.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "baseline-inject",
+            "instances": "each",
+            "offsetSeconds": 7200
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 30
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "wrap-up",
+      "name": "Wrap-up",
+      "description": "Recovery and analysis",
+      "steps": [
+        {
+          "stepId": "refeed",
+          "name": "Return food and check mice",
+          "description": "After the last reading, return food and water ad libitum and check each mouse.",
+          "task": "handler",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "glucose-120",
+            "instances": "all"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          }
+        },
+        {
+          "stepId": "analyze",
+          "name": "Plot curves and calculate AUC",
+          "description": "Plot glucose against time for each mouse and calculate the area under the curve.",
+          "task": "analysis",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "refeed"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "handler",
+      "maxConcurrent": 1,
+      "description": "One person handling mice"
+    },
+    {
+      "task": "housing",
+      "maxConcurrent": 1,
+      "description": "Fasting cages"
+    },
+    {
+      "task": "analysis",
+      "maxConcurrent": 1,
+      "description": "Data analysis"
+    }
+  ],
+  "metadata": {
+    "sourceProtocol": {
+      "name": "Intraperitoneal glucose tolerance test (IP GTT)",
+      "institution": "Vanderbilt Mouse Metabolic Phenotyping Center (MMPC)",
+      "url": "https://www.mmpc.org/shared/document.aspx?id=238&docType=Protocol",
+      "version": "1",
+      "date": "2016-11-22"
+    }
+  }
+}
