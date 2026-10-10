@@ -2,11 +2,11 @@
 """
 Negative examples: every ``invalid/<CODE>.json`` declares the validator
 finding it exists to provoke in ``metadata.expectedFinding`` (``code`` and
-``severity``). Both Python validators, the root ``rhylthyme`` package and the
-``rhylthyme-cli-runner`` fork, must emit exactly that code with a non-empty
-fix hint. Error findings make the program invalid; warning findings do not.
+``severity``). The Python validator (the ``rhylthyme`` package), through both
+its in-memory and its file entry point, must emit exactly that code with a
+non-empty fix hint. Error findings make the program invalid; warning findings do not.
 ``I_IMPLICIT_BARRIER`` is info-level and JS-only (PRD open question 5), so
-for it the Python validators must merely keep the program valid. The JS
+for it the Python validator must merely keep the program valid. The JS
 validator is checked by the same loop in
 ``rhylthyme-server/mcp-api/schedule.test.js``.
 """
@@ -16,11 +16,8 @@ from pathlib import Path
 
 import pytest
 
-try:  # the root `rhylthyme` package is a monorepo-only import
-    from rhylthyme import validate_program_structured
-except ImportError:  # pragma: no cover - CI checks out only spec + cli-runner
-    validate_program_structured = None
-from rhylthyme_cli_runner.validate_program import validate_program_file_structured
+from rhylthyme import validate_program_structured
+from rhylthyme.validate_program import validate_program_file_structured
 
 INVALID_DIR = Path(__file__).resolve().parent.parent / "invalid"
 INVALID_FILES = sorted(INVALID_DIR.glob("*.json")) if INVALID_DIR.exists() else []
@@ -92,15 +89,13 @@ def test_negative_example_file_is_named_after_its_code(path):
 @pytest.mark.validation
 @pytest.mark.unit
 @pytest.mark.parametrize("path", INVALID_FILES, ids=[p.stem for p in INVALID_FILES])
-def test_root_validator_emits_expected_code(path, schema_file_for):
+def test_in_memory_validator_emits_expected_code(path, schema_file_for):
     program, expected = _expected(path)
     with open(schema_file_for(path)) as fh:
         schema = json.load(fh)
-    if validate_program_structured is None:
-        pytest.skip("root rhylthyme package not installed")
     result = validate_program_structured(program, schema)
     assert not result["schema_errors"], f"{path.name}: schema errors {result['schema_errors']}"
-    _check(result["findings"], result["is_valid"], expected, f"root/{path.name}")
+    _check(result["findings"], result["is_valid"], expected, f"in-memory/{path.name}")
     # The legacy string list renders the code and the fix hint.
     if expected["severity"] == "error":
         assert any(f"[{expected['code']}]" in e and "(fix:" in e for e in result["logic_errors"])
@@ -112,11 +107,11 @@ def test_root_validator_emits_expected_code(path, schema_file_for):
 @pytest.mark.validation
 @pytest.mark.unit
 @pytest.mark.parametrize("path", INVALID_FILES, ids=[p.stem for p in INVALID_FILES])
-def test_cli_runner_validator_emits_expected_code(path, schema_file_for):
+def test_file_validator_emits_expected_code(path, schema_file_for):
     _, expected = _expected(path)
     result = validate_program_file_structured(str(path), schema_file_for(path))
     assert not result["schema_errors"], f"{path.name}: schema errors {result['schema_errors']}"
-    _check(result["findings"], result["is_valid"], expected, f"cli-runner/{path.name}")
+    _check(result["findings"], result["is_valid"], expected, f"file/{path.name}")
     if expected["severity"] == "error":
         assert any(f"[{expected['code']}]" in e and "(fix:" in e for e in result["logic_errors"])
     elif expected["severity"] == "warning":

@@ -19,7 +19,7 @@ from pathlib import Path
 import jsonschema
 import pytest
 
-from rhylthyme_cli_runner.validate_program import validate_program_file_structured
+from rhylthyme.validate_program import validate_program_file_structured
 
 GOLD_DIR = Path(__file__).resolve().parent.parent / "gold"
 CONTEXT_SCHEMA = GOLD_DIR / "context.schema.json"

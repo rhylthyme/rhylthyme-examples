@@ -4,13 +4,13 @@ A comprehensive collection of example programs and environments for the Rhylthym
 
 ## Overview
 
-This repository contains working examples of Rhylthyme programs and environments that demonstrate various features and use cases. All examples are validated against the Rhylthyme schema and can be run with the [rhylthyme-cli-runner](https://github.com/rhylthyme/rhylthyme-cli-runner).
+This repository contains working examples of Rhylthyme programs and environments that demonstrate various features and use cases. All examples are validated against the Rhylthyme schema and can be run with [rhylthyme](https://github.com/rhylthyme/rhylthyme).
 
 ## Quick Start
 
-1. **Install the CLI runner:**
+1. **Install the CLI:**
    ```bash
-   pip install rhylthyme-cli-runner
+   pip install rhylthyme
    ```
 
 2. **Validate an example:**
@@ -370,7 +370,7 @@ All examples conform to the [Rhylthyme Schema](https://github.com/rhylthyme/rhyl
 ## Related Repositories
 
 - **[rhylthyme-spec](https://github.com/rhylthyme/rhylthyme-spec)** - Schema definitions and specifications
-- **[rhylthyme-cli-runner](https://github.com/rhylthyme/rhylthyme-cli-runner)** - Command-line interface and runner
+- **[rhylthyme](https://github.com/rhylthyme/rhylthyme)** - Core library, command-line interface and runner
 - **[rhylthyme-web](https://github.com/rhylthyme/rhylthyme-web)** - Web-based interface
 
 ## License
