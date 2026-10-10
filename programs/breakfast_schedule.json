@@ -46,6 +46,9 @@
         {
           "stepId": "eggs-cook",
           "name": "Cook Eggs",
+          "alerts": [
+            {"event": "end", "offsetSeconds": "-30s", "message": "Take the eggs off the heat while still glossy: they keep cooking"}
+          ],
           "description": "Pour eggs into pan and cook until done",
           "startTrigger": {
             "type": "afterStep",
@@ -82,6 +85,9 @@
         {
           "stepId": "bacon-cook",
           "name": "Cook Bacon",
+          "alerts": [
+            {"event": "end", "offsetSeconds": "-1m", "message": "Check the bacon: pull it as soon as it is crisp"}
+          ],
           "description": "Cook bacon, flipping occasionally until crispy",
           "startTrigger": {
             "type": "afterStep",

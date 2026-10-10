@@ -25,6 +25,9 @@
         {
           "stepId": "cook-rice",
           "name": "Cook Rice",
+          "alerts": [
+            {"event": "end", "message": "Rice is done: take it off the heat and keep it covered"}
+          ],
           "task": "stovetop",
           "description": "Bring to boil, then simmer covered for 15 minutes",
           "duration": { "type": "fixed", "seconds": 1080 },
@@ -101,6 +104,9 @@
         {
           "stepId": "cook-protein",
           "name": "Cook Protein",
+          "alerts": [
+            {"event": "start", "message": "Wok on high: lay the protein flat and let it sear before stirring"}
+          ],
           "task": "stovetop",
           "description": "Sear the chosen protein in hot wok until golden and cooked through",
           "duration": { "type": "fixed", "seconds": 300 },

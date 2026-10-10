@@ -12,6 +12,9 @@
         {
           "stepId": "mix",
           "name": "Mix dough",
+          "alerts": [
+            {"event": "end", "offsetSeconds": "-5m", "message": "Preheat the oven now"}
+          ],
           "task": "prep",
           "duration": { "type": "fixed", "seconds": 900 },
           "startTrigger": { "type": "programStart" }
@@ -19,6 +22,10 @@
         {
           "stepId": "bake",
           "name": "Bake tray",
+          "alerts": [
+            {"event": "end", "offsetSeconds": "-1m", "message": "Check the edges: they should be just golden"},
+            {"event": "end", "level": "alarm", "message": "Take the tray out now"}
+          ],
           "task": "oven",
           "duration": { "type": "fixed", "seconds": 720 },
           "replicates": { "count": 3, "mode": "serial", "maxInFlight": 2 },

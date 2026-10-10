@@ -16,6 +16,9 @@
         {
           "stepId": "warmup",
           "name": "Warm-up",
+          "alerts": [
+            {"event": "end", "offsetSeconds": "-30s", "message": "Round 1 in 30 seconds: get ready for jump squats"}
+          ],
           "task": "cardio-space",
           "description": "Light jogging in place, arm circles, leg swings",
           "duration": { "type": "fixed", "seconds": 300 },
@@ -60,6 +63,9 @@
         {
           "stepId": "cooldown",
           "name": "Cool-down & Stretch",
+          "alerts": [
+            {"event": "start", "message": "Intervals done: slow your breathing and stretch"}
+          ],
           "task": "cardio-space",
           "description": "Walking in place, deep breathing, stretching major muscle groups",
           "duration": { "type": "fixed", "seconds": 300 },

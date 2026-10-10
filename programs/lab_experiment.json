@@ -100,6 +100,10 @@
         {
           "stepId": "run-pcr",
           "name": "Run PCR",
+          "alerts": [
+            {"event": "end", "offsetSeconds": "-30m", "message": "PCR ends in 30 min: cast the agarose gel now so it has time to set"},
+            {"event": "end", "message": "PCR finished: take the tubes out of the cycler"}
+          ],
           "description": "Thermal cycling for DNA amplification",
           "startTrigger": {
             "type": "afterStep",
