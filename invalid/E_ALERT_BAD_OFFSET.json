@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "0.2.0-alpha",
+  "programId": "invalid-alert-bad-offset",
+  "name": "alert with an unreadable offset",
+  "description": "The alert's offsetSeconds is a phrase, not a number of seconds or a time string. Expected finding: E_ALERT_BAD_OFFSET (error). Use seconds (-120) or a signed time string such as \"-2m\".",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "main",
+      "name": "Main",
+      "steps": [
+        {
+          "stepId": "bake",
+          "name": "Bake",
+          "task": "stove",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "alerts": [
+            {
+              "event": "end",
+              "offsetSeconds": "a bit before",
+              "message": "Check the bake"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove",
+      "maxConcurrent": 1
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "E_ALERT_BAD_OFFSET",
+      "severity": "error"
+    }
+  }
+}

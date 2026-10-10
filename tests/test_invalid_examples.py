@@ -73,6 +73,10 @@ def test_invalid_directory_covers_every_code(invalid_dir):
         "E_INFLIGHT_NO_CHAIN",
         "W_UNBARRIERED_CHAIN",
         "I_IMPLICIT_BARRIER",
+        "W_ALERT_BEFORE_MANUAL_START",
+        "W_ALERT_BEFORE_INDEFINITE_END",
+        "W_ALERT_BEFORE_PROGRAM_START",
+        "E_ALERT_BAD_OFFSET",
     ):
         assert code in names, f"invalid/{code}.json is missing"
 

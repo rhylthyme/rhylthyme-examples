@@ -40,6 +40,9 @@
             "type": "fixed",
             "seconds": 180
           },
+          "alerts": [
+            {"event": "end", "offsetSeconds": "-30s", "message": "Pan is nearly hot: get the eggs ready"}
+          ],
           "task": "stove-burner",
           "metadata": {
             "media": {
@@ -85,6 +88,10 @@
             "defaultSeconds": 150,
             "triggerName": "whites-set"
           },
+          "alerts": [
+            {"event": "end", "offsetSeconds": "-30s", "message": "Check the whites: lift the lid soon"},
+            {"event": "end", "level": "alarm", "message": "Eggs are done: plate them now"}
+          ],
           "task": "stove-burner",
           "metadata": {
             "media": {

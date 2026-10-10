@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "0.2.0-alpha",
+  "programId": "invalid-alert-before-manual-start",
+  "name": "alert before a manual start",
+  "description": "The sauce step starts when the cook presses start, so an alert one minute before it starts can never be scheduled. The program is valid; expected finding: W_ALERT_BEFORE_MANUAL_START (warning). Anchor the alert on the end of the step before instead.",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "main",
+      "name": "Main",
+      "steps": [
+        {
+          "stepId": "boil",
+          "name": "Boil water",
+          "task": "stove",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "alerts": [
+            {
+              "event": "end"
+            }
+          ]
+        },
+        {
+          "stepId": "sauce",
+          "name": "Make the sauce",
+          "task": "stove",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "manual"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": "-1m",
+              "message": "Get the sauce pan out"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove",
+      "maxConcurrent": 1
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "W_ALERT_BEFORE_MANUAL_START",
+      "severity": "warning"
+    }
+  }
+}

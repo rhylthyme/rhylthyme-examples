@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "0.2.0-alpha",
+  "programId": "invalid-alert-before-indefinite-end",
+  "name": "alert before an indefinite end",
+  "description": "The simmer step runs until the cook says it is done, so it has no projected end and an alert two minutes before it ends can never be scheduled. The program is valid; expected finding: W_ALERT_BEFORE_INDEFINITE_END (warning). Give the step a variable duration, or alert at or after the end.",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "main",
+      "name": "Main",
+      "steps": [
+        {
+          "stepId": "simmer",
+          "name": "Simmer until thick",
+          "task": "stove",
+          "duration": {
+            "type": "indefinite",
+            "defaultSeconds": 900
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "alerts": [
+            {
+              "event": "end",
+              "offsetSeconds": "-2m",
+              "message": "Nearly thick enough"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove",
+      "maxConcurrent": 1
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "W_ALERT_BEFORE_INDEFINITE_END",
+      "severity": "warning"
+    }
+  }
+}

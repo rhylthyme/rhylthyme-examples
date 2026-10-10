@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "0.2.0-alpha",
+  "programId": "invalid-alert-before-program-start",
+  "name": "alert before the program starts",
+  "description": "The first step starts with the program, so an alert five minutes before it starts would fall before the program starts. The program is valid; expected finding: W_ALERT_BEFORE_PROGRAM_START (warning). Shorten the offset, or delay the step with programStartOffset.",
+  "environmentType": "kitchen",
+  "tracks": [
+    {
+      "trackId": "main",
+      "name": "Main",
+      "steps": [
+        {
+          "stepId": "heat",
+          "name": "Heat the pan",
+          "task": "stove",
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Take the butter out"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "stove",
+      "maxConcurrent": 1
+    }
+  ],
+  "metadata": {
+    "expectedFinding": {
+      "code": "W_ALERT_BEFORE_PROGRAM_START",
+      "severity": "warning"
+    }
+  }
+}
