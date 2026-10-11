@@ -11,8 +11,8 @@ from pathlib import Path
 
 import pytest
 
-# Import the validation function from rhylthyme-cli-runner
-from rhylthyme_cli_runner.validate_program import validate_program_file_structured
+# Import the validation function from the rhylthyme package
+from rhylthyme.validate_program import validate_program_file_structured
 
 
 @pytest.mark.validation

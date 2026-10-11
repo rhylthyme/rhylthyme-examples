@@ -28,8 +28,8 @@ setup(
     url="https://github.com/rhylthyme/rhylthyme-examples",
     # No packages to install - this is just for testing
     packages=[],
-    # rhylthyme-cli-runner and rhylthyme-spec are required but not on PyPI.
-    # Install from source: pip install -e ../rhylthyme-spec -e ../rhylthyme-cli-runner
+    # rhylthyme and rhylthyme-spec are required: pip install rhylthyme
+    # (from source: pip install -e ../rhylthyme-spec -e ../rhylthyme-cli-runner)
     install_requires=[],
     extras_require={
         "dev": [

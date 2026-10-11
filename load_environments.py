@@ -7,10 +7,10 @@ import sys
 import os
 from pathlib import Path
 
-# Add the CLI runner to the path
+# Add the rhylthyme package (monorepo folder rhylthyme-cli-runner) to the path
 sys.path.insert(0, str(Path(__file__).parent.parent / 'rhylthyme-cli-runner' / 'src'))
 
-from rhylthyme_cli_runner.environment_loader import EnvironmentLoader
+from rhylthyme.environment_loader import EnvironmentLoader
 
 def main():
     """Demonstrate environment loading from the current directory."""

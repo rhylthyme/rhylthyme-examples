@@ -22,11 +22,11 @@ jobs:
         repository: rhylthyme/rhylthyme-spec
         path: rhylthyme-spec
 
-    - name: Checkout rhylthyme-cli-runner
+    - name: Checkout rhylthyme
       uses: actions/checkout@v4
       with:
-        repository: rhylthyme/rhylthyme-cli-runner
-        path: rhylthyme-cli-runner
+        repository: rhylthyme/rhylthyme
+        path: rhylthyme
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -38,7 +38,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools
         pip install -e ./rhylthyme-spec
-        pip install -e ./rhylthyme-cli-runner
+        pip install -e ./rhylthyme
         pip install pytest pyyaml
 
     - name: Run tests
