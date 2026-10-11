@@ -4,13 +4,12 @@ Script to demonstrate how to load environment catalogs from the rhylthyme-exampl
 """
 
 import sys
-import os
 from pathlib import Path
 
-# Add the rhylthyme package (monorepo folder rhylthyme-cli-runner) to the path
-sys.path.insert(0, str(Path(__file__).parent.parent / 'rhylthyme-cli-runner' / 'src'))
-
-from rhylthyme.environment_loader import EnvironmentLoader
+try:
+    from rhylthyme.environment_loader import EnvironmentLoader
+except ImportError:
+    sys.exit("This script needs the rhylthyme package: pip install rhylthyme")
 
 def main():
     """Demonstrate environment loading from the current directory."""
