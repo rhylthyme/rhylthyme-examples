@@ -48,22 +48,6 @@
           "task": "optimization"
         },
         {
-          "stepId": "security_audit",
-          "name": "Security Penetration Testing",
-          "duration": {
-            "type": "variable",
-            "defaultSeconds": 43200,
-            "minSeconds": 28800,
-            "maxSeconds": 86400,
-            "triggerName": "security_approval"
-          },
-          "startTrigger": {
-            "type": "afterStep",
-            "stepId": "integration_testing"
-          },
-          "task": "security_audit"
-        },
-        {
           "stepId": "production_deployment",
           "name": "Production Environment Deployment",
           "duration": {
@@ -87,6 +71,29 @@
             "stepId": "production_deployment"
           },
           "task": "monitoring"
+        }
+      ]
+    },
+    {
+      "trackId": "security_qa",
+      "name": "Security & QA Track",
+      "priority": 90,
+      "steps": [
+        {
+          "stepId": "security_audit",
+          "name": "Security Penetration Testing",
+          "duration": {
+            "type": "variable",
+            "defaultSeconds": 43200,
+            "minSeconds": 28800,
+            "maxSeconds": 86400,
+            "triggerName": "security_approval"
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "integration_testing"
+          },
+          "task": "security_audit"
         }
       ]
     },
@@ -153,7 +160,7 @@
     },
     {
       "trackId": "marketing",
-      "name": "Marketing & Growth Track",
+      "name": "Marketing Content Track",
       "priority": 80,
       "steps": [
         {
@@ -169,19 +176,6 @@
           "task": "content_creation"
         },
         {
-          "stepId": "influencer_outreach",
-          "name": "Industry Influencer Outreach Campaign",
-          "duration": {
-            "type": "fixed",
-            "seconds": 259200
-          },
-          "startTrigger": {
-            "type": "programStart",
-            "offsetSeconds": 43200
-          },
-          "task": "outreach"
-        },
-        {
           "stepId": "press_kit",
           "name": "Press Kit & Media Asset Preparation",
           "duration": {
@@ -193,7 +187,34 @@
             "stepId": "content_creation"
           },
           "task": "press"
-        },
+        }
+      ]
+    },
+    {
+      "trackId": "marketing_outreach",
+      "name": "Marketing Outreach Track",
+      "priority": 80,
+      "steps": [
+        {
+          "stepId": "influencer_outreach",
+          "name": "Industry Influencer Outreach Campaign",
+          "duration": {
+            "type": "fixed",
+            "seconds": 259200
+          },
+          "startTrigger": {
+            "type": "programStart",
+            "offsetSeconds": 43200
+          },
+          "task": "outreach"
+        }
+      ]
+    },
+    {
+      "trackId": "beta_launch",
+      "name": "Beta & Public Launch Track",
+      "priority": 80,
+      "steps": [
         {
           "stepId": "beta_program",
           "name": "Private Beta Program Launch",
@@ -306,7 +327,7 @@
     },
     {
       "trackId": "business",
-      "name": "Business & Legal Track",
+      "name": "Business Strategy & Partnerships Track",
       "priority": 75,
       "steps": [
         {
@@ -325,19 +346,6 @@
           "task": "strategy"
         },
         {
-          "stepId": "legal_compliance",
-          "name": "Legal & Compliance Review",
-          "duration": {
-            "type": "fixed",
-            "seconds": 129600
-          },
-          "startTrigger": {
-            "type": "programStart",
-            "offsetSeconds": 28800
-          },
-          "task": "legal_review"
-        },
-        {
           "stepId": "partnership_agreements",
           "name": "Partnership & Integration Agreements",
           "duration": {
@@ -352,6 +360,26 @@
             "stepId": "pricing_finalization"
           },
           "task": "partnerships"
+        }
+      ]
+    },
+    {
+      "trackId": "legal_finance",
+      "name": "Legal & Finance Track",
+      "priority": 75,
+      "steps": [
+        {
+          "stepId": "legal_compliance",
+          "name": "Legal & Compliance Review",
+          "duration": {
+            "type": "fixed",
+            "seconds": 129600
+          },
+          "startTrigger": {
+            "type": "programStart",
+            "offsetSeconds": 28800
+          },
+          "task": "legal_review"
         },
         {
           "stepId": "financial_setup",
@@ -394,6 +422,126 @@
       "task": "legal_counsel",
       "maxConcurrent": 1,
       "description": "Legal counsel for compliance and agreements"
+    },
+    {
+      "task": "code_review",
+      "maxConcurrent": 1,
+      "description": "Feature Freeze & Code Review capacity"
+    },
+    {
+      "task": "testing",
+      "maxConcurrent": 1,
+      "description": "Integration Testing Suite capacity"
+    },
+    {
+      "task": "optimization",
+      "maxConcurrent": 1,
+      "description": "Performance Tuning & Load Testing capacity"
+    },
+    {
+      "task": "deployment",
+      "maxConcurrent": 1,
+      "description": "Production Environment Deployment capacity"
+    },
+    {
+      "task": "monitoring",
+      "maxConcurrent": 1,
+      "description": "Production Monitoring & Alerts Setup capacity"
+    },
+    {
+      "task": "security_audit",
+      "maxConcurrent": 1,
+      "description": "Security Penetration Testing capacity"
+    },
+    {
+      "task": "design",
+      "maxConcurrent": 1,
+      "description": "Final UI Polish & Accessibility Review capacity"
+    },
+    {
+      "task": "user_testing",
+      "maxConcurrent": 1,
+      "description": "User Acceptance Testing Sessions capacity"
+    },
+    {
+      "task": "documentation",
+      "maxConcurrent": 1,
+      "description": "Design System Documentation capacity"
+    },
+    {
+      "task": "content_creation",
+      "maxConcurrent": 1,
+      "description": "Launch Content Creation (Blog, Videos, Demos) capacity"
+    },
+    {
+      "task": "press",
+      "maxConcurrent": 1,
+      "description": "Press Kit & Media Asset Preparation capacity"
+    },
+    {
+      "task": "outreach",
+      "maxConcurrent": 1,
+      "description": "Industry Influencer Outreach Campaign capacity"
+    },
+    {
+      "task": "beta_management",
+      "maxConcurrent": 1,
+      "description": "Private Beta Program Launch capacity"
+    },
+    {
+      "task": "announcement",
+      "maxConcurrent": 1,
+      "description": "Public Launch Announcement capacity"
+    },
+    {
+      "task": "social_media",
+      "maxConcurrent": 1,
+      "description": "Social Media Launch Campaign capacity"
+    },
+    {
+      "task": "infrastructure",
+      "maxConcurrent": 1,
+      "description": "Auto-scaling Infrastructure Setup capacity"
+    },
+    {
+      "task": "backup_setup",
+      "maxConcurrent": 1,
+      "description": "Backup & Disaster Recovery Setup capacity"
+    },
+    {
+      "task": "training",
+      "maxConcurrent": 1,
+      "description": "Customer Support Team Training capacity"
+    },
+    {
+      "task": "analytics",
+      "maxConcurrent": 1,
+      "description": "Analytics & Reporting Dashboard Setup capacity"
+    },
+    {
+      "task": "checklist_review",
+      "maxConcurrent": 1,
+      "description": "Final Go-Live Checklist Review capacity"
+    },
+    {
+      "task": "strategy",
+      "maxConcurrent": 1,
+      "description": "Pricing Strategy Finalization capacity"
+    },
+    {
+      "task": "partnerships",
+      "maxConcurrent": 1,
+      "description": "Partnership & Integration Agreements capacity"
+    },
+    {
+      "task": "legal_review",
+      "maxConcurrent": 1,
+      "description": "Legal & Compliance Review capacity"
+    },
+    {
+      "task": "financial_setup",
+      "maxConcurrent": 1,
+      "description": "Payment Processing & Billing Setup capacity"
     }
   ],
   "actors": 7,

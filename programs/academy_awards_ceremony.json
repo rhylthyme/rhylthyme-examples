@@ -5,7 +5,6 @@
   "description": "Complete Academy Awards ceremony with all 23 major awards, musical performances, In Memoriam and firefighter tributes",
   "version": "2.0.0",
   "environmentType": "event",
-  "environment": "theater",
   "duration": {
     "type": "fixed",
     "timeString": "3h30m"
@@ -338,7 +337,7 @@
           "description": "Final award with producer speeches",
           "startTrigger": {
             "type": "afterStep",
-            "stepId": "best-director"
+            "stepId": "commercial-break-11"
           },
           "duration": {
             "type": "variable",
@@ -664,7 +663,7 @@
           "description": "Host builds excitement before Best Picture with adjustable timing",
           "startTrigger": {
             "type": "afterStep",
-            "stepId": "host-segment-2"
+            "stepId": "best-director"
           },
           "duration": {
             "type": "fixed",
@@ -682,7 +681,7 @@
     },
     {
       "trackId": "commercial-breaks",
-      "name": "Commercial Breaks",
+      "name": "Commercial Breaks - Main Lane",
       "priority": 6,
       "steps": [
         {
@@ -756,34 +755,6 @@
           "task": "broadcast"
         },
         {
-          "stepId": "commercial-break-6",
-          "name": "Commercial Break 6",
-          "description": "Break after technical awards begin",
-          "startTrigger": {
-            "type": "afterStep",
-            "stepId": "best-film-editing"
-          },
-          "duration": {
-            "type": "fixed",
-            "seconds": 180
-          },
-          "task": "broadcast"
-        },
-        {
-          "stepId": "commercial-break-7",
-          "name": "Commercial Break 7",
-          "description": "Break after costume and makeup awards",
-          "startTrigger": {
-            "type": "afterStep",
-            "stepId": "best-makeup-hairstyling"
-          },
-          "duration": {
-            "type": "fixed",
-            "seconds": 240
-          },
-          "task": "broadcast"
-        },
-        {
           "stepId": "commercial-break-8",
           "name": "Commercial Break 8",
           "description": "Break after musical performance #2",
@@ -832,6 +803,41 @@
           "startTrigger": {
             "type": "afterStep",
             "stepId": "pre-finale-monologue"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 240
+          },
+          "task": "broadcast"
+        }
+      ]
+    },
+    {
+      "trackId": "technical-commercial-breaks",
+      "name": "Commercial Breaks - Technical Awards Block",
+      "priority": 7,
+      "steps": [
+        {
+          "stepId": "commercial-break-6",
+          "name": "Commercial Break 6",
+          "description": "Break after technical awards begin",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-film-editing"
+          },
+          "duration": {
+            "type": "fixed",
+            "seconds": 180
+          },
+          "task": "broadcast"
+        },
+        {
+          "stepId": "commercial-break-7",
+          "name": "Commercial Break 7",
+          "description": "Break after costume and makeup awards",
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "best-makeup-hairstyling"
           },
           "duration": {
             "type": "fixed",

@@ -4,6 +4,32 @@
   "name": "Comprehensive Manual Controls Demo v2",
   "description": "Variation with variable-duration setup step, manual start triggers, variable duration steps, and indefinite duration steps",
   "environmentType": "test",
+  "resourceConstraints": [
+    {
+      "task": "setup",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "preparation",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "monitoring",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "watching",
+      "maxConcurrent": 1
+    },
+    {
+      "task": "execution",
+      "maxConcurrent": 2
+    },
+    {
+      "task": "cleanup",
+      "maxConcurrent": 1
+    }
+  ],
   "tracks": [
     {
       "trackId": "preparation",
