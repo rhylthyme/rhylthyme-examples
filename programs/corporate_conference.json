@@ -179,7 +179,7 @@
           "task": "av-technician",
           "description": "Prepare breakout rooms with AV for panel discussions",
           "duration": { "type": "fixed", "seconds": 1200 },
-          "startTrigger": { "type": "afterStep", "stepId": "keynote-2-presentation", "offsetSeconds": 300 }
+          "startTrigger": { "type": "afterStep", "stepId": "keynote-2-setup" }
         },
         {
           "stepId": "panel-discussions",
