@@ -1,0 +1,246 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "reality-tv-shoot-day",
+  "name": "Reality TV Shoot Day",
+  "description": "A one-day call sheet for an unscripted or reality TV shoot: crew and cast calls, hair and makeup, mic-up, four scenes across two locations, a company move, a lunch break inside the six-hour meal window, confessional interviews and wrap. Producers, crew and cast each get their own track, so everyone sees the next call time.",
+  "version": "1.0.0",
+  "environmentType": "event",
+  "actors": 5,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "crew",
+      "name": "Crew",
+      "steps": [
+        {
+          "stepId": "crew-call",
+          "name": "Crew call and breakfast",
+          "description": "Crew call at location A.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "lighting",
+          "name": "Light and rig location A",
+          "description": "Lighting, cameras and hidden mics in the house.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "crew-call"
+          }
+        },
+        {
+          "stepId": "mic-cast",
+          "name": "Mic the cast",
+          "description": "Audio mics every cast member.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "hmu"
+          }
+        },
+        {
+          "stepId": "company-move",
+          "name": "Company move to location B",
+          "description": "Pack, travel and set up at location B.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "scene-2"
+          }
+        },
+        {
+          "stepId": "wrap",
+          "name": "Wrap and load-out",
+          "description": "Wrap cast, collect mics, load out.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "scene-4"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "cast",
+      "name": "Cast",
+      "steps": [
+        {
+          "stepId": "cast-call",
+          "name": "Cast call",
+          "description": "Cast arrives at location A.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "crew-call",
+            "offsetSeconds": 1800
+          }
+        },
+        {
+          "stepId": "hmu",
+          "name": "Hair, makeup and wardrobe",
+          "description": "Cast through hair, makeup and wardrobe.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "cast-call"
+          }
+        },
+        {
+          "stepId": "otf",
+          "name": "Confessional interviews",
+          "description": "One-on-one confessionals (OTFs) with each cast member.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "scene-3"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "producers",
+      "name": "Producers",
+      "steps": [
+        {
+          "stepId": "prod-meeting",
+          "name": "Production meeting and story beats",
+          "description": "Showrunner walks the day's beats with producers.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "crew-call"
+          }
+        },
+        {
+          "stepId": "prep-b",
+          "name": "Prep the challenge at location B",
+          "description": "Field producer sets up the challenge ahead of the company move.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "scene-1"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "scenes",
+      "name": "Scenes",
+      "steps": [
+        {
+          "stepId": "scene-1",
+          "name": "Scene 1: group breakfast",
+          "description": "The morning reveal over breakfast.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 5400
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mic-cast"
+          }
+        },
+        {
+          "stepId": "scene-2",
+          "name": "Scene 2: challenge briefing",
+          "description": "Host explains the challenge.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "scene-1"
+          }
+        },
+        {
+          "stepId": "scene-3",
+          "name": "Scene 3: the challenge",
+          "description": "Challenge at location B.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 7200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "lunch"
+          }
+        },
+        {
+          "stepId": "scene-4",
+          "name": "Scene 4: dinner confrontation",
+          "description": "Evening dinner scene.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 5400
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "otf"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "meals",
+      "name": "Meals",
+      "steps": [
+        {
+          "stepId": "lunch",
+          "name": "Lunch break",
+          "description": "Thirty-minute meal break for cast and crew.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "company-move"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": 0,
+              "message": "Break for lunch now: six-hour meal window from crew call"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
