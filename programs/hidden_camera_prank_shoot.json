@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "hidden-camera-prank-shoot",
+  "name": "Hidden Camera Prank Shoot",
+  "description": "Shoot a hidden-camera prank bit on four unsuspecting marks: hide cameras, mic the set, rehearse the actors, then for each mark run the bit, do the reveal, get the signed release, and reset the props before the next one walks in. Video village monitors every feed and calls the reveal.",
+  "version": "1.0.0",
+  "environmentType": "event",
+  "actors": 4,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "setup",
+      "name": "Setup",
+      "steps": [
+        {
+          "stepId": "hide-cameras",
+          "name": "Hide cameras and run cable",
+          "description": "Hide cameras in the set and run cable to video village.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "mic-set",
+          "name": "Mic the set and test audio",
+          "description": "Plant mics, test every feed.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "hide-cameras"
+          }
+        },
+        {
+          "stepId": "rehearse",
+          "name": "Rehearse the bit with the actors",
+          "description": "Walk the bit twice with a stand-in mark.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "mic-set"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "marks",
+      "name": "Marks",
+      "steps": [
+        {
+          "stepId": "run-bit",
+          "name": "Mark walks in, run the bit",
+          "description": "Actors run the bit on the mark.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "rehearse"
+          },
+          "replicates": {
+            "count": 4,
+            "mode": "stagger",
+            "delay": 2700
+          }
+        },
+        {
+          "stepId": "reveal",
+          "name": "Reveal",
+          "description": "Host walks in and reveals the hidden cameras.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "run-bit",
+            "instances": "each"
+          }
+        },
+        {
+          "stepId": "release",
+          "name": "Signed release, or delete the footage",
+          "description": "Producer gets the release signed before the mark leaves.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "reveal",
+            "instances": "each"
+          }
+        },
+        {
+          "stepId": "reset",
+          "name": "Reset props for the next mark",
+          "description": "Reset the set and actors' marks.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "release",
+            "instances": "each"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "village",
+      "name": "Video Village",
+      "steps": [
+        {
+          "stepId": "monitor",
+          "name": "Monitor feeds and call the reveal",
+          "description": "Director watches every feed and calls the reveal.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 10800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "rehearse"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "wrap",
+      "name": "Wrap",
+      "steps": [
+        {
+          "stepId": "backup",
+          "name": "Back up cards and log releases",
+          "description": "Copy every card twice and match each clip to a signed release.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "reset",
+            "instances": "all"
+          }
+        },
+        {
+          "stepId": "strike",
+          "name": "Strike cameras and restore the location",
+          "description": "Pull cameras and cable, put the location back.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "backup"
+          }
+        }
+      ]
+    }
+  ]
+}

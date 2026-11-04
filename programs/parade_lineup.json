@@ -1,0 +1,217 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "parade-lineup",
+  "name": "Parade Lineup & Step-Off",
+  "description": "Run a community parade from staging to street sweep: marshal briefing, unit check-in, final lineup, then 12 units stepping off 90 seconds apart, each marching the route and disbanding, while the announcer calls each unit and the route reopens behind the last one. Change the unit count and spacing to fit your parade.",
+  "version": "1.0.0",
+  "environmentType": "event",
+  "actors": 3,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "marshals",
+      "name": "Marshals & Staging",
+      "steps": [
+        {
+          "stepId": "marshal-brief",
+          "name": "Marshal briefing",
+          "description": "Walk marshals through the lineup order, radio channels and gaps to hold.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "programStart"
+          },
+          "task": "marshals"
+        },
+        {
+          "stepId": "staging-open",
+          "name": "Units arrive and check in",
+          "description": "Floats, bands and walking groups check in at staging and get their lineup number.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "marshal-brief"
+          },
+          "task": "marshals"
+        },
+        {
+          "stepId": "lineup-final",
+          "name": "Final lineup check",
+          "description": "Confirm order, close gaps, hold late units at the back.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "staging-open"
+          },
+          "task": "marshals",
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Five minutes to step-off: all units in position"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "route",
+      "name": "Route & Safety",
+      "steps": [
+        {
+          "stepId": "road-closure",
+          "name": "Close the route to traffic",
+          "description": "Barricades up, police and volunteers at every cross street.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "route-sweep",
+          "name": "Pre-parade route sweep",
+          "description": "Walk or drive the route to clear parked cars and hazards.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "road-closure"
+          }
+        },
+        {
+          "stepId": "reopen",
+          "name": "Sweep and reopen roads",
+          "description": "Follow the last unit, clear debris and pull barricades.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "unit-disband",
+            "instances": "all"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "units",
+      "name": "Parade Units",
+      "steps": [
+        {
+          "stepId": "unit-step-off",
+          "name": "Unit steps off",
+          "description": "Unit leaves the start line on the marshal's signal.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 120
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "lineup-final"
+          },
+          "replicates": {
+            "count": 12,
+            "mode": "stagger",
+            "delay": 90
+          }
+        },
+        {
+          "stepId": "unit-march",
+          "name": "March the route",
+          "description": "Unit marches the route, holding spacing behind the unit ahead.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2400
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "unit-step-off",
+            "instances": "each"
+          }
+        },
+        {
+          "stepId": "unit-disband",
+          "name": "Disband at the end of the route",
+          "description": "Unit clears the dispersal area so the next one can arrive.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "unit-march",
+            "instances": "each"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "broadcast",
+      "name": "Announcer & Broadcast",
+      "steps": [
+        {
+          "stepId": "broadcast-open",
+          "name": "Welcome and sponsor thanks",
+          "description": "Announcer opens at the reviewing stand while units finish lining up.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "staging-open"
+          }
+        },
+        {
+          "stepId": "broadcast-calls",
+          "name": "Call each unit at the reviewing stand",
+          "description": "Read each unit's card as it passes.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "broadcast-open"
+          }
+        },
+        {
+          "stepId": "broadcast-close",
+          "name": "Closing remarks",
+          "description": "Thank volunteers and announce the reopening of roads.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "broadcast-calls"
+          }
+        }
+      ]
+    }
+  ],
+  "resourceConstraints": [
+    {
+      "task": "marshals",
+      "maxConcurrent": 1,
+      "description": "Marshal team"
+    }
+  ]
+}

@@ -1,0 +1,354 @@
+{
+  "schemaVersion": "0.3.0-alpha",
+  "programId": "live-show-run-of-show",
+  "name": "Live Show Run of Show",
+  "description": "Run-of-show for a gala, awards night or variety show: crew call, tech check, doors, nine show segments with five-minute standby alerts, A/V cues running alongside, talent prep and strike. Every segment has a live countdown, so the stage manager and host see exactly how far ahead or behind the show is running.",
+  "version": "1.0.0",
+  "environmentType": "event",
+  "actors": 4,
+  "startTrigger": {
+    "type": "manual"
+  },
+  "tracks": [
+    {
+      "trackId": "stage-manager",
+      "name": "Stage Manager",
+      "steps": [
+        {
+          "stepId": "sm-call",
+          "name": "Crew call and cue walk-through",
+          "description": "Walk every cue with lighting, sound, video and the deck crew.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "programStart"
+          }
+        },
+        {
+          "stepId": "tech-check",
+          "name": "Mic, playback and cue-light check",
+          "description": "Check every mic, every playback file and the cue lights.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1800
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sm-call"
+          }
+        },
+        {
+          "stepId": "places",
+          "name": "Places",
+          "description": "Call places for the opening.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "doors",
+            "event": "start",
+            "offsetSeconds": 2400
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "foh",
+      "name": "Front of House",
+      "steps": [
+        {
+          "stepId": "house-prep",
+          "name": "Seat cards, programs, ushers briefed",
+          "description": "House manager preps the room and briefs ushers.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sm-call"
+          }
+        },
+        {
+          "stepId": "doors",
+          "name": "Doors open, audience seating",
+          "description": "Ushers seat the audience.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "house-prep"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Doors in 5 minutes"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trackId": "talent",
+      "name": "Talent & Backstage",
+      "steps": [
+        {
+          "stepId": "talent-call",
+          "name": "Talent check-in",
+          "description": "Host, presenters and performers check in and get their running order.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "sm-call"
+          }
+        },
+        {
+          "stepId": "hmu",
+          "name": "Hair and makeup",
+          "description": "Host and presenters through hair and makeup.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "talent-call"
+          }
+        },
+        {
+          "stepId": "host-standby",
+          "name": "Host standby side-stage",
+          "description": "Host in position with handheld mic.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "hmu"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "show",
+      "name": "Show Segments",
+      "steps": [
+        {
+          "stepId": "opening",
+          "name": "Cold open and welcome",
+          "description": "Host opens, house rules and sponsor thanks.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 480
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "doors"
+          }
+        },
+        {
+          "stepId": "seg-1",
+          "name": "Performance 1",
+          "description": "First act on the main stage.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "opening"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Standby: Performance 1 in 5 minutes"
+            }
+          ]
+        },
+        {
+          "stepId": "award-1",
+          "name": "Award presentation 1",
+          "description": "Presenter, nominees reel, winner walk-up and speech.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 420
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "seg-1"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Standby: Award presentation 1 in 5 minutes"
+            }
+          ]
+        },
+        {
+          "stepId": "seg-2",
+          "name": "Performance 2",
+          "description": "Second act; band changeover behind the scrim.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "award-1"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Standby: Performance 2 in 5 minutes"
+            }
+          ]
+        },
+        {
+          "stepId": "intermission",
+          "name": "Intermission",
+          "description": "House lights at half, bar open, reset the stage.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 900
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "seg-2"
+          }
+        },
+        {
+          "stepId": "award-2",
+          "name": "Award presentation 2",
+          "description": "Presenter, nominees reel, winner walk-up and speech.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 420
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "intermission"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Standby: Award presentation 2 in 5 minutes"
+            }
+          ]
+        },
+        {
+          "stepId": "headliner",
+          "name": "Headliner set",
+          "description": "Main act.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 1200
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "award-2"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Standby: Headliner set in 5 minutes"
+            }
+          ]
+        },
+        {
+          "stepId": "finale",
+          "name": "Finale and thank-yous",
+          "description": "Host thanks crew and sponsors, confetti cue.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "headliner"
+          },
+          "alerts": [
+            {
+              "event": "start",
+              "offsetSeconds": -300,
+              "message": "Standby: Finale and thank-yous in 5 minutes"
+            }
+          ]
+        },
+        {
+          "stepId": "walkout",
+          "name": "Walk-out music, house lights up",
+          "description": "Audience exits.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 300
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "finale"
+          }
+        }
+      ]
+    },
+    {
+      "trackId": "av",
+      "name": "A/V & Lighting",
+      "steps": [
+        {
+          "stepId": "preshow",
+          "name": "Pre-show slides and walk-in music",
+          "description": "Sponsor loop on screens, walk-in playlist.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 2700
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "house-prep"
+          }
+        },
+        {
+          "stepId": "live-cues",
+          "name": "Run lighting, playback and camera cues",
+          "description": "Call cues from the run-of-show as each segment starts.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 4920
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "preshow"
+          }
+        },
+        {
+          "stepId": "strike",
+          "name": "Strike and load-out",
+          "description": "Strike the stage, pack A/V, clear the venue.",
+          "duration": {
+            "type": "fixed",
+            "seconds": 3600
+          },
+          "startTrigger": {
+            "type": "afterStep",
+            "stepId": "walkout"
+          }
+        }
+      ]
+    }
+  ]
+}
